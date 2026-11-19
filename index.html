@@ -17,8 +17,8 @@
     :root {
       --primary: #6366f1;
       --accent: #06b6d4;
-      --glow: rgba(99, 102, 241, 0.26);
-      --time-tint: rgba(14, 165, 233, 0.14);
+      --glow: rgba(99, 102, 241, 0.24);
+      --time-tint: rgba(14, 165, 233, 0.12);
     }
 
     body {
@@ -28,27 +28,26 @@
       background-image:
         radial-gradient(circle at 12% 8%, var(--glow), transparent 38%),
         radial-gradient(circle at 88% 85%, var(--time-tint), transparent 42%);
-      background-attachment: fixed;
+      background-repeat: no-repeat;
       overflow-x: hidden;
-      transition: background-image 0.6s ease;
     }
 
     .font-mono-num {
       font-family: 'JetBrains Mono', monospace;
+      transform: translateZ(0);
     }
 
     .glass {
-      background: rgba(15, 23, 42, 0.78);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(148, 163, 184, 0.13);
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      transform: translateZ(0);
     }
 
     .glass-card {
-      background: linear-gradient(145deg, rgba(22, 33, 56, 0.85), rgba(11, 17, 32, 0.92));
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(148, 163, 184, 0.13);
-      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      background: linear-gradient(145deg, rgba(22, 33, 56, 0.94), rgba(11, 17, 32, 0.97));
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transform: translateZ(0);
     }
 
     .glass-card:hover {
@@ -59,7 +58,7 @@
     /* Highlighted Watched Video Card */
     .video-card.watched-card {
       border-color: #10b981 !important;
-      background: linear-gradient(145deg, rgba(16, 185, 129, 0.2), rgba(11, 27, 34, 0.94)) !important;
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.2), rgba(11, 27, 34, 0.96)) !important;
       box-shadow: 0 10px 28px -8px rgba(16, 185, 129, 0.35);
     }
 
@@ -96,7 +95,7 @@
       border-radius: 999px;
       font-size: 13px;
       font-weight: 700;
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(15, 23, 42, 0.95);
       color: #e2e8f0;
       border: 1px solid rgba(148, 163, 184, 0.22);
       cursor: pointer;
@@ -134,8 +133,8 @@
     ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
     @keyframes pulseGlow {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.65; transform: scale(1.12); }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.55; }
     }
     .live-dot { animation: pulseGlow 1.8s infinite ease-in-out; }
   </style>
@@ -145,7 +144,7 @@
   <!-- ===================================================================== -->
   <!-- SIDE NAVIGATION DRAWER                                                -->
   <!-- ===================================================================== -->
-  <div id="sideMenuBackdrop" onclick="closeSideMenu()" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs"></div>
+  <div id="sideMenuBackdrop" onclick="closeSideMenu()" class="hidden fixed inset-0 z-50 bg-black/75"></div>
   <aside id="sideMenuDrawer" class="fixed top-0 left-0 bottom-0 z-50 w-72 glass border-r border-slate-800 transform -translate-x-full transition-transform duration-300 flex flex-col justify-between p-5">
     <div class="space-y-6">
       <div class="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -239,7 +238,7 @@
     </div>
 
     <!-- Mobile Sub Nav -->
-    <div class="md:hidden grid grid-cols-3 gap-1 p-1.5 bg-slate-950/90 border-t border-slate-800/80">
+    <div class="md:hidden grid grid-cols-3 gap-1 p-1.5 bg-slate-950/95 border-t border-slate-800/80">
       <button onclick="switchSection('lessons')" id="mnav-lessons" class="nav-btn active-tab py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
         <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Lessons
       </button>
@@ -258,8 +257,7 @@
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
 
     <!-- 1. HERO GREETING BANNER + QUICK SUMMARY WIDGETS -->
-    <section class="glass-card rounded-3xl p-5 sm:p-7 relative overflow-hidden">
-      <div class="absolute -right-12 -top-12 w-56 h-56 rounded-full opacity-25 blur-3xl pointer-events-none" style="background: var(--primary);"></div>
+    <section class="glass-card rounded-3xl p-5 sm:p-7">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <!-- Student Profile & Time-Based Emoji Greeting -->
         <div class="flex items-center gap-4 sm:gap-5">
@@ -284,7 +282,7 @@
         </div>
 
         <!-- Live Digital Clock -->
-        <div class="glass rounded-2xl px-5 py-3.5 border border-slate-700/60 self-start lg:self-auto min-w-[205px]">
+        <div class="bg-slate-950/90 rounded-2xl px-5 py-3.5 border border-slate-700/70 self-start lg:self-auto min-w-[215px]">
           <div class="flex items-center gap-2 text-xs text-slate-400 font-medium mb-0.5">
             <i data-lucide="clock" class="w-3.5 h-3.5 text-sky-400"></i>
             <span id="liveDateText">Thursday, Nov 19, 2026</span>
@@ -297,7 +295,7 @@
 
       <!-- QUICK SUMMARY WIDGET ROW (3 CARDS) -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6 pt-5 border-t border-slate-800/70">
-        <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/75 hover:border-emerald-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
+        <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/85 hover:border-emerald-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
           <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
             <i data-lucide="flame" class="w-5 h-5"></i>
           </div>
@@ -307,7 +305,7 @@
           </div>
         </div>
 
-        <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/75 hover:border-sky-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
+        <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/85 hover:border-sky-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
           <div class="w-10 h-10 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center shrink-0">
             <i data-lucide="calendar-days" class="w-5 h-5"></i>
           </div>
@@ -317,7 +315,7 @@
           </div>
         </div>
 
-        <div onclick="switchSection('tasks')" class="cursor-pointer bg-slate-900/75 hover:border-amber-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
+        <div onclick="switchSection('tasks')" class="cursor-pointer bg-slate-900/85 hover:border-amber-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
           <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0">
             <i data-lucide="list-checks" class="w-5 h-5"></i>
           </div>
@@ -642,7 +640,7 @@
   <!-- ===================================================================== -->
   <!-- STUDENT PROFILE MODAL (SYNCED TO CLOUD FOR ADMIN VISIBILITY)          -->
   <!-- ===================================================================== -->
-  <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+  <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
     <div class="glass-card rounded-2xl max-w-md w-full p-6 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="text-lg font-extrabold text-white">Student Profile Settings</h3>
@@ -675,7 +673,7 @@
   <!-- ===================================================================== -->
   <!-- ADMIN PASSWORD GATE MODAL                                             -->
   <!-- ===================================================================== -->
-  <div id="adminGateModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+  <div id="adminGateModal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
     <div class="glass-card rounded-2xl max-w-sm w-full p-6 space-y-4">
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
@@ -696,7 +694,7 @@
   <!-- ===================================================================== -->
   <!-- ADMIN STUDIO MODAL (TOPICS + LINKS/PDFs + 15 THEMES + STUDENTS)       -->
   <!-- ===================================================================== -->
-  <div id="adminStudioModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-3 sm:p-6">
+  <div id="adminStudioModal" class="hidden fixed inset-0 z-50 bg-black/85 overflow-y-auto p-3 sm:p-6">
     <div class="max-w-5xl mx-auto glass-card rounded-3xl p-5 sm:p-7 space-y-6 my-4">
       <!-- Header -->
       <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
@@ -972,21 +970,21 @@
     const db = getFirestore(app);
 
     const THEME_OPTIONS = [
-      { id: "indigo-cyan", name: "Cyber Indigo", primary: "#6366f1", accent: "#06b6d4", glow: "rgba(99, 102, 241, 0.28)" },
-      { id: "emerald-teal", name: "Emerald Pulse", primary: "#10b981", accent: "#14b8a6", glow: "rgba(16, 185, 129, 0.28)" },
-      { id: "violet-pink", name: "Nebula Violet", primary: "#8b5cf6", accent: "#ec4899", glow: "rgba(139, 92, 246, 0.28)" },
-      { id: "sky-blue", name: "Electric Sky", primary: "#0ea5e9", accent: "#3b82f6", glow: "rgba(14, 165, 233, 0.28)" },
-      { id: "rose-orange", name: "Solar Flare", primary: "#f43f5e", accent: "#f97316", glow: "rgba(244, 63, 94, 0.28)" },
-      { id: "amber-gold", name: "Royal Amber", primary: "#f59e0b", accent: "#eab308", glow: "rgba(245, 158, 11, 0.28)" },
-      { id: "fuchsia-purple", name: "Neon Orchid", primary: "#d946ef", accent: "#9333ea", glow: "rgba(217, 70, 239, 0.28)" },
-      { id: "lime-emerald", name: "Matrix Lime", primary: "#84cc16", accent: "#10b981", glow: "rgba(132, 204, 22, 0.28)" },
-      { id: "crimson-rose", name: "Crimson Pro", primary: "#dc2626", accent: "#fb7185", glow: "rgba(220, 38, 38, 0.28)" },
-      { id: "slate-ice", name: "Arctic Silver", primary: "#38bdf8", accent: "#94a3b8", glow: "rgba(56, 189, 248, 0.28)" },
-      { id: "teal-cyan", name: "Oceanic Teal", primary: "#0d9488", accent: "#06b6d4", glow: "rgba(13, 148, 136, 0.28)" },
-      { id: "orange-amber", name: "Sunset Blaze", primary: "#ea580c", accent: "#f59e0b", glow: "rgba(234, 88, 12, 0.28)" },
-      { id: "purple-indigo", name: "Deep Cosmos", primary: "#7c3aed", accent: "#4f46e5", glow: "rgba(124, 58, 237, 0.28)" },
-      { id: "pink-rose", name: "Sakura Glow", primary: "#db2777", accent: "#f43f5e", glow: "rgba(219, 39, 119, 0.28)" },
-      { id: "mint-green", name: "Mint Aurora", primary: "#059669", accent: "#34d399", glow: "rgba(5, 150, 105, 0.28)" }
+      { id: "indigo-cyan", name: "Cyber Indigo", primary: "#6366f1", accent: "#06b6d4", glow: "rgba(99, 102, 241, 0.24)" },
+      { id: "emerald-teal", name: "Emerald Pulse", primary: "#10b981", accent: "#14b8a6", glow: "rgba(16, 185, 129, 0.24)" },
+      { id: "violet-pink", name: "Nebula Violet", primary: "#8b5cf6", accent: "#ec4899", glow: "rgba(139, 92, 246, 0.24)" },
+      { id: "sky-blue", name: "Electric Sky", primary: "#0ea5e9", accent: "#3b82f6", glow: "rgba(14, 165, 233, 0.24)" },
+      { id: "rose-orange", name: "Solar Flare", primary: "#f43f5e", accent: "#f97316", glow: "rgba(244, 63, 94, 0.24)" },
+      { id: "amber-gold", name: "Royal Amber", primary: "#f59e0b", accent: "#eab308", glow: "rgba(245, 158, 11, 0.24)" },
+      { id: "fuchsia-purple", name: "Neon Orchid", primary: "#d946ef", accent: "#9333ea", glow: "rgba(217, 70, 239, 0.24)" },
+      { id: "lime-emerald", name: "Matrix Lime", primary: "#84cc16", accent: "#10b981", glow: "rgba(132, 204, 22, 0.24)" },
+      { id: "crimson-rose", name: "Crimson Pro", primary: "#dc2626", accent: "#fb7185", glow: "rgba(220, 38, 38, 0.24)" },
+      { id: "slate-ice", name: "Arctic Silver", primary: "#38bdf8", accent: "#94a3b8", glow: "rgba(56, 189, 248, 0.24)" },
+      { id: "teal-cyan", name: "Oceanic Teal", primary: "#0d9488", accent: "#06b6d4", glow: "rgba(13, 148, 136, 0.24)" },
+      { id: "orange-amber", name: "Sunset Blaze", primary: "#ea580c", accent: "#f59e0b", glow: "rgba(234, 88, 12, 0.24)" },
+      { id: "purple-indigo", name: "Deep Cosmos", primary: "#7c3aed", accent: "#4f46e5", glow: "rgba(124, 58, 237, 0.24)" },
+      { id: "pink-rose", name: "Sakura Glow", primary: "#db2777", accent: "#f43f5e", glow: "rgba(219, 39, 119, 0.24)" },
+      { id: "mint-green", name: "Mint Aurora", primary: "#059669", accent: "#34d399", glow: "rgba(5, 150, 105, 0.24)" }
     ];
 
     const DEFAULT_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=Chamindu&backgroundColor=b6e3f4";
@@ -1055,30 +1053,30 @@
       const hrs = now.getHours();
       let greeting = "Good Morning!";
       let emoji = "☀️";
-      let timeTint = "rgba(250, 204, 21, 0.14)";
+      let timeTint = "rgba(250, 204, 21, 0.12)";
 
       if (hrs >= 5 && hrs < 12) {
         greeting = "Good Morning!";
         emoji = "☀️";
-        timeTint = "rgba(250, 204, 21, 0.14)";
+        timeTint = "rgba(250, 204, 21, 0.12)";
       } else if (hrs >= 12 && hrs < 17) {
         greeting = "Good Afternoon!";
         emoji = "🌤️";
-        timeTint = "rgba(14, 165, 233, 0.15)";
+        timeTint = "rgba(14, 165, 233, 0.13)";
       } else if (hrs >= 17 && hrs < 21) {
         greeting = "Good Evening!";
         emoji = "🌅";
-        timeTint = "rgba(249, 115, 22, 0.15)";
+        timeTint = "rgba(249, 115, 22, 0.13)";
       } else {
         greeting = "Good Night! Keep Studying!";
         emoji = "🌙";
-        timeTint = "rgba(139, 92, 246, 0.16)";
+        timeTint = "rgba(139, 92, 246, 0.14)";
       }
 
       if (siteSettings.dynamicTimeMode !== false) {
         document.documentElement.style.setProperty("--time-tint", timeTint);
       } else {
-        document.documentElement.style.setProperty("--time-tint", "rgba(6, 182, 212, 0.12)");
+        document.documentElement.style.setProperty("--time-tint", "rgba(6, 182, 212, 0.10)");
       }
 
       document.getElementById("greetingText").textContent = greeting;
@@ -2000,7 +1998,6 @@
 
         return `
           <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 space-y-3">
-            <!-- Header Row: Avatar, Name, Weekly/Today Hours -->
             <div class="flex items-center justify-between gap-3 border-b border-slate-800/80 pb-2.5">
               <div class="flex items-center gap-3 min-w-0">
                 <img src="${escapeHtml(stuAvatar)}" alt="${escapeHtml(stuName)}"
@@ -2016,7 +2013,6 @@
               </div>
             </div>
 
-            <!-- Subject Study Breakdown -->
             <div class="grid grid-cols-3 gap-2 text-center">
               <div class="bg-slate-900 rounded-lg py-1.5 px-2 border border-indigo-500/20">
                 <div class="text-[10px] text-indigo-300 font-semibold">Physics</div>
@@ -2032,7 +2028,6 @@
               </div>
             </div>
 
-            <!-- Tasks (Ticked & Pending) -->
             <div class="space-y-1">
               <div class="flex items-center justify-between text-[11px] font-bold text-amber-300">
                 <span>Tasks (${escapeHtml(s.tasksSummary || "0/0")})</span>
@@ -2051,7 +2046,6 @@
               }
             </div>
 
-            <!-- Watched Videos -->
             <div class="space-y-1">
               <div class="text-[11px] font-bold text-emerald-300">Watched Videos (${watchedNames.length})</div>
               ${watchedNames.length === 0
