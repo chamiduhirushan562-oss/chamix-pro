@@ -282,7 +282,7 @@
       </div>
     </div>
 
-    <!-- 1. HERO GREETING BANNER + 2027 A/L COUNTDOWN + SUMMARY WIDGETS (WITH STREAK CARD HERE) -->
+    <!-- 1. HERO GREETING BANNER + 2027 A/L COUNTDOWN + SUMMARY WIDGETS -->
     <section class="glass-card rounded-3xl p-5 sm:p-7">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <!-- Student Profile & Time-Based Emoji Greeting -->
@@ -405,7 +405,7 @@
             </div>
           </div>
 
-          <!-- 2. Exam Year -->
+          <!-- 2. Exam Year (2026 A/L & 2027 A/L ONLY) -->
           <div>
             <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
               2. Exam Year (Batch)
@@ -413,8 +413,6 @@
             <select id="filterYear" onchange="onFilterChange()" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-indigo-500">
               <option value="2026 A/L">2026 A/L</option>
               <option value="2027 A/L" selected>2027 A/L</option>
-              <option value="2028 A/L">2028 A/L</option>
-              <option value="Revision">Revision / Paper Class</option>
             </select>
           </div>
 
@@ -915,8 +913,6 @@
               <select id="adminTopicYear" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
                 <option value="2026 A/L">2026 A/L</option>
                 <option value="2027 A/L" selected>2027 A/L</option>
-                <option value="2028 A/L">2028 A/L</option>
-                <option value="Revision">Revision / Paper Class</option>
               </select>
             </div>
             <div>
@@ -976,8 +972,6 @@
               <select id="adminLinkYear" onchange="populateAdminLinkTopics()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
                 <option value="2026 A/L">2026 A/L</option>
                 <option value="2027 A/L" selected>2027 A/L</option>
-                <option value="2028 A/L">2028 A/L</option>
-                <option value="Revision">Revision / Paper Class</option>
               </select>
             </div>
             <div>
@@ -2741,7 +2735,7 @@
       if (!t) return;
       document.getElementById("editTopicId").value = t.id;
       document.getElementById("adminTopicSubject").value = t.subject;
-      document.getElementById("adminTopicYear").value = t.year;
+      document.getElementById("adminTopicYear").value = (t.year === "2026 A/L" || t.year === "2027 A/L") ? t.year : "2027 A/L";
       document.getElementById("adminTopicMonth").value = t.month;
       document.getElementById("adminTopicName").value = t.name;
       document.getElementById("topicFormHeading").textContent = "Edit Topic";
@@ -2750,6 +2744,7 @@
 
     window.resetTopicForm = function() {
       document.getElementById("editTopicId").value = "";
+      document.getElementById("adminTopicYear").value = "2027 A/L";
       document.getElementById("adminTopicName").value = "";
       document.getElementById("topicFormHeading").textContent = "Add New Topic";
       document.getElementById("cancelTopicEditBtn").classList.add("hidden");
@@ -2837,7 +2832,7 @@
       const t = cloudTopics.find(x => x.id === v.topicId);
       if (t) {
         document.getElementById("adminLinkSubject").value = t.subject;
-        document.getElementById("adminLinkYear").value = t.year;
+        document.getElementById("adminLinkYear").value = (t.year === "2026 A/L" || t.year === "2027 A/L") ? t.year : "2027 A/L";
         document.getElementById("adminLinkMonth").value = t.month;
         populateAdminLinkTopics();
       }
