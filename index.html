@@ -180,12 +180,7 @@
       </nav>
     </div>
 
-    <!-- WhatsApp Contact Card inside Side Menu -->
-    <div class="space-y-3 border-t border-slate-800 pt-4">
-      <a id="sideWhatsappLink" href="https://wa.me/94700000000?text=Hi%20CHAMIX%20PRO%20Admin!" target="_blank" rel="noopener noreferrer"
-        class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-lg transition">
-        <i data-lucide="message-circle" class="w-4 h-4"></i> Contact CHAMIX on WhatsApp
-      </a>
+    <div class="border-t border-slate-800 pt-4">
       <p class="text-[11px] text-center text-slate-500">Powered by CHAMIX PRO • 2026</p>
     </div>
   </aside>
@@ -230,12 +225,8 @@
         </button>
       </nav>
 
-      <!-- Right: WhatsApp, Profile & Admin -->
+      <!-- Right: Profile & Admin -->
       <div class="flex items-center gap-1.5 sm:gap-2">
-        <a id="headerWhatsappLink" href="https://wa.me/94700000000?text=Hi%20CHAMIX%20PRO!" target="_blank" rel="noopener noreferrer" title="WhatsApp Support"
-          class="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500 hover:text-white transition">
-          <i data-lucide="message-circle" class="w-4 h-4"></i>
-        </a>
         <button onclick="openProfileModal()" class="glass hover:border-slate-600 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-1.5 transition">
           <i data-lucide="user-cog" class="w-4 h-4 text-sky-400"></i>
           <span class="hidden sm:inline">Profile</span>
@@ -285,7 +276,8 @@
               <span id="greetingText">Good Morning!</span>
             </div>
             <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-              Welcome back, <span id="heroStudentName" class="bg-gradient-to-r from-white via-sky-200 to-indigo-300 bg-clip-text text-transparent">Chamindu</span>
+              <span id="heroWelcomePrefix">Welcome back,</span>
+              <span id="heroStudentName" class="bg-gradient-to-r from-white via-sky-200 to-indigo-300 bg-clip-text text-transparent">Chamindu</span>
             </h2>
             <p id="heroBatchTag" class="text-xs sm:text-sm text-slate-400 mt-0.5">2026 A/L Science Stream • Keep pushing your limits!</p>
           </div>
@@ -303,8 +295,8 @@
         </div>
       </div>
 
-      <!-- QUICK SUMMARY WIDGET ROW -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-800/70">
+      <!-- QUICK SUMMARY WIDGET ROW (3 CARDS: TODAY'S STUDY, WEEKLY TOTAL, TASKS DONE) -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6 pt-5 border-t border-slate-800/70">
         <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/75 hover:border-emerald-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
           <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
             <i data-lucide="flame" class="w-5 h-5"></i>
@@ -322,16 +314,6 @@
           <div>
             <div class="text-[11px] text-slate-400 font-semibold uppercase">Weekly Total</div>
             <div id="widgetWeeklyTotal" class="font-mono-num text-base sm:text-lg font-extrabold text-sky-300">0.0 hrs</div>
-          </div>
-        </div>
-
-        <div onclick="switchSection('lessons')" class="cursor-pointer bg-slate-900/75 hover:border-indigo-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center shrink-0">
-            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <div class="text-[11px] text-slate-400 font-semibold uppercase">Watched Lessons</div>
-            <div id="widgetWatchedCount" class="font-mono-num text-base sm:text-lg font-extrabold text-indigo-300">0 Videos</div>
           </div>
         </div>
 
@@ -889,7 +871,7 @@
         </div>
       </div>
 
-      <!-- ADMIN TAB 3: 15 THEMES & GLOBAL SETTINGS -->
+      <!-- ADMIN TAB 3: 15 THEMES & GLOBAL SETTINGS (WELCOME BACK + NAME + BRAND + PASS) -->
       <div id="admin-pane-themes" class="hidden space-y-5">
         <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-2">
@@ -907,23 +889,27 @@
           </div>
         </div>
 
-        <form onsubmit="saveSiteSettingsAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
-          <h4 class="text-sm font-extrabold text-white">Site Branding, WhatsApp & Admin Password</h4>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <form onsubmit="saveSiteSettingsAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
+          <h4 class="text-sm font-extrabold text-white">Welcome Greeting, Name, Site Branding & Admin Password</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Greeting Text ("Welcome back,")</label>
+              <input type="text" id="adminWelcomePrefixInput" value="Welcome back," placeholder="Welcome back," class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Featured Name ("Chamindu")</label>
+              <input type="text" id="adminDisplayNameInput" value="Chamindu" placeholder="Chamindu" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
             <div>
               <label class="block text-xs text-slate-400 mb-1">Website Title</label>
               <input type="text" id="adminSiteNameInput" value="CHAMIX PRO" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
-            </div>
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">WhatsApp Number (947XXXXXXXX)</label>
-              <input type="text" id="adminWhatsappInput" value="94700000000" placeholder="94771234567" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
             </div>
             <div>
               <label class="block text-xs text-slate-400 mb-1">Admin Password</label>
               <input type="text" id="adminNewPassInput" value="chamix123" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
             </div>
           </div>
-          <button type="submit" class="btn-primary px-5 py-2 rounded-xl text-xs font-bold">Save Global Settings</button>
+          <button type="submit" class="btn-primary px-5 py-2 rounded-xl text-xs font-bold">Save & Apply Live</button>
         </form>
       </div>
 
@@ -933,7 +919,7 @@
           <div class="flex items-center justify-between">
             <div>
               <h4 class="text-sm font-extrabold text-white">Active Students Progress (Live Cloud Sync)</h4>
-              <p class="text-xs text-slate-400">Portal එක භාවිතා කරන සිසුන්ගේ Watched videos, Study hours සහ Task progress මෙහි දිස්වේ.</p>
+              <p class="text-xs text-slate-400">Portal එක භාවිතා කරන සිසුන්ගේ Study hours සහ Task progress මෙහි දිස්වේ.</p>
             </div>
             <span id="adminStudentsCount" class="text-xs font-bold px-2.5 py-1 rounded-lg badge-primary">0 Students</span>
           </div>
@@ -1000,7 +986,8 @@
       siteName: "CHAMIX PRO",
       themeId: "indigo-cyan",
       adminPass: "chamix123",
-      whatsapp: "94700000000",
+      welcomePrefix: "Welcome back,",
+      displayName: "Chamindu",
       dynamicTimeMode: true
     };
 
@@ -1017,7 +1004,7 @@
 
     let watchedIds = JSON.parse(localStorage.getItem("chamixpro_watched") || "[]");
     let studentProfile = JSON.parse(localStorage.getItem("chamixpro_profile") || JSON.stringify({
-      name: "Chamindu",
+      name: "",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Chamindu&backgroundColor=b6e3f4",
       batch: "2026 A/L Science Stream"
     }));
@@ -1104,6 +1091,7 @@
           siteSettings = { ...siteSettings, ...snap.data() };
         }
         applyThemeAndBranding();
+        applyStudentProfile();
         renderThemeSwatches();
       }, () => setSyncOffline());
 
@@ -1135,10 +1123,10 @@
           DAYS.reduce((acc, d) => acc + (weeklyStudy[d].Physics || 0) + (weeklyStudy[d].Chemistry || 0) + (weeklyStudy[d].Biology || 0), 0)
         ).toFixed(1);
         const doneTasks = studentTasks.filter(t => t.done).length;
+        const activeName = studentProfile.name || siteSettings.displayName || "Student";
         await setDoc(doc(db, "chamix_pro_students", studentDeviceId), {
-          name: studentProfile.name,
+          name: activeName,
           batch: studentProfile.batch,
-          watchedCount: watchedIds.length,
           weeklyHours: totHrs,
           tasksSummary: `${doneTasks}/${studentTasks.length}`,
           lastActive: Date.now()
@@ -1171,13 +1159,12 @@
       document.getElementById("drawerBrandTitle").textContent = brand;
       document.title = `${brand} | A/L Science Smart Hub`;
 
-      const waNum = (siteSettings.whatsapp || "94700000000").replace(/[^0-9]/g, "");
-      const waUrl = `https://wa.me/${waNum}?text=${encodeURIComponent("Hi " + brand + "!")}`;
-      document.getElementById("headerWhatsappLink").href = waUrl;
-      document.getElementById("sideWhatsappLink").href = waUrl;
+      const welcomeText = siteSettings.welcomePrefix !== undefined ? siteSettings.welcomePrefix : "Welcome back,";
+      document.getElementById("heroWelcomePrefix").textContent = welcomeText ? `${welcomeText} ` : "";
 
+      document.getElementById("adminWelcomePrefixInput").value = welcomeText;
+      document.getElementById("adminDisplayNameInput").value = siteSettings.displayName || "Chamindu";
       document.getElementById("adminSiteNameInput").value = brand;
-      document.getElementById("adminWhatsappInput").value = waNum;
       document.getElementById("adminNewPassInput").value = siteSettings.adminPass || "chamix123";
       document.getElementById("dynamicTimeModeCheckbox").checked = siteSettings.dynamicTimeMode !== false;
       updateClockAndGreeting();
@@ -1237,7 +1224,6 @@
       const year = document.getElementById("filterYear").value;
       const month = document.getElementById("filterMonth").value;
       document.getElementById("selectedPeriodLabel").textContent = `${selectedSubjectFilter} • ${year} • ${month}`;
-      document.getElementById("widgetWatchedCount").textContent = `${watchedIds.length} Videos`;
 
       const filteredTopics = cloudTopics.filter(t =>
         t.subject === selectedSubjectFilter &&
@@ -1434,7 +1420,6 @@
       }
       localStorage.setItem("chamixpro_watched", JSON.stringify(watchedIds));
       renderTopicsAndVideos();
-      syncStudentSnapshotToCloud();
     };
 
     // -------------------------------------------------------------------
@@ -1936,12 +1921,15 @@
 
     window.saveSiteSettingsAdmin = async function(e) {
       e.preventDefault();
+      siteSettings.welcomePrefix = document.getElementById("adminWelcomePrefixInput").value;
+      siteSettings.displayName = document.getElementById("adminDisplayNameInput").value.trim() || "Chamindu";
       siteSettings.siteName = document.getElementById("adminSiteNameInput").value.trim() || "CHAMIX PRO";
-      siteSettings.whatsapp = document.getElementById("adminWhatsappInput").value.trim() || "94700000000";
       siteSettings.adminPass = document.getElementById("adminNewPassInput").value.trim() || "chamix123";
       await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
       applyThemeAndBranding();
-      showToast("Global site settings saved!");
+      applyStudentProfile();
+      syncStudentSnapshotToCloud();
+      showToast("Welcome text, name & settings updated live!");
     };
 
     function renderAdminStudentsList() {
@@ -1955,10 +1943,10 @@
         <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 space-y-1">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-white">${escapeHtml(s.name || "Student")}</span>
-            <span class="text-[10px] text-emerald-400 font-bold">${s.watchedCount || 0} Watched</span>
+            <span class="text-[10px] text-sky-300 font-bold">${s.weeklyHours || 0} hrs</span>
           </div>
           <div class="text-[11px] text-slate-400">${escapeHtml(s.batch || "")}</div>
-          <div class="text-[11px] text-sky-300 font-semibold">Weekly Study: ${s.weeklyHours || 0} hrs • Tasks: ${escapeHtml(s.tasksSummary || "0/0")}</div>
+          <div class="text-[11px] text-emerald-300 font-semibold">Tasks: ${escapeHtml(s.tasksSummary || "0/0")}</div>
         </div>
       `).join("");
     }
@@ -1976,13 +1964,19 @@
     };
 
     function applyStudentProfile() {
-      document.getElementById("heroStudentName").textContent = studentProfile.name || "Student";
+      const activeName = (studentProfile.name && studentProfile.name.trim() !== "")
+        ? studentProfile.name.trim()
+        : (siteSettings.displayName || "Chamindu");
+      document.getElementById("heroStudentName").textContent = activeName;
       document.getElementById("heroAvatar").src = studentProfile.avatar;
       document.getElementById("heroBatchTag").textContent = `${studentProfile.batch} • Keep pushing your limits!`;
     }
 
     window.openProfileModal = function() {
-      document.getElementById("profNameInput").value = studentProfile.name;
+      const activeName = (studentProfile.name && studentProfile.name.trim() !== "")
+        ? studentProfile.name.trim()
+        : (siteSettings.displayName || "Chamindu");
+      document.getElementById("profNameInput").value = activeName;
       document.getElementById("profAvatarInput").value = studentProfile.avatar;
       document.getElementById("profBatchInput").value = studentProfile.batch;
       document.getElementById("profileModal").classList.remove("hidden");
@@ -2004,7 +1998,7 @@
     window.saveStudentProfile = function(e) {
       e.preventDefault();
       studentProfile = {
-        name: document.getElementById("profNameInput").value.trim() || "Chamindu",
+        name: document.getElementById("profNameInput").value.trim() || siteSettings.displayName || "Chamindu",
         avatar: document.getElementById("profAvatarInput").value.trim() || studentProfile.avatar,
         batch: document.getElementById("profBatchInput").value.trim() || "2026 A/L Science Stream"
       };
