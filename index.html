@@ -1,1521 +1,1818 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CHAMIX PRO — A/L Science Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CHAMIX PRO | A/L Science Smart Portal</title>
+
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
     :root {
-      --bg: #090d16;
-      --surface: #111827;
-      --surface-2: #182234;
-      --border: rgba(148, 163, 184, 0.16);
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --accent: #3b82f6;
-      --accent-2: #2563eb;
-      --accent-soft: rgba(59, 130, 246, 0.16);
-      --success: #10b981;
-      --success-soft: rgba(16, 185, 129, 0.16);
-      --danger: #ef4444;
-      --radius: 16px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --accent: #06b6d4;
+      --glow: rgba(99, 102, 241, 0.25);
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', 'Noto Sans Sinhala', sans-serif;
-      background: radial-gradient(circle at top right, var(--accent-soft), transparent 45%), var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.5;
-      padding-bottom: 48px;
+      font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+      background-color: #070b14;
+      color: #f8fafc;
+      background-image:
+        radial-gradient(circle at 12% 10%, var(--glow), transparent 36%),
+        radial-gradient(circle at 88% 85%, rgba(6, 182, 212, 0.14), transparent 38%);
+      background-attachment: fixed;
+      overflow-x: hidden;
     }
 
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 16px;
+    .font-mono-num {
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Top Header */
-    .topbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      margin-bottom: 14px;
+    .glass {
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(148, 163, 184, 0.12);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .glass-card {
+      background: linear-gradient(145deg, rgba(22, 33, 56, 0.82), rgba(11, 17, 32, 0.88));
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .brand-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      font-size: 18px;
-      color: #fff;
-      flex-shrink: 0;
+    .glass-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 12px 32px -10px var(--glow);
     }
 
-    .brand-title {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-sub {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .sync-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      background: var(--success-soft);
-      color: var(--success);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-    }
-
-    .sync-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--success);
-    }
-
-    .btn {
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      color: var(--text);
-      padding: 8px 14px;
-      border-radius: 11px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: 0.18s ease;
-    }
-
-    .btn:hover {
-      border-color: var(--accent);
-      transform: translateY(-1px);
+    /* Highlighted Watched Video Card */
+    .video-card.watched-card {
+      border-color: #10b981 !important;
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.18), rgba(11, 27, 34, 0.92)) !important;
+      box-shadow: 0 10px 28px -8px rgba(16, 185, 129, 0.35);
     }
 
     .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      box-shadow: 0 6px 20px -4px var(--glow);
+      transition: all 0.2s ease;
     }
 
-    .btn-success {
-      background: var(--success-soft);
-      border-color: rgba(16, 185, 129, 0.45);
-      color: var(--success);
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
     }
 
-    .btn-danger {
-      background: rgba(239, 68, 68, 0.14);
-      border-color: rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
+    .badge-primary {
+      background: var(--glow);
+      color: #ffffff;
+      border: 1px solid var(--primary);
     }
 
-    .btn-sm {
-      padding: 6px 10px;
-      font-size: 12px;
-      border-radius: 9px;
+    .active-tab {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff !important;
+      box-shadow: 0 4px 16px -2px var(--glow);
     }
 
-    /* Student Strip */
-    .student-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px 16px;
-      margin-bottom: 14px;
-    }
-
-    .student-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: var(--accent-soft);
-      border: 2px solid var(--accent);
-      display: grid;
-      place-items: center;
-      font-weight: 700;
-      color: var(--accent);
-      font-size: 15px;
-      overflow: hidden;
-    }
-
-    .student-name {
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .student-tag {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.04em;
-    }
-
-    /* Subject Selector Card */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 14px;
-    }
-
-    .card-label {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-
-    .card-heading {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .subject-pills {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      background: var(--bg);
-      padding: 6px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-    }
-
-    .subj-btn {
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      padding: 10px 12px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.18s ease;
-    }
-
-    .subj-btn.active {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 6px 18px var(--accent-soft);
-    }
-
-    /* Mode Tabs (Recordings / PDFs / Study & Tasks) */
-    .mode-tabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 16px;
-    }
-
-    .mode-tab {
-      background: none;
-      border: none;
-      border-bottom: 3px solid transparent;
-      color: var(--muted);
-      padding: 12px 8px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      text-align: center;
-    }
-
-    .mode-tab.active {
-      color: var(--text);
-      border-bottom-color: var(--accent);
-    }
-
-    /* Filters Row */
-    .filters-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    select, input, textarea {
-      width: 100%;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 11px;
-      padding: 10px 12px;
-      font-size: 14px;
-      font-family: inherit;
-      outline: none;
-    }
-
-    select:focus, input:focus, textarea:focus {
-      border-color: var(--accent);
-    }
-
-    /* Topic Pills (Matches Screenshot 1 Style) */
-    .topics-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
+    /* Topic Pill Buttons */
     .topic-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 8px 14px;
+      padding: 8px 15px;
       border-radius: 999px;
       font-size: 13px;
-      font-weight: 600;
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1px solid var(--border);
+      font-weight: 700;
+      background: rgba(15, 23, 42, 0.88);
+      color: #e2e8f0;
+      border: 1px solid rgba(148, 163, 184, 0.22);
       cursor: pointer;
-      transition: 0.16s ease;
+      transition: all 0.18s ease;
     }
 
     .topic-pill:hover {
-      border-color: var(--accent);
+      border-color: var(--primary);
+      transform: translateY(-1px);
     }
 
-    .topic-pill.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      font-weight: 700;
-      box-shadow: 0 6px 16px var(--accent-soft);
+    .topic-pill.active-pill {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 6px 18px -4px var(--glow);
     }
 
-    /* Video Grid & Cards */
-    .videos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 14px;
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #070b14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
     }
 
-    .video-card {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: 0.2s ease;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Highlighted when watched */
-    .video-card.watched {
-      border: 2px solid var(--success);
-      background: linear-gradient(180deg, rgba(16, 185, 129, 0.12), var(--surface-2) 45%);
-      box-shadow: 0 10px 24px rgba(16, 185, 129, 0.16);
-    }
-
-    .player-stage {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
+    /* Fullscreen container styles */
+    .inline-player-box:fullscreen {
       background: #000;
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .thumb-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .play-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.34);
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      gap: 6px;
-      transition: 0.18s ease;
+      padding: 0;
+    }
+    .inline-player-box:fullscreen iframe {
+      width: 100vw;
+      height: 92vh;
     }
 
-    .player-stage:hover .play-overlay {
-      background: rgba(0, 0, 0, 0.48);
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(1.12); }
     }
-
-    .play-circle {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      font-size: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
-    }
-
-    .play-hint {
-      font-size: 11px;
-      font-weight: 700;
-      color: #fff;
-      background: rgba(0, 0, 0, 0.65);
-      padding: 3px 9px;
-      border-radius: 999px;
-    }
-
-    .player-stage iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-
-    .video-body {
-      padding: 12px 14px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-
-    .video-meta-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .topic-chip {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-    }
-
-    .watched-pill {
-      display: none;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: var(--success);
-      color: #06281e;
-    }
-
-    .video-card.watched .watched-pill {
-      display: inline-flex;
-    }
-
-    .video-title {
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.4;
-    }
-
-    .video-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-top: auto;
-      padding-top: 6px;
-    }
-
-    .tick-btn {
-      flex: 1;
-      justify-content: center;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .video-card.watched .tick-btn {
-      background: var(--success);
-      border-color: var(--success);
-      color: #052e22;
-    }
-
-    /* PDF List */
-    .pdf-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .pdf-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 32px 16px;
-      color: var(--muted);
-      font-size: 14px;
-      background: var(--surface-2);
-      border: 1px dashed var(--border);
-      border-radius: var(--radius);
-    }
-
-    /* Study & Tasks */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-    }
-
-    .task-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 11px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      margin-bottom: 8px;
-    }
-
-    .task-item.done span {
-      text-decoration: line-through;
-      color: var(--success);
-    }
-
-    .bars {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 6px;
-      align-items: end;
-      height: 130px;
-      padding-top: 16px;
-    }
-
-    .bar-col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      height: 100%;
-      justify-content: flex-end;
-      gap: 6px;
-    }
-
-    .bar-fill {
-      width: 100%;
-      max-width: 28px;
-      border-radius: 8px 8px 4px 4px;
-      background: var(--accent);
-      min-height: 4px;
-      transition: height 0.25s ease;
-    }
-
-    .bar-day {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    /* Admin & Modals */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 6, 23, 0.78);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      z-index: 999;
-    }
-
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    .modal {
-      width: 100%;
-      max-width: 680px;
-      max-height: 88vh;
-      overflow-y: auto;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-    }
-
-    .modal-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .theme-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .theme-swatch {
-      height: 36px;
-      border-radius: 10px;
-      border: 2px solid transparent;
-      cursor: pointer;
-    }
-
-    .theme-swatch.active {
-      border-color: #fff;
-      transform: scale(1.04);
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1px solid var(--accent);
-      padding: 10px 18px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.22s ease;
-      z-index: 1200;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    @media (max-width: 600px) {
-      .filters-row {
-        grid-template-columns: 1fr;
-      }
-      .theme-grid {
-        grid-template-columns: repeat(5, 1fr);
-      }
+    .live-dot {
+      animation: pulseGlow 1.8s infinite ease-in-out;
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <!-- Top Bar -->
-    <header class="topbar">
-      <div class="brand">
-        <div class="brand-icon" id="brandIcon">C</div>
-        <div>
-          <div class="brand-title" id="siteTitleDisplay">CHAMIX PRO</div>
-          <div class="brand-sub">A/L Science Hub • Live Cloud LMS</div>
-        </div>
-      </div>
-      <div class="topbar-right">
-        <div class="sync-badge" id="syncBadge">
-          <span class="sync-dot"></span>
-          <span id="syncText">LIVE SYNC</span>
-        </div>
-        <button class="btn" id="openAdminBtn">Admin</button>
-      </div>
-    </header>
+<body class="min-h-screen flex flex-col">
 
-    <!-- Student Bar -->
-    <section class="student-bar">
-      <div class="student-info">
-        <div class="avatar" id="studentAvatar">S</div>
+  <!-- TOP NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 glass border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <!-- Brand -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl btn-primary flex items-center justify-center font-extrabold text-lg tracking-tight shadow-lg">
+          C
+        </div>
         <div>
-          <div class="student-name" id="studentNameDisplay">A/L Science Student</div>
-          <div class="student-tag" id="studentBatchDisplay">ACTIVE STUDENT • 2027 BATCH</div>
+          <div class="flex items-center gap-2">
+            <h1 id="brandTitle" class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+              CHAMIX PRO
+            </h1>
+            <span id="syncBadge" class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span>
+              LIVE SYNC
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 hidden sm:block">A/L Science Smart Learning Hub</p>
         </div>
       </div>
-      <button class="btn btn-sm" id="openProfileBtn">Profile</button>
+
+      <!-- Navigation Pills (Desktop) -->
+      <nav class="hidden md:flex items-center gap-1.5 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+        <button onclick="switchSection('lessons')" id="nav-lessons" class="nav-btn active-tab px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+          <i data-lucide="play-circle" class="w-4 h-4"></i> Lessons
+        </button>
+        <button onclick="switchSection('study')" id="nav-study" class="nav-btn text-slate-300 hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Study Tracker
+        </button>
+        <button onclick="switchSection('tasks')" id="nav-tasks" class="nav-btn text-slate-300 hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+          <i data-lucide="check-square" class="w-4 h-4"></i> Task Lists
+        </button>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="openProfileModal()" class="glass hover:border-slate-600 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2 transition">
+          <i data-lucide="user-cog" class="w-4 h-4 text-sky-400"></i>
+          <span class="hidden sm:inline">Profile</span>
+        </button>
+        <button onclick="openAdminGate()" class="btn-primary px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>
+          <span>Admin</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Bottom-Style Sub Nav -->
+    <div class="md:hidden grid grid-cols-3 gap-1 p-1.5 bg-slate-950/90 border-t border-slate-800/80">
+      <button onclick="switchSection('lessons')" id="mnav-lessons" class="nav-btn active-tab py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
+        <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Lessons
+      </button>
+      <button onclick="switchSection('study')" id="mnav-study" class="nav-btn text-slate-400 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
+        <i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i> Study Time
+      </button>
+      <button onclick="switchSection('tasks')" id="mnav-tasks" class="nav-btn text-slate-400 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
+        <i data-lucide="check-square" class="w-3.5 h-3.5"></i> Tasks
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- 1. HERO GREETING BANNER (Profile Pic + Name + Live Time + Emoji Greeting) -->
+    <section class="glass-card rounded-3xl p-5 sm:p-7 relative overflow-hidden">
+      <div class="absolute -right-12 -top-12 w-56 h-56 rounded-full opacity-20 blur-3xl pointer-events-none" style="background: var(--primary);"></div>
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <!-- Student Profile & Greeting -->
+        <div class="flex items-center gap-4 sm:gap-5">
+          <div class="relative shrink-0">
+            <img id="heroAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Chamindu&backgroundColor=b6e3f4" alt="Student Avatar"
+              class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-2 shadow-xl" style="border-color: var(--primary);" />
+            <button onclick="openProfileModal()" title="Edit Profile" class="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-lg btn-primary flex items-center justify-center shadow-md">
+              <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs sm:text-sm font-bold mb-1.5 badge-primary">
+              <span id="greetingEmoji" class="text-base">☀️</span>
+              <span id="greetingText">Good Morning!</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+              Welcome back, <span id="heroStudentName" class="bg-gradient-to-r from-white via-sky-200 to-indigo-300 bg-clip-text text-transparent">Chamindu</span>
+            </h2>
+            <p id="heroBatchTag" class="text-xs sm:text-sm text-slate-400 mt-0.5">2026 A/L Science Stream • Keep pushing your limits!</p>
+          </div>
+        </div>
+
+        <!-- Live Digital Clock & Quick Stats -->
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4">
+          <div class="glass rounded-2xl px-5 py-3.5 border border-slate-700/60 flex-1 sm:flex-initial min-w-[195px]">
+            <div class="flex items-center gap-2 text-xs text-slate-400 font-medium mb-0.5">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-sky-400"></i>
+              <span id="liveDateText">Thursday, Nov 19, 2026</span>
+            </div>
+            <div id="liveClockText" class="font-mono-num text-2xl sm:text-3xl font-extrabold text-white tracking-wider">
+              00:00:00 AM
+            </div>
+          </div>
+
+          <div class="glass rounded-2xl px-4 py-3.5 border border-slate-700/60 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center">
+              <i data-lucide="flame" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-[11px] text-slate-400 uppercase font-semibold">Today's Study</div>
+              <div id="heroTodayStudy" class="font-mono-num text-lg font-extrabold text-emerald-400">0h 0m</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Main Subject & Content Card -->
-    <main class="card">
-      <div class="card-label">Select Subject Hub</div>
-      <div class="card-heading" id="activeSubjectHeading">Physics</div>
+    <!-- ===================================================================== -->
+    <!-- SECTION A: LESSONS, TOPIC PILLS & TOUCH-TO-PLAY CARDS                 -->
+    <!-- ===================================================================== -->
+    <div id="section-lessons" class="space-y-6">
 
-      <div class="subject-pills" id="subjectPills">
-        <button class="subj-btn active" data-subject="Physics">Physics</button>
-        <button class="subj-btn" data-subject="Chemistry">Chemistry</button>
-        <button class="subj-btn" data-subject="Biology">Biology</button>
-      </div>
-
-      <div class="mode-tabs">
-        <button class="mode-tab active" data-mode="recordings">YouTube Recordings</button>
-        <button class="mode-tab" data-mode="pdfs">PDF Papers &amp; Notes</button>
-        <button class="mode-tab" data-mode="study">Study &amp; Tasks</button>
-      </div>
-
-      <!-- Recordings View -->
-      <section id="recordingsSection">
-        <div class="filters-row">
-          <select id="yearSelect">
-            <option value="2027 Batch">2027 Batch</option>
-            <option value="2026 Batch">2026 Batch</option>
-          </select>
-          <select id="monthSelect">
-            <option value="November">November</option>
-            <option value="October">October</option>
-            <option value="September">September</option>
-            <option value="August">August</option>
-            <option value="July">July</option>
-            <option value="June">June</option>
-            <option value="May">May</option>
-            <option value="April">April</option>
-            <option value="March">March</option>
-            <option value="February">February</option>
-            <option value="January">January</option>
-          </select>
-        </div>
-
-        <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 10px;" id="sectionSubheading">
-          Physics Class Recordings
-        </h3>
-
-        <!-- Topic Pills -->
-        <div class="topics-wrap" id="topicsContainer"></div>
-
-        <!-- Videos Grid -->
-        <div class="videos-grid" id="videosContainer"></div>
-      </section>
-
-      <!-- PDFs View -->
-      <section id="pdfsSection" style="display: none;">
-        <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 12px;" id="pdfHeading">
-          Physics PDF Papers &amp; Notes
-        </h3>
-        <div class="pdf-list" id="pdfsContainer"></div>
-      </section>
-
-      <!-- Study & Tasks View -->
-      <section id="studySection" style="display: none;">
-        <div class="grid-2">
-          <div class="card" style="margin-bottom: 0; background: var(--surface-2);">
-            <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 10px;">7-Day Study Tracker</h3>
-            <div class="form-grid" style="grid-template-columns: 1fr auto;">
-              <input type="number" id="studyHoursInput" min="0.1" max="24" step="0.5" placeholder="Hours (e.g. 2.5)" />
-              <button class="btn btn-primary" id="addStudyBtn">Log</button>
-            </div>
-            <div class="bars" id="weeklyBars"></div>
+      <!-- 2. YEAR -> MONTH -> SUBJECT FILTER BAR -->
+      <section class="glass-card rounded-2xl p-4 sm:p-5">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <!-- Year Selector -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+              1. Exam Year (Batch)
+            </label>
+            <select id="filterYear" onchange="onFilterChange()" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-indigo-500">
+              <option value="2026 A/L">2026 A/L</option>
+              <option value="2027 A/L">2027 A/L</option>
+              <option value="2028 A/L">2028 A/L</option>
+              <option value="Revision">Revision / Paper Class</option>
+            </select>
           </div>
 
-          <div class="card" style="margin-bottom: 0; background: var(--surface-2);">
-            <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 10px;" id="taskHeading">
-              Physics Daily Tasks
+          <!-- Month Selector -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+              2. Select Month
+            </label>
+            <select id="filterMonth" onchange="onFilterChange()" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-indigo-500">
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="July">July</option>
+              <option value="August">August</option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November" selected>November</option>
+              <option value="December">December</option>
+            </select>
+          </div>
+
+          <!-- Subject Filter -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+              3. Subject Filter
+            </label>
+            <div class="grid grid-cols-4 gap-1.5 bg-slate-900/90 p-1 rounded-xl border border-slate-700">
+              <button onclick="setSubjectFilter('All')" data-subj="All" class="subj-pill active-tab py-1.5 rounded-lg text-xs font-bold transition">All</button>
+              <button onclick="setSubjectFilter('Physics')" data-subj="Physics" class="subj-pill text-slate-300 py-1.5 rounded-lg text-xs font-bold transition">Physics</button>
+              <button onclick="setSubjectFilter('Chemistry')" data-subj="Chemistry" class="subj-pill text-slate-300 py-1.5 rounded-lg text-xs font-bold transition">Chem</button>
+              <button onclick="setSubjectFilter('Biology')" data-subj="Biology" class="subj-pill text-slate-300 py-1.5 rounded-lg text-xs font-bold transition">Bio</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOPIC PILLS FOR SELECTED YEAR & MONTH -->
+      <section class="space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+            <i data-lucide="tag" class="w-5 h-5 text-sky-400"></i>
+            <span>Topics (<span id="selectedPeriodLabel">2026 A/L • November</span>)</span>
+          </h3>
+          <span id="topicCountBadge" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300">0 Topics</span>
+        </div>
+
+        <div id="topicsPillsRow" class="flex flex-wrap gap-2">
+          <!-- Topic pill buttons injected dynamically -->
+        </div>
+      </section>
+
+      <!-- VIDEOS GRID (Touch/Click Video Card to Open Inline Player; Tick to Highlight Watched) -->
+      <section class="space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-sky-400">Class Recordings</span>
+            <h4 id="activeTopicHeading" class="text-base sm:text-lg font-extrabold text-white mt-0.5">All Recordings</h4>
+          </div>
+          <span id="videoCountBadge" class="text-xs font-bold px-3 py-1 rounded-lg badge-primary">0 Videos</span>
+        </div>
+
+        <div id="topicVideosGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Video cards with touch-to-play & watched highlight injected here -->
+        </div>
+      </section>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION B: DAILY & WEEKLY (7-DAY) STUDY TIME CHARTS                   -->
+    <!-- ===================================================================== -->
+    <div id="section-study" class="hidden space-y-6">
+      <!-- Add Study Time Form (Select any of the 7 days + Subject + Hours/Mins) -->
+      <section class="glass-card rounded-2xl p-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div>
+            <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+              <i data-lucide="timer" class="w-5 h-5 text-sky-400"></i>
+              Log Study Time (7 Days Breakdown)
             </h3>
-            <div class="form-grid" style="grid-template-columns: 1fr auto;">
-              <input type="text" id="taskInput" placeholder="Add study task..." />
-              <button class="btn btn-primary" id="addTaskBtn">Add</button>
-            </div>
-            <div id="tasksContainer"></div>
+            <p class="text-xs text-slate-400">සතියේ දවස් 7ටම Physics, Chemistry, Biology වෙන වෙනම study time එකතු කරන්න.</p>
+          </div>
+          <button onclick="resetWeeklyStudy()" class="text-xs text-rose-400 hover:text-rose-300 font-semibold self-start sm:self-auto">
+            Reset Week Data
+          </button>
+        </div>
+
+        <form onsubmit="addStudyEntry(event)" class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Day of Week</label>
+            <select id="studyDayInput" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-white">
+              <option value="Mon">Monday (සඳුදා)</option>
+              <option value="Tue">Tuesday (අඟහරුවාදා)</option>
+              <option value="Wed">Wednesday (බදාදා)</option>
+              <option value="Thu">Thursday (බ්‍රහස්පතින්දා)</option>
+              <option value="Fri">Friday (සිකුරාදා)</option>
+              <option value="Sat">Saturday (සෙනසුරාදා)</option>
+              <option value="Sun">Sunday (ඉරිදා)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Subject</label>
+            <select id="studySubjectInput" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-white">
+              <option value="Physics">Physics</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Biology">Biology</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Hours (පැය)</label>
+            <input type="number" id="studyHoursInput" min="0" max="24" value="1" required
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-bold text-white" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Minutes (මිනිත්තු)</label>
+            <input type="number" id="studyMinsInput" min="0" max="59" value="30" required
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-bold text-white" />
+          </div>
+
+          <div class="flex items-end">
+            <button type="submit" class="w-full btn-primary py-2.5 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-1.5">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i> Add Time
+            </button>
+          </div>
+        </form>
+
+        <!-- Summary Cards (Physics, Chemistry, Biology, Weekly Total) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+          <div class="bg-slate-900/80 border border-indigo-500/30 rounded-xl p-3.5">
+            <div class="text-xs text-indigo-300 font-semibold">Physics Total</div>
+            <div id="statPhysicsTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
+          </div>
+          <div class="bg-slate-900/80 border border-cyan-500/30 rounded-xl p-3.5">
+            <div class="text-xs text-cyan-300 font-semibold">Chemistry Total</div>
+            <div id="statChemTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
+          </div>
+          <div class="bg-slate-900/80 border border-emerald-500/30 rounded-xl p-3.5">
+            <div class="text-xs text-emerald-300 font-semibold">Biology Total</div>
+            <div id="statBioTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
+          </div>
+          <div class="bg-gradient-to-r from-indigo-600/30 to-cyan-600/30 border border-sky-400/40 rounded-xl p-3.5">
+            <div class="text-xs text-sky-200 font-semibold">Weekly Grand Total</div>
+            <div id="statGrandTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
           </div>
         </div>
       </section>
-    </main>
-  </div>
 
-  <!-- Profile Modal -->
-  <div class="modal-backdrop" id="profileModal">
-    <div class="modal">
-      <div class="modal-head">
-        <h3>Student Profile</h3>
-        <button class="btn btn-sm" data-close="profileModal">Close</button>
+      <!-- Charts Grid: Daily Subject Breakdown + 7-Day Weekly Chart -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Daily Chart (Selected Day Breakdown + Total) -->
+        <div class="lg:col-span-5 glass-card rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-base font-bold text-white">Daily Subject Breakdown</h4>
+            <select id="dailyChartDaySelect" onchange="renderStudyCharts()" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs font-bold text-white">
+              <option value="Mon">Monday</option>
+              <option value="Tue">Tuesday</option>
+              <option value="Wed">Wednesday</option>
+              <option value="Thu">Thursday</option>
+              <option value="Fri">Friday</option>
+              <option value="Sat">Saturday</option>
+              <option value="Sun">Sunday</option>
+            </select>
+          </div>
+          <div class="h-64">
+            <canvas id="dailyStudyChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Weekly 7-Day Chart (3 Subjects + Total Line) -->
+        <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-base font-bold text-white">Weekly 7-Day Study Chart (Subjects + Total)</h4>
+            <span class="text-xs text-slate-400">Hours per day</span>
+          </div>
+          <div class="h-64">
+            <canvas id="weeklyStudyChart"></canvas>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION C: SUBJECT-WISE TASK LISTS + PROGRESS CHART + CELEBRATION     -->
+    <!-- ===================================================================== -->
+    <div id="section-tasks" class="hidden space-y-6">
+
+      <!-- Celebration Banner (Shown automatically when 100% tasks are completed) -->
+      <div id="allTasksCelebration" class="hidden rounded-2xl p-5 bg-gradient-to-r from-emerald-600/30 via-teal-500/25 to-cyan-600/30 border border-emerald-400/50 shadow-xl">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div class="flex items-center gap-4">
+            <div class="text-4xl">🎉🏆✨</div>
+            <div>
+              <h3 class="text-lg sm:text-xl font-extrabold text-emerald-300">
+                සුපිරි! ඔයා අද දවසේ වැඩ ඔක්කොම ඉවර කළා! (100% Completed)
+              </h3>
+              <p class="text-xs sm:text-sm text-emerald-100/90 mt-0.5">
+                Physics, Chemistry, Biology තුනේම Target ටික සම්පූර්ණයි. දිගටම මේ ගැම්මෙන් වැඩ කරන්න!
+              </p>
+            </div>
+          </div>
+          <button onclick="clearCompletedTasks()" class="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs hover:bg-emerald-400 transition shrink-0">
+            Clear Completed
+          </button>
+        </div>
       </div>
-      <div class="form-grid">
+
+      <!-- Top Row: Add Task + Overall Task Progress Chart -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-8 glass-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <h3 class="text-lg font-extrabold text-white flex items-center gap-2 mb-1">
+              <i data-lucide="list-checks" class="w-5 h-5 text-sky-400"></i>
+              Daily Study Task Planner
+            </h3>
+            <p class="text-xs text-slate-400 mb-4">Biology, Physics, Chemistry විෂයන් තුනට වෙන වෙනම වැඩ එකතු කරන්න.</p>
+          </div>
+
+          <form onsubmit="addTaskItem(event)" class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+            <div class="sm:col-span-4">
+              <select id="taskSubjectInput" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white">
+                <option value="Biology">🧬 Biology</option>
+                <option value="Physics">⚡ Physics</option>
+                <option value="Chemistry">🧪 Chemistry</option>
+              </select>
+            </div>
+            <div class="sm:col-span-6">
+              <input type="text" id="taskTextInput" placeholder="උදා: Mechanics Past Paper 2023 MCQ..." required
+                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500" />
+            </div>
+            <div class="sm:col-span-2">
+              <button type="submit" class="w-full btn-primary py-2.5 px-4 rounded-xl text-sm font-bold">
+                Add
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Mini Doughnut Progress Chart -->
+        <div class="lg:col-span-4 glass-card rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Task Progress</span>
+            <div id="taskPercentBig" class="font-mono-num text-3xl font-extrabold text-white mt-1">0%</div>
+            <p id="taskCountSummary" class="text-xs text-slate-400 mt-1">0 of 0 tasks completed</p>
+          </div>
+          <div class="w-24 h-24 shrink-0">
+            <canvas id="taskProgressChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Separate Subject Columns: Biology, Physics, Chemistry -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- Biology Column -->
+        <div class="glass-card rounded-2xl p-4 space-y-3 border-t-4 border-t-emerald-500">
+          <div class="flex items-center justify-between">
+            <h4 class="font-extrabold text-emerald-400 flex items-center gap-2">
+              <span>🧬</span> Biology Tasks
+            </h4>
+            <span id="count-Biology" class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300">0/0</span>
+          </div>
+          <div id="list-Biology" class="space-y-2 min-h-[140px]"></div>
+        </div>
+
+        <!-- Physics Column -->
+        <div class="glass-card rounded-2xl p-4 space-y-3 border-t-4 border-t-indigo-500">
+          <div class="flex items-center justify-between">
+            <h4 class="font-extrabold text-indigo-400 flex items-center gap-2">
+              <span>⚡</span> Physics Tasks
+            </h4>
+            <span id="count-Physics" class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-300">0/0</span>
+          </div>
+          <div id="list-Physics" class="space-y-2 min-h-[140px]"></div>
+        </div>
+
+        <!-- Chemistry Column -->
+        <div class="glass-card rounded-2xl p-4 space-y-3 border-t-4 border-t-cyan-500">
+          <div class="flex items-center justify-between">
+            <h4 class="font-extrabold text-cyan-400 flex items-center gap-2">
+              <span>🧪</span> Chemistry Tasks
+            </h4>
+            <span id="count-Chemistry" class="text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300">0/0</span>
+          </div>
+          <div id="list-Chemistry" class="space-y-2 min-h-[140px]"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- STUDENT PROFILE MODAL                                                 -->
+  <!-- ===================================================================== -->
+  <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-md w-full p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-lg font-extrabold text-white">Student Profile Settings</h3>
+        <button onclick="closeProfileModal()" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form onsubmit="saveStudentProfile(event)" class="space-y-4">
         <div>
-          <label class="card-label">Full Name</label>
-          <input type="text" id="profileNameInput" placeholder="Your name" />
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Your Name</label>
+          <input type="text" id="profNameInput" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white" />
         </div>
         <div>
-          <label class="card-label">Batch</label>
-          <select id="profileBatchInput">
-            <option value="2027 BATCH">2027 BATCH</option>
-            <option value="2026 BATCH">2026 BATCH</option>
-          </select>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Profile Picture URL (or Upload Photo)</label>
+          <input type="url" id="profAvatarInput" placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white mb-2" />
+          <input type="file" accept="image/*" onchange="handleAvatarUpload(event)" class="text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-white hover:file:bg-slate-700" />
         </div>
-      </div>
-      <div style="margin-bottom: 14px;">
-        <label class="card-label">Avatar Image URL (Optional)</label>
-        <input type="url" id="profileAvatarInput" placeholder="https://..." />
-      </div>
-      <button class="btn btn-primary" id="saveProfileBtn">Save Profile</button>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Batch Tagline</label>
+          <input type="text" id="profBatchInput" value="2026 A/L Science Stream" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white" />
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeProfileModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-bold text-slate-300">Cancel</button>
+          <button type="submit" class="btn-primary px-5 py-2 rounded-xl text-xs font-bold">Save Profile</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- Admin Modal -->
-  <div class="modal-backdrop" id="adminModal">
-    <div class="modal">
-      <div class="modal-head">
-        <h3>CHAMIX PRO Admin Studio</h3>
-        <button class="btn btn-sm" data-close="adminModal">Close</button>
+  <!-- ===================================================================== -->
+  <!-- ADMIN PASSWORD GATE MODAL                                             -->
+  <!-- ===================================================================== -->
+  <div id="adminGateModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-sm w-full p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+          <i data-lucide="lock" class="w-5 h-5 text-sky-400"></i> Admin Studio Login
+        </h3>
+        <button onclick="closeAdminGate()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <p class="text-xs text-slate-400">Admin Panel එකට පිවිසීමට මුරපදය ඇතුළත් කරන්න.</p>
+      <form onsubmit="verifyAdminPassword(event)" class="space-y-3">
+        <input type="password" id="adminPassInput" placeholder="Enter Admin Password" required
+          class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white" />
+        <p id="adminPassError" class="hidden text-xs text-rose-400 font-semibold">වැරදි මුරපදයකි! නැවත උත්සාහ කරන්න.</p>
+        <button type="submit" class="w-full btn-primary py-2.5 rounded-xl text-sm font-bold">Unlock Admin Studio</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- ADMIN STUDIO MODAL (TOPICS CRUD + LINKS CRUD + 10 MODERN THEMES)      -->
+  <!-- ===================================================================== -->
+  <div id="adminStudioModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-3 sm:p-6">
+    <div class="max-w-5xl mx-auto glass-card rounded-3xl p-5 sm:p-7 space-y-6 my-4">
+      <!-- Header -->
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Real-Time Cloud Control</span>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white">CHAMIX PRO Admin Studio</h3>
+          <p class="text-xs text-slate-400">මෙහි කරන සෑම වෙනස්කමක්ම සියලුම සිසුන්ට එසැණින් (Live) දිස්වේ.</p>
+        </div>
+        <button onclick="closeAdminStudio()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white flex items-center gap-1.5">
+          <i data-lucide="x" class="w-4 h-4"></i> Close Studio
+        </button>
       </div>
 
-      <div id="adminLoginBox">
-        <p class="card-label" style="margin-bottom: 8px;">Enter Admin Password to manage live cloud content</p>
-        <div class="form-grid" style="grid-template-columns: 1fr auto;">
-          <input type="password" id="adminPassInput" placeholder="Admin Password" />
-          <button class="btn btn-primary" id="adminLoginBtn">Unlock</button>
+      <!-- Admin Sub-Tabs -->
+      <div class="flex flex-wrap gap-2">
+        <button onclick="switchAdminTab('topics')" id="atab-topics" class="admin-tab-btn active-tab px-4 py-2 rounded-xl text-xs font-bold">
+          1. Manage Topics (Add/Edit/Delete)
+        </button>
+        <button onclick="switchAdminTab('links')" id="atab-links" class="admin-tab-btn bg-slate-900 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold">
+          2. Manage Video Links & PDFs
+        </button>
+        <button onclick="switchAdminTab('themes')" id="atab-themes" class="admin-tab-btn bg-slate-900 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold">
+          3. 10 Modern Themes & Settings
+        </button>
+      </div>
+
+      <!-- ADMIN TAB 1: MANAGE TOPICS -->
+      <div id="admin-pane-topics" class="space-y-5">
+        <form onsubmit="saveTopicAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
+          <div class="flex items-center justify-between">
+            <h4 id="topicFormHeading" class="text-sm font-extrabold text-white">Add New Topic</h4>
+            <button type="button" id="cancelTopicEditBtn" onclick="resetTopicForm()" class="hidden text-xs text-amber-400 font-semibold">Cancel Edit</button>
+          </div>
+          <input type="hidden" id="editTopicId" />
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Exam Year</label>
+              <select id="adminTopicYear" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                <option value="2026 A/L">2026 A/L</option>
+                <option value="2027 A/L">2027 A/L</option>
+                <option value="2028 A/L">2028 A/L</option>
+                <option value="Revision">Revision / Paper Class</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Month</label>
+              <select id="adminTopicMonth" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November" selected>November</option>
+                <option value="December">December</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Subject</label>
+              <select id="adminTopicSubject" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Biology">Biology</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Topic Name</label>
+              <input type="text" id="adminTopicName" placeholder="උදා: Rotational Motion" required
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+          </div>
+          <button type="submit" class="btn-primary px-5 py-2 rounded-xl text-xs font-bold">
+            Save Topic to Cloud
+          </button>
+        </form>
+
+        <!-- Existing Topics Table -->
+        <div class="space-y-2">
+          <h4 class="text-sm font-bold text-slate-300">All Cloud Topics</h4>
+          <div id="adminTopicsList" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
         </div>
       </div>
 
-      <div id="adminPanelBox" style="display: none;">
-        <!-- Theme Colors -->
-        <h4 style="font-size: 14px; margin-bottom: 8px;">Theme Color (Live Sync)</h4>
-        <div class="theme-grid" id="themeSwatches"></div>
+      <!-- ADMIN TAB 2: MANAGE LINKS (MATCHED TO YEAR + MONTH -> TOPIC) -->
+      <div id="admin-pane-links" class="hidden space-y-5">
+        <form onsubmit="saveVideoAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
+          <div class="flex items-center justify-between">
+            <h4 id="videoFormHeading" class="text-sm font-extrabold text-white">Add YouTube Recording / PDF Link</h4>
+            <button type="button" id="cancelVideoEditBtn" onclick="resetVideoForm()" class="hidden text-xs text-amber-400 font-semibold">Cancel Edit</button>
+          </div>
+          <input type="hidden" id="editVideoId" />
 
-        <!-- Add Topic -->
-        <h4 style="font-size: 14px; margin-bottom: 8px;">Add Topic</h4>
-        <div class="form-grid">
-          <select id="topicSubjectInput">
-            <option value="Physics">Physics</option>
-            <option value="Chemistry">Chemistry</option>
-            <option value="Biology">Biology</option>
-          </select>
-          <select id="topicYearInput">
-            <option value="2027 Batch">2027 Batch</option>
-            <option value="2026 Batch">2026 Batch</option>
-          </select>
-          <select id="topicMonthInput">
-            <option value="November">November</option>
-            <option value="October">October</option>
-            <option value="September">September</option>
-            <option value="August">August</option>
-            <option value="July">July</option>
-            <option value="June">June</option>
-            <option value="May">May</option>
-            <option value="April">April</option>
-            <option value="March">March</option>
-            <option value="February">February</option>
-            <option value="January">January</option>
-          </select>
-          <input type="text" id="topicNameInput" placeholder="Topic name (e.g. යාන්ත්‍ර විද්‍යාව)" />
+          <!-- Step 1: Select Year & Month to filter matching Topics -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">1. Filter by Year</label>
+              <select id="adminLinkYear" onchange="populateAdminLinkTopics()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                <option value="2026 A/L">2026 A/L</option>
+                <option value="2027 A/L">2027 A/L</option>
+                <option value="2028 A/L">2028 A/L</option>
+                <option value="Revision">Revision / Paper Class</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">2. Filter by Month</label>
+              <select id="adminLinkMonth" onchange="populateAdminLinkTopics()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November" selected>November</option>
+                <option value="December">December</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">3. Select Matching Topic</label>
+              <select id="adminLinkTopicId" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                <option value="">-- Select Topic --</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Step 2: Video Title, YouTube URL, Optional PDF URL -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Lesson / Recording Title</label>
+              <input type="text" id="adminVideoTitle" placeholder="උදා: Day 01 - Theory & Examples" required
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">YouTube Video / Live Link</label>
+              <input type="url" id="adminVideoUrl" placeholder="https://youtu.be/... or youtube.com/watch?v=..." required
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">PDF Tute / Paper Link (Optional)</label>
+              <input type="url" id="adminVideoPdf" placeholder="https://drive.google.com/..."
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary px-5 py-2 rounded-xl text-xs font-bold">
+            Publish Recording to Students
+          </button>
+        </form>
+
+        <!-- Existing Links List -->
+        <div class="space-y-2">
+          <h4 class="text-sm font-bold text-slate-300">All Published Recordings</h4>
+          <div id="adminVideosList" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
         </div>
-        <button class="btn btn-primary btn-sm" id="addTopicBtn" style="margin-bottom: 16px;">+ Add Topic</button>
+      </div>
 
-        <!-- Add Recording -->
-        <h4 style="font-size: 14px; margin-bottom: 8px;">Add YouTube Recording</h4>
-        <div class="form-grid">
-          <input type="text" id="videoTitleInput" placeholder="Recording title" />
-          <input type="text" id="videoTopicInput" placeholder="Topic name (exact match)" />
-          <input type="url" id="videoUrlInput" placeholder="YouTube URL (watch?v= or youtu.be/)" />
+      <!-- ADMIN TAB 3: 10 MODERN THEMES & GLOBAL SETTINGS -->
+      <div id="admin-pane-themes" class="hidden space-y-5">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
+          <h4 class="text-sm font-extrabold text-white">Select Live Site Theme (10 Modern Colors)</h4>
+          <p class="text-xs text-slate-400">ඔයා තෝරන Theme color එක සියලුම සිසුන්ගේ interface එකට සජීවීව apply වේ.</p>
+          <div id="themeSwatchesGrid" class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <!-- 10 Modern Color Themes injected via JS -->
+          </div>
         </div>
-        <button class="btn btn-primary btn-sm" id="addVideoBtn" style="margin-bottom: 16px;">+ Publish Video</button>
 
-        <!-- Add PDF -->
-        <h4 style="font-size: 14px; margin-bottom: 8px;">Add PDF Paper / Note</h4>
-        <div class="form-grid">
-          <input type="text" id="pdfTitleInput" placeholder="PDF title" />
-          <input type="url" id="pdfUrlInput" placeholder="PDF / Drive URL" />
-        </div>
-        <button class="btn btn-primary btn-sm" id="addPdfBtn" style="margin-bottom: 16px;">+ Publish PDF</button>
-
-        <!-- Manage Existing Topics -->
-        <h4 style="font-size: 14px; margin-bottom: 8px;">Existing Topics (Current Filter)</h4>
-        <div id="adminTopicsList"></div>
+        <form onsubmit="saveSiteSettingsAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
+          <h4 class="text-sm font-extrabold text-white">Site Branding & Admin Password</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Website Title</label>
+              <input type="text" id="adminSiteNameInput" value="CHAMIX PRO" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Admin Password</label>
+              <input type="text" id="adminNewPassInput" value="chamix123" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+          </div>
+          <button type="submit" class="btn-primary px-5 py-2 rounded-xl text-xs font-bold">Save Global Settings</button>
+        </form>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastBox" class="fixed bottom-5 right-5 z-50 hidden glass-card border border-sky-500/40 px-4 py-3 rounded-xl shadow-2xl text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+    <i data-lucide="sparkles" class="w-4 h-4 text-sky-400"></i>
+    <span id="toastMsg">Updated!</span>
+  </div>
 
-  <!-- Firebase SDK (Compat for clean single-file compatibility) -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <!-- ===================================================================== -->
+  <!-- FIREBASE REAL-TIME SYNC & APPLICATION LOGIC                           -->
+  <!-- ===================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import {
+      getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc,
+      onSnapshot, query, orderBy
+    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-  <script>
-    const ADMIN_PASSWORD = "chamix123";
+    // Your CHAMIX PRO Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAfUZi-7isv3HSAyFCZHm-fBrG_KY5yG-s",
+      authDomain: "chamix-pro.firebaseapp.com",
+      projectId: "chamix-pro",
+      storageBucket: "chamix-pro.firebasestorage.app",
+      messagingSenderId: "381614689904",
+      appId: "1:381614689904:web:488d986cea2d93d085eeb5",
+      measurementId: "G-MCBKE7383T"
+    };
 
-    const THEMES = [
-      { name: "Cobalt", accent: "#3b82f6", accent2: "#2563eb", soft: "rgba(59, 130, 246, 0.16)" },
-      { name: "Emerald", accent: "#10b981", accent2: "#059669", soft: "rgba(16, 185, 129, 0.16)" },
-      { name: "Violet", accent: "#8b5cf6", accent2: "#7c3aed", soft: "rgba(139, 92, 246, 0.16)" },
-      { name: "Amber", accent: "#f59e0b", accent2: "#d97706", soft: "rgba(245, 158, 11, 0.16)" },
-      { name: "Rose", accent: "#f43f5e", accent2: "#e11d48", soft: "rgba(244, 63, 94, 0.16)" },
-      { name: "Cyan", accent: "#06b6d4", accent2: "#0891b2", soft: "rgba(6, 182, 212, 0.16)" },
-      { name: "Indigo", accent: "#6366f1", accent2: "#4f46e5", soft: "rgba(99, 102, 241, 0.16)" },
-      { name: "Teal", accent: "#14b8a6", accent2: "#0d9488", soft: "rgba(20, 184, 166, 0.16)" },
-      { name: "Orange", accent: "#f97316", accent2: "#ea580c", soft: "rgba(249, 115, 22, 0.16)" },
-      { name: "Fuchsia", accent: "#d946ef", accent2: "#c026d3", soft: "rgba(217, 70, 239, 0.16)" }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 10 Modern Color Themes
+    const MODERN_THEMES = [
+      { id: "indigo-cyan", name: "Cyber Indigo", primary: "#6366f1", accent: "#06b6d4", glow: "rgba(99, 102, 241, 0.28)" },
+      { id: "emerald-teal", name: "Emerald Pulse", primary: "#10b981", accent: "#14b8a6", glow: "rgba(16, 185, 129, 0.28)" },
+      { id: "violet-pink", name: "Nebula Violet", primary: "#8b5cf6", accent: "#ec4899", glow: "rgba(139, 92, 246, 0.28)" },
+      { id: "sky-blue", name: "Electric Sky", primary: "#0ea5e9", accent: "#3b82f6", glow: "rgba(14, 165, 233, 0.28)" },
+      { id: "rose-orange", name: "Solar Flare", primary: "#f43f5e", accent: "#f97316", glow: "rgba(244, 63, 94, 0.28)" },
+      { id: "amber-gold", name: "Royal Amber", primary: "#f59e0b", accent: "#eab308", glow: "rgba(245, 158, 11, 0.28)" },
+      { id: "fuchsia-purple", name: "Neon Orchid", primary: "#d946ef", accent: "#9333ea", glow: "rgba(217, 70, 239, 0.28)" },
+      { id: "lime-emerald", name: "Matrix Lime", primary: "#84cc16", accent: "#10b981", glow: "rgba(132, 204, 22, 0.28)" },
+      { id: "crimson-rose", name: "Crimson Pro", primary: "#dc2626", accent: "#fb7185", glow: "rgba(220, 38, 38, 0.28)" },
+      { id: "slate-ice", name: "Arctic Silver", primary: "#38bdf8", accent: "#94a3b8", glow: "rgba(56, 189, 248, 0.28)" }
     ];
 
-    // Local device state (profile, watched videos, study logs, tasks)
-    const localState = {
-      profile: JSON.parse(localStorage.getItem("chamix_pro_profile") || "null") || {
-        name: "A/L Science Student",
-        batch: "2027 BATCH",
-        avatar: ""
-      },
-      watched: JSON.parse(localStorage.getItem("chamix_pro_watched") || "[]"),
-      studyDays: JSON.parse(localStorage.getItem("chamix_pro_study") || "null") || [0, 0, 0, 0, 0, 0, 0],
-      tasks: JSON.parse(localStorage.getItem("chamix_pro_tasks") || "null") || {
-        Physics: [],
-        Chemistry: [],
-        Biology: []
+    // Application State
+    let cloudTopics = [];
+    let cloudVideos = [];
+    let siteSettings = {
+      siteName: "CHAMIX PRO",
+      themeId: "indigo-cyan",
+      adminPass: "chamix123"
+    };
+
+    let selectedSubjectFilter = "All";
+    let selectedTopicId = "ALL";
+    let activeInlineVideoId = null;
+
+    // Student Personal Local State (Per-student watched ticks, study logs, tasks, profile)
+    let watchedIds = JSON.parse(localStorage.getItem("chamixpro_watched") || "[]");
+    let studentProfile = JSON.parse(localStorage.getItem("chamixpro_profile") || JSON.stringify({
+      name: "Chamindu",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Chamindu&backgroundColor=b6e3f4",
+      batch: "2026 A/L Science Stream"
+    }));
+
+    const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    let weeklyStudy = JSON.parse(localStorage.getItem("chamixpro_study_week") || JSON.stringify({
+      Mon: { Physics: 0, Chemistry: 0, Biology: 0 },
+      Tue: { Physics: 0, Chemistry: 0, Biology: 0 },
+      Wed: { Physics: 0, Chemistry: 0, Biology: 0 },
+      Thu: { Physics: 0, Chemistry: 0, Biology: 0 },
+      Fri: { Physics: 0, Chemistry: 0, Biology: 0 },
+      Sat: { Physics: 0, Chemistry: 0, Biology: 0 },
+      Sun: { Physics: 0, Chemistry: 0, Biology: 0 }
+    }));
+
+    let studentTasks = JSON.parse(localStorage.getItem("chamixpro_tasks") || "[]");
+
+    // Charts instances
+    let dailyChartInstance = null;
+    let weeklyChartInstance = null;
+    let taskChartInstance = null;
+
+    // -------------------------------------------------------------------
+    // 1. LIVE CLOCK & EMOJI GREETING
+    // -------------------------------------------------------------------
+    function updateClockAndGreeting() {
+      const now = new Date();
+      const hrs = now.getHours();
+      let greeting = "Good Morning!";
+      let emoji = "☀️";
+
+      if (hrs >= 5 && hrs < 12) {
+        greeting = "Good Morning!";
+        emoji = "☀️";
+      } else if (hrs >= 12 && hrs < 17) {
+        greeting = "Good Afternoon!";
+        emoji = "🌤️";
+      } else if (hrs >= 17 && hrs < 21) {
+        greeting = "Good Evening!";
+        emoji = "🌅";
+      } else {
+        greeting = "Good Night! Keep Studying!";
+        emoji = "🌙";
       }
-    };
 
-    // Cloud synced state
-    let cloudState = {
-      topics: [],
-      videos: [],
-      pdfs: [],
-      themeIndex: 0
-    };
+      document.getElementById("greetingText").textContent = greeting;
+      document.getElementById("greetingEmoji").textContent = emoji;
+      document.getElementById("liveClockText").textContent = now.toLocaleTimeString("en-US", {
+        hour: "2-digit", minute: "2-digit", second: "2-digit"
+      });
+      document.getElementById("liveDateText").textContent = now.toLocaleDateString("en-US", {
+        weekday: "long", month: "short", day: "numeric", year: "numeric"
+      });
+    }
+    setInterval(updateClockAndGreeting, 1000);
+    updateClockAndGreeting();
 
-    let activeSubject = "Physics";
-    let activeMode = "recordings";
-    let activeYear = "2027 Batch";
-    let activeMonth = "November";
-    let activeTopic = "ALL";
-    let playingVideoId = null;
-    let db = null;
+    // Auto-select today's weekday in Study Logger
+    const todayShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date().getDay()];
+    document.getElementById("studyDayInput").value = todayShort;
+    document.getElementById("dailyChartDaySelect").value = todayShort;
 
-    function showToast(msg) {
-      const el = document.getElementById("toast");
-      el.textContent = msg;
-      el.classList.add("show");
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => el.classList.remove("show"), 2400);
+    // -------------------------------------------------------------------
+    // 2. FIREBASE REAL-TIME LISTENERS (SYNC ACROSS ALL STUDENTS)
+    // -------------------------------------------------------------------
+    function initCloudListeners() {
+      onSnapshot(doc(db, "chamix_pro_meta", "settings"), (snap) => {
+        if (snap.exists()) {
+          siteSettings = { ...siteSettings, ...snap.data() };
+        }
+        applyThemeAndBranding();
+        renderThemeSwatches();
+      }, (err) => {
+        console.warn("Firestore settings sync warning:", err);
+        setSyncOffline();
+      });
+
+      onSnapshot(query(collection(db, "chamix_pro_topics"), orderBy("createdAt", "asc")), (snapshot) => {
+        cloudTopics = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        setSyncOnline();
+        renderTopicsAndVideos();
+        renderAdminTopicsList();
+        populateAdminLinkTopics();
+      }, (err) => {
+        console.warn("Firestore topics sync warning:", err);
+        setSyncOffline();
+      });
+
+      onSnapshot(query(collection(db, "chamix_pro_videos"), orderBy("createdAt", "asc")), (snapshot) => {
+        cloudVideos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderTopicsAndVideos();
+        renderAdminVideosList();
+      });
     }
 
-    function saveLocal() {
-      localStorage.setItem("chamix_pro_profile", JSON.stringify(localState.profile));
-      localStorage.setItem("chamix_pro_watched", JSON.stringify(localState.watched));
-      localStorage.setItem("chamix_pro_study", JSON.stringify(localState.studyDays));
-      localStorage.setItem("chamix_pro_tasks", JSON.stringify(localState.tasks));
+    function setSyncOnline() {
+      const badge = document.getElementById("syncBadge");
+      badge.className = "inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
+      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span> LIVE SYNC`;
     }
 
-    function applyTheme(idx) {
-      const theme = THEMES[idx] || THEMES[0];
+    function setSyncOffline() {
+      const badge = document.getElementById("syncBadge");
+      badge.className = "inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30";
+      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> CHECK FIRESTORE`;
+    }
+
+    function applyThemeAndBranding() {
+      const theme = MODERN_THEMES.find(t => t.id === siteSettings.themeId) || MODERN_THEMES[0];
+      document.documentElement.style.setProperty("--primary", theme.primary);
       document.documentElement.style.setProperty("--accent", theme.accent);
-      document.documentElement.style.setProperty("--accent-2", theme.accent2);
-      document.documentElement.style.setProperty("--accent-soft", theme.soft);
-      renderThemeSwatches();
+      document.documentElement.style.setProperty("--glow", theme.glow);
+
+      document.getElementById("brandTitle").textContent = siteSettings.siteName || "CHAMIX PRO";
+      document.title = `${siteSettings.siteName || "CHAMIX PRO"} | A/L Science Smart Portal`;
+      document.getElementById("adminSiteNameInput").value = siteSettings.siteName || "CHAMIX PRO";
+      document.getElementById("adminNewPassInput").value = siteSettings.adminPass || "chamix123";
     }
 
-    function renderThemeSwatches() {
-      const wrap = document.getElementById("themeSwatches");
-      if (!wrap) return;
-      wrap.innerHTML = THEMES.map((t, i) => `
-        <button type="button"
-          class="theme-swatch ${i === cloudState.themeIndex ? "active" : ""}"
-          style="background:${t.accent}"
-          title="${t.name}"
-          data-theme-idx="${i}">
-        </button>
-      `).join("");
-    }
-
-    function extractYouTubeId(url = "") {
-      const trimmed = String(url).trim();
+    // -------------------------------------------------------------------
+    // 3. BULLETPROOF YOUTUBE ID EXTRACTOR & EMBED BUILDER
+    // -------------------------------------------------------------------
+    function extractYouTubeId(url) {
+      if (!url) return null;
+      const clean = url.trim();
+      if (/^[a-zA-Z0-9_-]{11}$/.test(clean)) return clean;
       const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtube-nocookie\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,
-        /youtu\.be\/([a-zA-Z0-9_-]{11})/,
-        /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
-        /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
-        /youtube\.com\/live\/([a-zA-Z0-9_-]{11})/,
-        /^([a-zA-Z0-9_-]{11})$/
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/live\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+        /[?&]v=([a-zA-Z0-9_-]{11})/
       ];
-      for (const re of patterns) {
-        const match = trimmed.match(re);
+      for (const p of patterns) {
+        const match = clean.match(p);
         if (match && match[1]) return match[1];
       }
       return null;
     }
 
-    function renderProfile() {
-      const { name, batch, avatar } = localState.profile;
-      document.getElementById("studentNameDisplay").textContent = name || "A/L Science Student";
-      document.getElementById("studentBatchDisplay").textContent = `ACTIVE STUDENT • ${batch || "2027 BATCH"}`;
-
-      const avatarEl = document.getElementById("studentAvatar");
-      if (avatar) {
-        avatarEl.innerHTML = `<img src="${avatar}" alt="Avatar" class="thumb-img" onerror="this.parentElement.textContent='S'" />`;
-      } else {
-        avatarEl.textContent = (name || "S").charAt(0).toUpperCase();
-      }
+    function buildYouTubeEmbedUrl(ytId) {
+      const originParam = window.location.origin && window.location.origin.startsWith("http")
+        ? `&origin=${encodeURIComponent(window.location.origin)}`
+        : "";
+      return `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1${originParam}`;
     }
 
-    function getFilteredTopics() {
-      return cloudState.topics.filter(
-        (t) =>
-          t.subject === activeSubject &&
-          t.year === activeYear &&
-          t.month === activeMonth
-      );
-    }
+    // -------------------------------------------------------------------
+    // 4. TOPIC PILLS & TOUCH-TO-PLAY VIDEO CARDS WITH WATCHED HIGHLIGHT
+    // -------------------------------------------------------------------
+    window.onFilterChange = function() {
+      selectedTopicId = "ALL";
+      activeInlineVideoId = null;
+      renderTopicsAndVideos();
+    };
 
-    function renderTopics() {
-      const container = document.getElementById("topicsContainer");
-      const topics = getFilteredTopics();
+    window.setSubjectFilter = function(subj) {
+      selectedSubjectFilter = subj;
+      document.querySelectorAll(".subj-pill").forEach(btn => {
+        if (btn.dataset.subj === subj) {
+          btn.classList.add("active-tab");
+          btn.classList.remove("text-slate-300");
+        } else {
+          btn.classList.remove("active-tab");
+          btn.classList.add("text-slate-300");
+        }
+      });
+      selectedTopicId = "ALL";
+      activeInlineVideoId = null;
+      renderTopicsAndVideos();
+    };
 
-      if (activeTopic !== "ALL" && !topics.some((t) => t.name === activeTopic)) {
-        activeTopic = "ALL";
+    function renderTopicsAndVideos() {
+      const year = document.getElementById("filterYear").value;
+      const month = document.getElementById("filterMonth").value;
+      document.getElementById("selectedPeriodLabel").textContent = `${year} • ${month}`;
+
+      const filteredTopics = cloudTopics.filter(t => {
+        const matchPeriod = t.year === year && t.month === month;
+        const matchSubj = selectedSubjectFilter === "All" || t.subject === selectedSubjectFilter;
+        return matchPeriod && matchSubj;
+      });
+
+      document.getElementById("topicCountBadge").textContent = `${filteredTopics.length} Topics`;
+      const pillsRow = document.getElementById("topicsPillsRow");
+
+      if (selectedTopicId !== "ALL" && !filteredTopics.some(t => t.id === selectedTopicId)) {
+        selectedTopicId = "ALL";
       }
 
-      const allPill = `
-        <button type="button"
-          class="topic-pill ${activeTopic === "ALL" ? "active" : ""}"
-          data-topic="ALL">
-          All (${activeMonth})
+      const allPillHtml = `
+        <button type="button" onclick="selectTopic('ALL')"
+          class="topic-pill ${selectedTopicId === 'ALL' ? 'active-pill' : ''}">
+          <span>All (${escapeHtml(month)})</span>
         </button>
       `;
 
-      const topicPills = topics
-        .map(
-          (t) => `
-          <button type="button"
-            class="topic-pill ${activeTopic === t.name ? "active" : ""}"
-            data-topic="${t.name.replace(/"/g, "&quot;")}">
-            ${t.name}
+      const topicPillsHtml = filteredTopics.map(topic => {
+        const isSelected = topic.id === selectedTopicId;
+        const vidCount = cloudVideos.filter(v => v.topicId === topic.id).length;
+        return `
+          <button type="button" onclick="selectTopic('${topic.id}')"
+            class="topic-pill ${isSelected ? 'active-pill' : ''}">
+            <span>${escapeHtml(topic.name)}</span>
+            <span class="text-[11px] opacity-80">(${vidCount})</span>
           </button>
-        `
-        )
-        .join("");
+        `;
+      }).join("");
 
-      container.innerHTML = allPill + topicPills;
+      pillsRow.innerHTML = allPillHtml + topicPillsHtml;
+      renderTopicVideos(filteredTopics);
     }
 
-    function getFilteredVideos() {
-      const monthTopicNames = new Set(getFilteredTopics().map((t) => t.name));
+    window.selectTopic = function(topicId) {
+      selectedTopicId = topicId;
+      activeInlineVideoId = null;
+      renderTopicsAndVideos();
+    };
 
-      return cloudState.videos.filter((v) => {
-        if (v.subject !== activeSubject) return false;
-        if (v.year && v.year !== activeYear) return false;
-        if (v.month && v.month !== activeMonth) return false;
+    function renderTopicVideos(filteredTopics = []) {
+      const gridEl = document.getElementById("topicVideosGrid");
+      const headingEl = document.getElementById("activeTopicHeading");
+      const badgeEl = document.getElementById("videoCountBadge");
+      const month = document.getElementById("filterMonth").value;
 
-        if (activeTopic !== "ALL") {
-          return v.topic === activeTopic;
-        }
-        return monthTopicNames.size === 0 || !v.topic || monthTopicNames.has(v.topic) || true;
-      });
-    }
+      const allowedTopicIds = new Set(filteredTopics.map(t => t.id));
+      let videos = cloudVideos.filter(v => allowedTopicIds.has(v.topicId));
 
-    function renderVideos() {
-      const container = document.getElementById("videosContainer");
-      const videos = getFilteredVideos();
+      if (selectedTopicId === "ALL") {
+        headingEl.textContent = `All (${month}) Recordings`;
+      } else {
+        const activeTopic = filteredTopics.find(t => t.id === selectedTopicId);
+        headingEl.textContent = activeTopic ? `${activeTopic.subject}: ${activeTopic.name}` : "Selected Topic";
+        videos = videos.filter(v => v.topicId === selectedTopicId);
+      }
 
-      if (!videos.length) {
-        container.innerHTML = `<div class="empty-state">No recordings found for ${activeSubject} (${activeYear} • ${activeMonth}).</div>`;
+      badgeEl.textContent = `${videos.length} Videos`;
+
+      if (videos.length === 0) {
+        gridEl.innerHTML = `
+          <div class="col-span-full glass-card rounded-2xl p-8 text-center text-slate-400 text-sm">
+            <p class="font-semibold text-slate-300">මෙම තේරීම යටතේ Recordings තවම නොමැත.</p>
+            <p class="text-xs mt-1">Admin Studio -> Manage Video Links & PDFs වෙතින් Recordings එකතු කරන්න.</p>
+          </div>`;
         return;
       }
 
-      container.innerHTML = videos
-        .map((v) => {
-          const vidId = extractYouTubeId(v.url);
-          const isWatched = localState.watched.includes(v.id);
-          const isPlaying = playingVideoId === v.id && vidId;
-          const thumbUrl = vidId
-            ? `https://img.youtube.com/vi/${vidId}/hqdefault.jpg`
-            : "";
+      gridEl.innerHTML = videos.map((vid, idx) => {
+        const topic = cloudTopics.find(t => t.id === vid.topicId);
+        const ytId = extractYouTubeId(vid.youtubeUrl);
+        const isWatched = watchedIds.includes(vid.id);
+        const isPlaying = activeInlineVideoId === vid.id && ytId;
+        const thumbUrl = ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : "";
 
-          const stageHtml = isPlaying
-            ? `<iframe
-                src="https://www.youtube-nocookie.com/embed/${vidId}?autoplay=1&rel=0&modestbranding=1"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-              </iframe>`
-            : `
-              ${thumbUrl ? `<img src="${thumbUrl}" alt="${v.title}" class="thumb-img" loading="lazy" />` : ""}
-              <div class="play-overlay">
-                <div class="play-circle">▶</div>
-                <span class="play-hint">Tap to Play</span>
-              </div>
-            `;
+        const mediaBlockHtml = isPlaying
+          ? `<div id="playerBox-${vid.id}" class="inline-player-box relative w-full aspect-video bg-black">
+               <iframe src="${buildYouTubeEmbedUrl(ytId)}"
+                 class="w-full h-full border-0"
+                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                 allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+             </div>`
+          : `<div onclick="openInlinePlayer('${vid.id}')"
+               class="relative w-full aspect-video bg-slate-950 cursor-pointer group overflow-hidden select-none">
+               ${thumbUrl
+                 ? `<img src="${thumbUrl}" alt="${escapeHtml(vid.title)}" loading="lazy"
+                      class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />`
+                 : `<div class="w-full h-full flex items-center justify-center text-slate-500 text-xs">No Preview</div>`
+               }
+               <div class="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition flex flex-col items-center justify-center gap-2">
+                 <div class="w-14 h-14 rounded-full btn-primary flex items-center justify-center shadow-2xl">
+                   <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5"></i>
+                 </div>
+                 <span class="text-[11px] font-bold text-white bg-black/70 px-3 py-1 rounded-full">
+                   Touch to Play
+                 </span>
+               </div>
+             </div>`;
 
-          return `
-            <article class="video-card ${isWatched ? "watched" : ""}" data-video-id="${v.id}">
-              <div class="player-stage" data-play-id="${v.id}" data-yt-url="${v.url || ""}">
-                ${stageHtml}
-              </div>
-              <div class="video-body">
-                <div class="video-meta-top">
-                  <span class="topic-chip">${v.topic || activeMonth}</span>
-                  <span class="watched-pill">✓ WATCHED</span>
-                </div>
-                <div class="video-title">${v.title || "Class Recording"}</div>
-                <div class="video-actions">
-                  <button type="button" class="tick-btn" data-tick-id="${v.id}">
-                    ${isWatched ? "✓ Watched (Highlighted)" : "☐ Mark as Watched"}
-                  </button>
-                  ${
-                    v.url
-                      ? `<a class="btn btn-sm" href="${v.url}" target="_blank" rel="noopener noreferrer">YouTube ↗</a>`
-                      : ""
+        return `
+          <article class="video-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between ${isWatched ? 'watched-card' : ''}">
+            <div>
+              ${mediaBlockHtml}
+
+              <div class="p-4 space-y-2.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-md badge-primary">
+                    ${escapeHtml(topic ? topic.subject : "Class")} • #${String(idx + 1).padStart(2, '0')}
+                  </span>
+                  ${isWatched
+                    ? `<span class="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-500 text-slate-950 shadow">
+                         ✓ WATCHED
+                       </span>`
+                    : `<span class="text-[11px] text-slate-400 font-medium">${escapeHtml(topic ? topic.name : "")}</span>`
                   }
                 </div>
+
+                <h5 onclick="openInlinePlayer('${vid.id}')" class="cursor-pointer text-sm sm:text-base font-extrabold text-white leading-snug hover:text-sky-300 transition">
+                  ${escapeHtml(vid.title)}
+                </h5>
               </div>
-            </article>
-          `;
-        })
-        .join("");
-    }
-
-    function renderPdfs() {
-      const container = document.getElementById("pdfsContainer");
-      const items = cloudState.pdfs.filter((p) => p.subject === activeSubject);
-      if (!items.length) {
-        container.innerHTML = `<div class="empty-state">No PDF notes uploaded for ${activeSubject} yet.</div>`;
-        return;
-      }
-      container.innerHTML = items
-        .map(
-          (p) => `
-          <div class="pdf-item">
-            <div>
-              <div style="font-weight:700; font-size:14px;">${p.title}</div>
-              <div class="card-label">${activeSubject} PDF</div>
             </div>
-            <a class="btn btn-primary btn-sm" href="${p.url}" target="_blank" rel="noopener noreferrer">Open PDF</a>
-          </div>
-        `
-        )
-        .join("");
-    }
 
-    function renderStudyAndTasks() {
-      const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-      const maxVal = Math.max(1, ...localState.studyDays);
-      document.getElementById("weeklyBars").innerHTML = days
-        .map((d, i) => {
-          const val = Number(localState.studyDays[i] || 0);
-          const pct = Math.min(100, Math.round((val / maxVal) * 100));
-          return `
-            <div class="bar-col">
-              <div class="bar-fill" style="height:${pct}%" title="${d}: ${val}h"></div>
-              <span class="bar-day">${d}</span>
+            <div class="px-4 pb-4 pt-2 border-t border-slate-800/70 flex flex-wrap items-center justify-between gap-2">
+              <button type="button" onclick="toggleVideoWatched('${vid.id}')"
+                class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                  isWatched
+                    ? 'bg-emerald-500 text-slate-950 hover:bg-emerald-400'
+                    : 'bg-slate-800 text-slate-200 hover:bg-emerald-600 hover:text-white'
+                }">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+                <span>${isWatched ? 'Watched ✓' : 'Mark Watched'}</span>
+              </button>
+
+              <div class="flex items-center gap-1.5">
+                ${isPlaying
+                  ? `<button type="button" onclick="toggleInlineFullscreen('${vid.id}')"
+                       class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white flex items-center gap-1" title="Full Screen">
+                       <i data-lucide="maximize" class="w-3.5 h-3.5"></i>
+                     </button>`
+                  : ""
+                }
+                ${vid.pdfUrl && vid.pdfUrl.trim() !== ""
+                  ? `<a href="${escapeHtml(vid.pdfUrl.trim())}" target="_blank" rel="noopener noreferrer"
+                       class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/35 hover:bg-rose-500 hover:text-white transition flex items-center gap-1">
+                       <i data-lucide="file-text" class="w-3.5 h-3.5"></i> PDF
+                     </a>`
+                  : ""
+                }
+                ${vid.youtubeUrl
+                  ? `<a href="${escapeHtml(vid.youtubeUrl.trim())}" target="_blank" rel="noopener noreferrer"
+                       class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800/90 text-slate-300 hover:text-white transition" title="Open in YouTube">
+                       ↗
+                     </a>`
+                  : ""
+                }
+              </div>
             </div>
-          `;
-        })
-        .join("");
+          </article>
+        `;
+      }).join("");
 
-      const tasks = localState.tasks[activeSubject] || [];
-      const tasksEl = document.getElementById("tasksContainer");
-      if (!tasks.length) {
-        tasksEl.innerHTML = `<div class="empty-state" style="padding:16px;">No tasks yet for ${activeSubject}.</div>`;
-        return;
-      }
-      tasksEl.innerHTML = tasks
-        .map(
-          (t, idx) => `
-          <div class="task-item ${t.done ? "done" : ""}">
-            <span style="font-size:13px; cursor:pointer;" data-toggle-task="${idx}">${t.text}</span>
-            <button type="button" class="btn btn-sm btn-danger" data-del-task="${idx}">✕</button>
-          </div>
-        `
-        )
-        .join("");
+      lucide.createIcons();
     }
 
-    function renderAdminTopics() {
-      const list = document.getElementById("adminTopicsList");
-      const topics = getFilteredTopics();
-      if (!topics.length) {
-        list.innerHTML = `<p class="card-label">No topics in this filter.</p>`;
-        return;
-      }
-      list.innerHTML = topics
-        .map(
-          (t) => `
-          <div class="task-item">
-            <span style="font-size:13px;">${t.name} <small style="color:var(--muted)">(${t.year} • ${t.month})</small></span>
-            <button type="button" class="btn btn-sm btn-danger" data-del-topic="${t.id}">Delete</button>
-          </div>
-        `
-        )
-        .join("");
-    }
-
-    function renderAll() {
-      document.getElementById("activeSubjectHeading").textContent = activeSubject;
-      document.getElementById("sectionSubheading").textContent = `${activeSubject} Class Recordings`;
-      document.getElementById("pdfHeading").textContent = `${activeSubject} PDF Papers & Notes`;
-      document.getElementById("taskHeading").textContent = `${activeSubject} Daily Tasks`;
-
-      document.querySelectorAll(".subj-btn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.subject === activeSubject);
-      });
-
-      renderTopics();
-      renderVideos();
-      renderPdfs();
-      renderStudyAndTasks();
-      renderAdminTopics();
-    }
-
-    // Event Listeners
-    document.getElementById("subjectPills").addEventListener("click", (e) => {
-      const btn = e.target.closest(".subj-btn");
-      if (!btn) return;
-      activeSubject = btn.dataset.subject;
-      activeTopic = "ALL";
-      playingVideoId = null;
-      renderAll();
-    });
-
-    document.querySelectorAll(".mode-tab").forEach((tab) => {
-      tab.addEventListener("click", () => {
-        document.querySelectorAll(".mode-tab").forEach((t) => t.classList.remove("active"));
-        tab.classList.add("active");
-        activeMode = tab.dataset.mode;
-
-        document.getElementById("recordingsSection").style.display = activeMode === "recordings" ? "block" : "none";
-        document.getElementById("pdfsSection").style.display = activeMode === "pdfs" ? "block" : "none";
-        document.getElementById("studySection").style.display = activeMode === "study" ? "block" : "none";
-      });
-    });
-
-    document.getElementById("yearSelect").addEventListener("change", (e) => {
-      activeYear = e.target.value;
-      activeTopic = "ALL";
-      renderAll();
-    });
-
-    document.getElementById("monthSelect").addEventListener("change", (e) => {
-      activeMonth = e.target.value;
-      activeTopic = "ALL";
-      renderAll();
-    });
-
-    document.getElementById("topicsContainer").addEventListener("click", (e) => {
-      const pill = e.target.closest(".topic-pill");
-      if (!pill) return;
-      activeTopic = pill.dataset.topic;
-      playingVideoId = null;
-      renderTopics();
-      renderVideos();
-    });
-
-    // Touch-to-play & Watched highlight toggle
-    document.getElementById("videosContainer").addEventListener("click", (e) => {
-      const stage = e.target.closest("[data-play-id]");
-      if (stage) {
-        const id = stage.dataset.playId;
-        const rawUrl = stage.dataset.ytUrl || "";
-        const ytId = extractYouTubeId(rawUrl);
-        if (!ytId && rawUrl) {
-          window.open(rawUrl, "_blank", "noopener,noreferrer");
-          return;
-        }
-        playingVideoId = playingVideoId === id ? null : id;
-        renderVideos();
-        return;
-      }
-
-      const tickBtn = e.target.closest("[data-tick-id]");
-      if (tickBtn) {
-        const id = tickBtn.dataset.tickId;
-        const idx = localState.watched.indexOf(id);
-        if (idx === -1) {
-          localState.watched.push(id);
-          showToast("Marked as watched & highlighted!");
+    window.openInlinePlayer = function(videoId) {
+      const vid = cloudVideos.find(v => v.id === videoId);
+      if (!vid) return;
+      const ytId = extractYouTubeId(vid.youtubeUrl);
+      if (!ytId) {
+        if (vid.youtubeUrl) {
+          window.open(vid.youtubeUrl, "_blank", "noopener,noreferrer");
         } else {
-          localState.watched.splice(idx, 1);
-          showToast("Unmarked watched");
+          showToast("Invalid YouTube link!");
         }
-        saveLocal();
-        renderVideos();
-      }
-    });
-
-    // Profile modal
-    document.getElementById("openProfileBtn").addEventListener("click", () => {
-      document.getElementById("profileNameInput").value = localState.profile.name || "";
-      document.getElementById("profileBatchInput").value = localState.profile.batch || "2027 BATCH";
-      document.getElementById("profileAvatarInput").value = localState.profile.avatar || "";
-      document.getElementById("profileModal").classList.add("open");
-    });
-
-    document.getElementById("saveProfileBtn").addEventListener("click", () => {
-      localState.profile = {
-        name: document.getElementById("profileNameInput").value.trim() || "A/L Science Student",
-        batch: document.getElementById("profileBatchInput").value,
-        avatar: document.getElementById("profileAvatarInput").value.trim()
-      };
-      saveLocal();
-      renderProfile();
-      document.getElementById("profileModal").classList.remove("open");
-      showToast("Profile updated!");
-    });
-
-    // Study & tasks
-    document.getElementById("addStudyBtn").addEventListener("click", () => {
-      const val = parseFloat(document.getElementById("studyHoursInput").value);
-      if (!val || val <= 0) return;
-      const dayIdx = (new Date().getDay() + 6) % 7;
-      localState.studyDays[dayIdx] = Number((Number(localState.studyDays[dayIdx] || 0) + val).toFixed(1));
-      document.getElementById("studyHoursInput").value = "";
-      saveLocal();
-      renderStudyAndTasks();
-      showToast("Study hours logged!");
-    });
-
-    document.getElementById("addTaskBtn").addEventListener("click", () => {
-      const text = document.getElementById("taskInput").value.trim();
-      if (!text) return;
-      if (!localState.tasks[activeSubject]) localState.tasks[activeSubject] = [];
-      localState.tasks[activeSubject].push({ text, done: false });
-      document.getElementById("taskInput").value = "";
-      saveLocal();
-      renderStudyAndTasks();
-    });
-
-    document.getElementById("tasksContainer").addEventListener("click", (e) => {
-      const toggleEl = e.target.closest("[data-toggle-task]");
-      if (toggleEl) {
-        const i = Number(toggleEl.dataset.toggleTask);
-        localState.tasks[activeSubject][i].done = !localState.tasks[activeSubject][i].done;
-        saveLocal();
-        renderStudyAndTasks();
         return;
       }
-      const delEl = e.target.closest("[data-del-task]");
-      if (delEl) {
-        const i = Number(delEl.dataset.delTask);
-        localState.tasks[activeSubject].splice(i, 1);
-        saveLocal();
-        renderStudyAndTasks();
-      }
-    });
+      activeInlineVideoId = videoId;
+      renderTopicsAndVideos();
+    };
 
-    // Modals close
-    document.querySelectorAll("[data-close]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        document.getElementById(btn.dataset.close).classList.remove("open");
+    window.toggleInlineFullscreen = function(videoId) {
+      const box = document.getElementById(`playerBox-${videoId}`);
+      if (!box) return;
+      if (!document.fullscreenElement) {
+        if (box.requestFullscreen) box.requestFullscreen().catch(() => {});
+        else if (box.webkitRequestFullscreen) box.webkitRequestFullscreen();
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    };
+
+    window.toggleVideoWatched = function(videoId) {
+      if (watchedIds.includes(videoId)) {
+        watchedIds = watchedIds.filter(x => x !== videoId);
+        showToast("Removed watched highlight");
+      } else {
+        watchedIds.push(videoId);
+        showToast("Marked as watched & highlighted! ✓");
+      }
+      localStorage.setItem("chamixpro_watched", JSON.stringify(watchedIds));
+      renderTopicsAndVideos();
+    };
+
+    // -------------------------------------------------------------------
+    // 5. STUDY TIME TRACKER (DAILY + 7-DAY WEEKLY CHARTS)
+    // -------------------------------------------------------------------
+    window.addStudyEntry = function(e) {
+      e.preventDefault();
+      const day = document.getElementById("studyDayInput").value;
+      const subj = document.getElementById("studySubjectInput").value;
+      const hrs = parseFloat(document.getElementById("studyHoursInput").value) || 0;
+      const mins = parseFloat(document.getElementById("studyMinsInput").value) || 0;
+      const addedHours = +(hrs + mins / 60).toFixed(2);
+
+      if (addedHours <= 0) return;
+      weeklyStudy[day][subj] = +(weeklyStudy[day][subj] + addedHours).toFixed(2);
+      localStorage.setItem("chamixpro_study_week", JSON.stringify(weeklyStudy));
+
+      document.getElementById("dailyChartDaySelect").value = day;
+      updateStudyStatsAndCharts();
+      showToast(`Added ${hrs}h ${mins}m to ${subj} (${day})`);
+    };
+
+    window.resetWeeklyStudy = function() {
+      if (!confirm("Reset all 7 days study time data?")) return;
+      DAYS.forEach(d => {
+        weeklyStudy[d] = { Physics: 0, Chemistry: 0, Biology: 0 };
       });
-    });
+      localStorage.setItem("chamixpro_study_week", JSON.stringify(weeklyStudy));
+      updateStudyStatsAndCharts();
+      showToast("Weekly study logs reset.");
+    };
 
-    // Admin actions
-    document.getElementById("openAdminBtn").addEventListener("click", () => {
-      document.getElementById("adminModal").classList.add("open");
-    });
+    function updateStudyStatsAndCharts() {
+      let totP = 0, totC = 0, totB = 0;
+      DAYS.forEach(d => {
+        totP += weeklyStudy[d].Physics || 0;
+        totC += weeklyStudy[d].Chemistry || 0;
+        totB += weeklyStudy[d].Biology || 0;
+      });
+      const grand = totP + totC + totB;
 
-    document.getElementById("adminLoginBtn").addEventListener("click", () => {
-      const pass = document.getElementById("adminPassInput").value;
-      if (pass === ADMIN_PASSWORD) {
-        document.getElementById("adminLoginBox").style.display = "none";
-        document.getElementById("adminPanelBox").style.display = "block";
-        renderThemeSwatches();
-        renderAdminTopics();
-        showToast("Admin unlocked");
-      } else {
-        showToast("Incorrect password");
-      }
-    });
+      document.getElementById("statPhysicsTotal").textContent = `${totP.toFixed(1)} hrs`;
+      document.getElementById("statChemTotal").textContent = `${totC.toFixed(1)} hrs`;
+      document.getElementById("statBioTotal").textContent = `${totB.toFixed(1)} hrs`;
+      document.getElementById("statGrandTotal").textContent = `${grand.toFixed(1)} hrs`;
 
-    document.getElementById("themeSwatches").addEventListener("click", async (e) => {
-      const sw = e.target.closest("[data-theme-idx]");
-      if (!sw) return;
-      const idx = Number(sw.dataset.themeIdx);
-      cloudState.themeIndex = idx;
-      applyTheme(idx);
-      if (db) {
-        await db.collection("chamix_pro_meta").doc("config").set({ themeIndex: idx }, { merge: true });
-      }
-      showToast("Theme synced live!");
-    });
+      const todayObj = weeklyStudy[todayShort] || { Physics: 0, Chemistry: 0, Biology: 0 };
+      const todayHrsFloat = todayObj.Physics + todayObj.Chemistry + todayObj.Biology;
+      const h = Math.floor(todayHrsFloat);
+      const m = Math.round((todayHrsFloat - h) * 60);
+      document.getElementById("heroTodayStudy").textContent = `${h}h ${m}m`;
 
-    document.getElementById("addTopicBtn").addEventListener("click", async () => {
-      const subject = document.getElementById("topicSubjectInput").value;
-      const year = document.getElementById("topicYearInput").value;
-      const month = document.getElementById("topicMonthInput").value;
-      const name = document.getElementById("topicNameInput").value.trim();
-      if (!name) return showToast("Enter a topic name");
-
-      const docData = { subject, year, month, name, createdAt: Date.now() };
-      if (db) {
-        await db.collection("chamix_pro_topics").add(docData);
-      } else {
-        cloudState.topics.push({ id: String(Date.now()), ...docData });
-        renderAll();
-      }
-      document.getElementById("topicNameInput").value = "";
-      showToast("Topic published live!");
-    });
-
-    document.getElementById("adminTopicsList").addEventListener("click", async (e) => {
-      const delBtn = e.target.closest("[data-del-topic]");
-      if (!delBtn) return;
-      const id = delBtn.dataset.delTopic;
-      if (db) {
-        await db.collection("chamix_pro_topics").doc(id).delete();
-      } else {
-        cloudState.topics = cloudState.topics.filter((t) => t.id !== id);
-        renderAll();
-      }
-      showToast("Topic deleted");
-    });
-
-    document.getElementById("addVideoBtn").addEventListener("click", async () => {
-      const title = document.getElementById("videoTitleInput").value.trim();
-      const topic = document.getElementById("videoTopicInput").value.trim();
-      const url = document.getElementById("videoUrlInput").value.trim();
-      if (!title || !url) return showToast("Enter title and YouTube URL");
-
-      const docData = {
-        subject: activeSubject,
-        year: activeYear,
-        month: activeMonth,
-        topic,
-        title,
-        url,
-        createdAt: Date.now()
-      };
-
-      if (db) {
-        await db.collection("chamix_pro_videos").add(docData);
-      } else {
-        cloudState.videos.push({ id: String(Date.now()), ...docData });
-        renderAll();
-      }
-      document.getElementById("videoTitleInput").value = "";
-      document.getElementById("videoUrlInput").value = "";
-      showToast("Video published live!");
-    });
-
-    document.getElementById("addPdfBtn").addEventListener("click", async () => {
-      const title = document.getElementById("pdfTitleInput").value.trim();
-      const url = document.getElementById("pdfUrlInput").value.trim();
-      if (!title || !url) return showToast("Enter PDF title and URL");
-
-      const docData = { subject: activeSubject, title, url, createdAt: Date.now() };
-      if (db) {
-        await db.collection("chamix_pro_pdfs").add(docData);
-      } else {
-        cloudState.pdfs.push({ id: String(Date.now()), ...docData });
-        renderAll();
-      }
-      document.getElementById("pdfTitleInput").value = "";
-      document.getElementById("pdfUrlInput").value = "";
-      showToast("PDF published live!");
-    });
-
-    // Initialize Firebase Firestore Live Sync
-    function initCloudSync() {
-      try {
-        if (!firebase.apps.length) {
-          firebase.initializeApp({
-            projectId: "chamix-pro"
-          });
-        }
-        db = firebase.firestore();
-
-        db.collection("chamix_pro_meta")
-          .doc("config")
-          .onSnapshot((snap) => {
-            if (snap.exists && typeof snap.data().themeIndex === "number") {
-              cloudState.themeIndex = snap.data().themeIndex;
-              applyTheme(cloudState.themeIndex);
-            }
-          });
-
-        db.collection("chamix_pro_topics")
-          .orderBy("createdAt", "asc")
-          .onSnapshot((snap) => {
-            cloudState.topics = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-            renderAll();
-          });
-
-        db.collection("chamix_pro_videos")
-          .orderBy("createdAt", "desc")
-          .onSnapshot((snap) => {
-            cloudState.videos = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-            renderVideos();
-          });
-
-        db.collection("chamix_pro_pdfs")
-          .orderBy("createdAt", "desc")
-          .onSnapshot((snap) => {
-            cloudState.pdfs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-            renderPdfs();
-          });
-      } catch (err) {
-        document.getElementById("syncText").textContent = "LOCAL MODE";
-        console.error(err);
-      }
+      renderStudyCharts();
     }
 
-    renderProfile();
-    applyTheme(0);
-    renderAll();
-    initCloudSync();
+    window.renderStudyCharts = function() {
+      const selectedDay = document.getElementById("dailyChartDaySelect").value;
+      const dData = weeklyStudy[selectedDay] || { Physics: 0, Chemistry: 0, Biology: 0 };
+      const dTotal = +(dData.Physics + dData.Chemistry + dData.Biology).toFixed(2);
+
+      const dailyCtx = document.getElementById("dailyStudyChart").getContext("2d");
+      if (dailyChartInstance) dailyChartInstance.destroy();
+      dailyChartInstance = new Chart(dailyCtx, {
+        type: "bar",
+        data: {
+          labels: ["Physics", "Chemistry", "Biology", "Total"],
+          datasets: [{
+            label: `${selectedDay} Hours`,
+            data: [dData.Physics, dData.Chemistry, dData.Biology, dTotal],
+            backgroundColor: ["#6366f1", "#06b6d4", "#10b981", "#f59e0b"],
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.1)" } },
+            x: { ticks: { color: "#e2e8f0", font: { weight: "bold" } }, grid: { display: false } }
+          }
+        }
+      });
+
+      const pArr = DAYS.map(d => weeklyStudy[d].Physics);
+      const cArr = DAYS.map(d => weeklyStudy[d].Chemistry);
+      const bArr = DAYS.map(d => weeklyStudy[d].Biology);
+      const tArr = DAYS.map(d => +(weeklyStudy[d].Physics + weeklyStudy[d].Chemistry + weeklyStudy[d].Biology).toFixed(2));
+
+      const weeklyCtx = document.getElementById("weeklyStudyChart").getContext("2d");
+      if (weeklyChartInstance) weeklyChartInstance.destroy();
+      weeklyChartInstance = new Chart(weeklyCtx, {
+        data: {
+          labels: DAYS,
+          datasets: [
+            { type: "line", label: "Total", data: tArr, borderColor: "#f59e0b", backgroundColor: "#f59e0b", tension: 0.3, borderWidth: 2.5 },
+            { type: "bar", label: "Physics", data: pArr, backgroundColor: "#6366f1", borderRadius: 4 },
+            { type: "bar", label: "Chemistry", data: cArr, backgroundColor: "#06b6d4", borderRadius: 4 },
+            { type: "bar", label: "Biology", data: bArr, backgroundColor: "#10b981", borderRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: "#e2e8f0", boxWidth: 12 } } },
+          scales: {
+            y: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.1)" } },
+            x: { ticks: { color: "#e2e8f0" }, grid: { display: false } }
+          }
+        }
+      });
+    };
+
+    // -------------------------------------------------------------------
+    // 6. SUBJECT-WISE TASK LISTS + MINI CHART + 100% WISH BANNER
+    // -------------------------------------------------------------------
+    window.addTaskItem = function(e) {
+      e.preventDefault();
+      const subject = document.getElementById("taskSubjectInput").value;
+      const text = document.getElementById("taskTextInput").value.trim();
+      if (!text) return;
+
+      studentTasks.push({
+        id: Date.now().toString(),
+        subject,
+        text,
+        done: false
+      });
+      localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
+      document.getElementById("taskTextInput").value = "";
+      renderTasks();
+    };
+
+    window.toggleTask = function(id) {
+      studentTasks = studentTasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+      localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
+      renderTasks();
+    };
+
+    window.deleteTask = function(id) {
+      studentTasks = studentTasks.filter(t => t.id !== id);
+      localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
+      renderTasks();
+    };
+
+    window.clearCompletedTasks = function() {
+      studentTasks = studentTasks.filter(t => !t.done);
+      localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
+      renderTasks();
+    };
+
+    function renderTasks() {
+      ["Biology", "Physics", "Chemistry"].forEach(subj => {
+        const subTasks = studentTasks.filter(t => t.subject === subj);
+        const doneCount = subTasks.filter(t => t.done).length;
+        document.getElementById(`count-${subj}`).textContent = `${doneCount}/${subTasks.length}`;
+
+        const listEl = document.getElementById(`list-${subj}`);
+        if (subTasks.length === 0) {
+          listEl.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">No ${subj} tasks yet.</p>`;
+        } else {
+          listEl.innerHTML = subTasks.map(t => `
+            <div class="flex items-center justify-between gap-2 bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2.5">
+              <label class="flex items-center gap-2.5 cursor-pointer min-w-0 flex-1">
+                <input type="checkbox" ${t.done ? "checked" : ""} onchange="toggleTask('${t.id}')"
+                  class="w-4 h-4 rounded accent-emerald-500 shrink-0" />
+                <span class="text-xs sm:text-sm truncate ${t.done ? 'line-through text-slate-500' : 'text-slate-200 font-medium'}">
+                  ${escapeHtml(t.text)}
+                </span>
+              </label>
+              <button onclick="deleteTask('${t.id}')" class="text-slate-500 hover:text-rose-400 text-xs px-1">✕</button>
+            </div>
+          `).join("");
+        }
+      });
+
+      const total = studentTasks.length;
+      const completed = studentTasks.filter(t => t.done).length;
+      const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+      document.getElementById("taskPercentBig").textContent = `${pct}%`;
+      document.getElementById("taskCountSummary").textContent = `${completed} of ${total} tasks completed`;
+
+      const celebEl = document.getElementById("allTasksCelebration");
+      if (total > 0 && completed === total) {
+        celebEl.classList.remove("hidden");
+      } else {
+        celebEl.classList.add("hidden");
+      }
+
+      const ctx = document.getElementById("taskProgressChart").getContext("2d");
+      if (taskChartInstance) taskChartInstance.destroy();
+      taskChartInstance = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["Done", "Remaining"],
+          datasets: [{
+            data: total === 0 ? [0, 1] : [completed, total - completed],
+            backgroundColor: ["#10b981", "#1e293b"],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: "72%",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { enabled: false } }
+        }
+      });
+    }
+
+    // -------------------------------------------------------------------
+    // 7. ADMIN STUDIO (TOPICS CRUD + LINKS CRUD + 10 THEMES)
+    // -------------------------------------------------------------------
+    window.openAdminGate = function() {
+      document.getElementById("adminPassError").classList.add("hidden");
+      document.getElementById("adminPassInput").value = "";
+      document.getElementById("adminGateModal").classList.remove("hidden");
+    };
+    window.closeAdminGate = function() {
+      document.getElementById("adminGateModal").classList.add("hidden");
+    };
+
+    window.verifyAdminPassword = function(e) {
+      e.preventDefault();
+      const entered = document.getElementById("adminPassInput").value;
+      if (entered === (siteSettings.adminPass || "chamix123")) {
+        closeAdminGate();
+        document.getElementById("adminStudioModal").classList.remove("hidden");
+        populateAdminLinkTopics();
+        renderThemeSwatches();
+      } else {
+        document.getElementById("adminPassError").classList.remove("hidden");
+      }
+    };
+
+    window.closeAdminStudio = function() {
+      document.getElementById("adminStudioModal").classList.add("hidden");
+    };
+
+    window.switchAdminTab = function(tab) {
+      ["topics", "links", "themes"].forEach(t => {
+        document.getElementById(`admin-pane-${t}`).classList.toggle("hidden", t !== tab);
+        const btn = document.getElementById(`atab-${t}`);
+        if (t === tab) {
+          btn.classList.add("active-tab");
+          btn.classList.remove("bg-slate-900", "text-slate-300");
+        } else {
+          btn.classList.remove("active-tab");
+          btn.classList.add("bg-slate-900", "text-slate-300");
+        }
+      });
+    };
+
+    window.saveTopicAdmin = async function(e) {
+      e.preventDefault();
+      const editId = document.getElementById("editTopicId").value;
+      const payload = {
+        year: document.getElementById("adminTopicYear").value,
+        month: document.getElementById("adminTopicMonth").value,
+        subject: document.getElementById("adminTopicSubject").value,
+        name: document.getElementById("adminTopicName").value.trim(),
+        updatedAt: Date.now()
+      };
+
+      try {
+        if (editId) {
+          await updateDoc(doc(db, "chamix_pro_topics", editId), payload);
+          showToast("Topic updated for all students!");
+        } else {
+          payload.createdAt = Date.now();
+          await addDoc(collection(db, "chamix_pro_topics"), payload);
+          showToast("New Topic added live!");
+        }
+        resetTopicForm();
+      } catch (err) {
+        alert("Firebase Error: Make sure Firestore Database is created in Test Mode!\n" + err.message);
+      }
+    };
+
+    window.editTopicAdmin = function(id) {
+      const t = cloudTopics.find(x => x.id === id);
+      if (!t) return;
+      document.getElementById("editTopicId").value = t.id;
+      document.getElementById("adminTopicYear").value = t.year;
+      document.getElementById("adminTopicMonth").value = t.month;
+      document.getElementById("adminTopicSubject").value = t.subject;
+      document.getElementById("adminTopicName").value = t.name;
+      document.getElementById("topicFormHeading").textContent = "Edit Topic";
+      document.getElementById("cancelTopicEditBtn").classList.remove("hidden");
+    };
+
+    window.resetTopicForm = function() {
+      document.getElementById("editTopicId").value = "";
+      document.getElementById("adminTopicName").value = "";
+      document.getElementById("topicFormHeading").textContent = "Add New Topic";
+      document.getElementById("cancelTopicEditBtn").classList.add("hidden");
+    };
+
+    window.deleteTopicAdmin = async function(id) {
+      if (!confirm("Delete this topic? Videos under it will also be removed.")) return;
+      await deleteDoc(doc(db, "chamix_pro_topics", id));
+      const linkedVids = cloudVideos.filter(v => v.topicId === id);
+      for (const v of linkedVids) {
+        await deleteDoc(doc(db, "chamix_pro_videos", v.id));
+      }
+      showToast("Topic deleted.");
+    };
+
+    function renderAdminTopicsList() {
+      const el = document.getElementById("adminTopicsList");
+      if (cloudTopics.length === 0) {
+        el.innerHTML = `<p class="text-xs text-slate-500">No topics created yet.</p>`;
+        return;
+      }
+      el.innerHTML = cloudTopics.map(t => `
+        <div class="flex items-center justify-between gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5">
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-white truncate">${escapeHtml(t.name)}</div>
+            <div class="text-[11px] text-slate-400">${t.year} • ${t.month} • ${t.subject}</div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="editTopicAdmin('${t.id}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">Edit</button>
+            <button onclick="deleteTopicAdmin('${t.id}')" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 text-xs font-bold">Delete</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.populateAdminLinkTopics = function() {
+      const y = document.getElementById("adminLinkYear").value;
+      const m = document.getElementById("adminLinkMonth").value;
+      const matching = cloudTopics.filter(t => t.year === y && t.month === m);
+      const sel = document.getElementById("adminLinkTopicId");
+
+      if (matching.length === 0) {
+        sel.innerHTML = `<option value="">-- No Topics in ${y} (${m}) --</option>`;
+      } else {
+        sel.innerHTML = matching.map(t => `<option value="${t.id}">[${t.subject}] ${escapeHtml(t.name)}</option>`).join("");
+      }
+    };
+
+    window.saveVideoAdmin = async function(e) {
+      e.preventDefault();
+      const editId = document.getElementById("editVideoId").value;
+      const topicId = document.getElementById("adminLinkTopicId").value;
+      if (!topicId) {
+        alert("Please create/select a valid Topic for this Year & Month first!");
+        return;
+      }
+
+      const payload = {
+        topicId,
+        title: document.getElementById("adminVideoTitle").value.trim(),
+        youtubeUrl: document.getElementById("adminVideoUrl").value.trim(),
+        pdfUrl: document.getElementById("adminVideoPdf").value.trim(),
+        updatedAt: Date.now()
+      };
+
+      try {
+        if (editId) {
+          await updateDoc(doc(db, "chamix_pro_videos", editId), payload);
+          showToast("Recording updated live!");
+        } else {
+          payload.createdAt = Date.now();
+          await addDoc(collection(db, "chamix_pro_videos"), payload);
+          showToast("Recording published to all students!");
+        }
+        resetVideoForm();
+      } catch (err) {
+        alert("Firebase Error: " + err.message);
+      }
+    };
+
+    window.editVideoAdmin = function(id) {
+      const v = cloudVideos.find(x => x.id === id);
+      if (!v) return;
+      const t = cloudTopics.find(x => x.id === v.topicId);
+      if (t) {
+        document.getElementById("adminLinkYear").value = t.year;
+        document.getElementById("adminLinkMonth").value = t.month;
+        populateAdminLinkTopics();
+      }
+      document.getElementById("editVideoId").value = v.id;
+      document.getElementById("adminLinkTopicId").value = v.topicId;
+      document.getElementById("adminVideoTitle").value = v.title;
+      document.getElementById("adminVideoUrl").value = v.youtubeUrl;
+      document.getElementById("adminVideoPdf").value = v.pdfUrl || "";
+      document.getElementById("videoFormHeading").textContent = "Edit Recording Link";
+      document.getElementById("cancelVideoEditBtn").classList.remove("hidden");
+    };
+
+    window.resetVideoForm = function() {
+      document.getElementById("editVideoId").value = "";
+      document.getElementById("adminVideoTitle").value = "";
+      document.getElementById("adminVideoUrl").value = "";
+      document.getElementById("adminVideoPdf").value = "";
+      document.getElementById("videoFormHeading").textContent = "Add YouTube Recording / PDF Link";
+      document.getElementById("cancelVideoEditBtn").classList.add("hidden");
+    };
+
+    window.deleteVideoAdmin = async function(id) {
+      if (!confirm("Delete this recording link?")) return;
+      await deleteDoc(doc(db, "chamix_pro_videos", id));
+      showToast("Recording deleted.");
+    };
+
+    function renderAdminVideosList() {
+      const el = document.getElementById("adminVideosList");
+      if (cloudVideos.length === 0) {
+        el.innerHTML = `<p class="text-xs text-slate-500">No recordings published yet.</p>`;
+        return;
+      }
+      el.innerHTML = cloudVideos.map(v => {
+        const t = cloudTopics.find(x => x.id === v.topicId);
+        const topicLabel = t ? `${t.year} • ${t.month} • ${t.subject} (${t.name})` : "Unassigned Topic";
+        return `
+          <div class="flex items-center justify-between gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5">
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white truncate">${escapeHtml(v.title)}</div>
+              <div class="text-[11px] text-slate-400 truncate">${escapeHtml(topicLabel)}</div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="editVideoAdmin('${v.id}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">Edit</button>
+              <button onclick="deleteVideoAdmin('${v.id}')" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 text-xs font-bold">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderThemeSwatches() {
+      const grid = document.getElementById("themeSwatchesGrid");
+      grid.innerHTML = MODERN_THEMES.map(th => {
+        const active = siteSettings.themeId === th.id;
+        return `
+          <button type="button" onclick="selectCloudTheme('${th.id}')"
+            class="p-3 rounded-xl border text-left transition flex items-center gap-2.5 ${
+              active ? 'border-white bg-slate-800 shadow-lg' : 'border-slate-800 bg-slate-950/70 hover:border-slate-600'
+            }">
+            <span class="w-6 h-6 rounded-full shrink-0 shadow" style="background: linear-gradient(135deg, ${th.primary}, ${th.accent});"></span>
+            <span class="text-xs font-bold text-white truncate">${th.name}</span>
+          </button>
+        `;
+      }).join("");
+    }
+
+    window.selectCloudTheme = async function(themeId) {
+      siteSettings.themeId = themeId;
+      applyThemeAndBranding();
+      renderThemeSwatches();
+      await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
+      showToast("Theme updated live for all students!");
+    };
+
+    window.saveSiteSettingsAdmin = async function(e) {
+      e.preventDefault();
+      siteSettings.siteName = document.getElementById("adminSiteNameInput").value.trim() || "CHAMIX PRO";
+      siteSettings.adminPass = document.getElementById("adminNewPassInput").value.trim() || "chamix123";
+      await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
+      applyThemeAndBranding();
+      showToast("Global site settings saved!");
+    };
+
+    // -------------------------------------------------------------------
+    // 8. STUDENT PROFILE & NAVIGATION HELPERS
+    // -------------------------------------------------------------------
+    function applyStudentProfile() {
+      document.getElementById("heroStudentName").textContent = studentProfile.name || "Student";
+      document.getElementById("heroAvatar").src = studentProfile.avatar;
+      document.getElementById("heroBatchTag").textContent = `${studentProfile.batch} • Keep pushing your limits!`;
+    }
+
+    window.openProfileModal = function() {
+      document.getElementById("profNameInput").value = studentProfile.name;
+      document.getElementById("profAvatarInput").value = studentProfile.avatar;
+      document.getElementById("profBatchInput").value = studentProfile.batch;
+      document.getElementById("profileModal").classList.remove("hidden");
+    };
+    window.closeProfileModal = function() {
+      document.getElementById("profileModal").classList.add("hidden");
+    };
+
+    window.handleAvatarUpload = function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        document.getElementById("profAvatarInput").value = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.saveStudentProfile = function(e) {
+      e.preventDefault();
+      studentProfile = {
+        name: document.getElementById("profNameInput").value.trim() || "Chamindu",
+        avatar: document.getElementById("profAvatarInput").value.trim() || studentProfile.avatar,
+        batch: document.getElementById("profBatchInput").value.trim() || "2026 A/L Science Stream"
+      };
+      localStorage.setItem("chamixpro_profile", JSON.stringify(studentProfile));
+      applyStudentProfile();
+      closeProfileModal();
+      showToast("Profile updated!");
+    };
+
+    window.switchSection = function(sec) {
+      ["lessons", "study", "tasks"].forEach(s => {
+        document.getElementById(`section-${s}`).classList.toggle("hidden", s !== sec);
+        [document.getElementById(`nav-${s}`), document.getElementById(`mnav-${s}`)].forEach(btn => {
+          if (!btn) return;
+          if (s === sec) {
+            btn.classList.add("active-tab");
+            btn.classList.remove("text-slate-300", "text-slate-400");
+          } else {
+            btn.classList.remove("active-tab");
+            btn.classList.add("text-slate-300");
+          }
+        });
+      });
+      if (sec === "study") renderStudyCharts();
+      if (sec === "tasks") renderTasks();
+    };
+
+    function showToast(msg) {
+      const box = document.getElementById("toastBox");
+      document.getElementById("toastMsg").textContent = msg;
+      box.classList.remove("hidden");
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => box.classList.add("hidden"), 3000);
+    }
+
+    function escapeHtml(str) {
+      return String(str || "").replace(/[&<>"']/g, m => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[m]));
+    }
+
+    // Boot Application
+    lucide.createIcons();
+    applyStudentProfile();
+    updateStudyStatsAndCharts();
+    renderTasks();
+    initCloudListeners();
   </script>
 </body>
 </html>
