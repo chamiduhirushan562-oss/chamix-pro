@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CHAMIX PRO | A/L Science Smart Portal</title>
+  <title>CHAMIX PRO | A/L Science Smart Hub</title>
 
-  <!-- Fonts & Icons -->
+  <!-- Fonts & Libraries -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -16,9 +16,9 @@
   <style>
     :root {
       --primary: #6366f1;
-      --primary-hover: #4f46e5;
       --accent: #06b6d4;
-      --glow: rgba(99, 102, 241, 0.25);
+      --glow: rgba(99, 102, 241, 0.26);
+      --time-tint: rgba(14, 165, 233, 0.14);
     }
 
     body {
@@ -26,10 +26,11 @@
       background-color: #070b14;
       color: #f8fafc;
       background-image:
-        radial-gradient(circle at 12% 10%, var(--glow), transparent 36%),
-        radial-gradient(circle at 88% 85%, rgba(6, 182, 212, 0.14), transparent 38%);
+        radial-gradient(circle at 12% 8%, var(--glow), transparent 38%),
+        radial-gradient(circle at 88% 85%, var(--time-tint), transparent 42%);
       background-attachment: fixed;
       overflow-x: hidden;
+      transition: background-image 0.6s ease;
     }
 
     .font-mono-num {
@@ -37,16 +38,16 @@
     }
 
     .glass {
-      background: rgba(15, 23, 42, 0.72);
+      background: rgba(15, 23, 42, 0.78);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(148, 163, 184, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.13);
     }
 
     .glass-card {
-      background: linear-gradient(145deg, rgba(22, 33, 56, 0.82), rgba(11, 17, 32, 0.88));
+      background: linear-gradient(145deg, rgba(22, 33, 56, 0.85), rgba(11, 17, 32, 0.92));
       backdrop-filter: blur(16px);
-      border: 1px solid rgba(148, 163, 184, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.13);
       transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
@@ -58,7 +59,7 @@
     /* Highlighted Watched Video Card */
     .video-card.watched-card {
       border-color: #10b981 !important;
-      background: linear-gradient(145deg, rgba(16, 185, 129, 0.18), rgba(11, 27, 34, 0.92)) !important;
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.2), rgba(11, 27, 34, 0.94)) !important;
       box-shadow: 0 10px 28px -8px rgba(16, 185, 129, 0.35);
     }
 
@@ -95,7 +96,7 @@
       border-radius: 999px;
       font-size: 13px;
       font-weight: 700;
-      background: rgba(15, 23, 42, 0.88);
+      background: rgba(15, 23, 42, 0.9);
       color: #e2e8f0;
       border: 1px solid rgba(148, 163, 184, 0.22);
       cursor: pointer;
@@ -114,23 +115,7 @@
       box-shadow: 0 6px 18px -4px var(--glow);
     }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #070b14;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--primary);
-    }
-
-    /* Fullscreen container styles */
+    /* Fullscreen inline player */
     .inline-player-box:fullscreen {
       background: #000;
       display: flex;
@@ -143,31 +128,87 @@
       height: 92vh;
     }
 
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #070b14; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
     @keyframes pulseGlow {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.65; transform: scale(1.12); }
     }
-    .live-dot {
-      animation: pulseGlow 1.8s infinite ease-in-out;
-    }
+    .live-dot { animation: pulseGlow 1.8s infinite ease-in-out; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- TOP NAVIGATION BAR -->
+  <!-- ===================================================================== -->
+  <!-- SIDE NAVIGATION DRAWER                                                -->
+  <!-- ===================================================================== -->
+  <div id="sideMenuBackdrop" onclick="closeSideMenu()" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs"></div>
+  <aside id="sideMenuDrawer" class="fixed top-0 left-0 bottom-0 z-50 w-72 glass border-r border-slate-800 transform -translate-x-full transition-transform duration-300 flex flex-col justify-between p-5">
+    <div class="space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl btn-primary flex items-center justify-center font-extrabold text-base">C</div>
+          <div>
+            <div id="drawerBrandTitle" class="font-extrabold text-white text-base">CHAMIX PRO</div>
+            <div class="text-[11px] text-slate-400">A/L Science LMS</div>
+          </div>
+        </div>
+        <button onclick="closeSideMenu()" class="p-1.5 rounded-lg bg-slate-800/80 text-slate-300 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <nav class="space-y-1.5">
+        <button onclick="switchSection('lessons'); closeSideMenu();" id="snav-lessons" class="nav-btn active-tab w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
+          <i data-lucide="play-circle" class="w-4 h-4"></i> Class Recordings & PDFs
+        </button>
+        <button onclick="switchSection('study'); closeSideMenu();" id="snav-study" class="nav-btn text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Study Time & Charts
+        </button>
+        <button onclick="switchSection('tasks'); closeSideMenu();" id="snav-tasks" class="nav-btn text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
+          <i data-lucide="check-square" class="w-4 h-4"></i> Daily Task Planner
+        </button>
+        <button onclick="openProfileModal(); closeSideMenu();" class="text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
+          <i data-lucide="user-cog" class="w-4 h-4 text-sky-400"></i> Student Profile
+        </button>
+        <button onclick="openAdminGate(); closeSideMenu();" class="text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> Admin Studio
+        </button>
+      </nav>
+    </div>
+
+    <!-- WhatsApp Contact Card inside Side Menu -->
+    <div class="space-y-3 border-t border-slate-800 pt-4">
+      <a id="sideWhatsappLink" href="https://wa.me/94700000000?text=Hi%20CHAMIX%20PRO%20Admin!" target="_blank" rel="noopener noreferrer"
+        class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-lg transition">
+        <i data-lucide="message-circle" class="w-4 h-4"></i> Contact CHAMIX on WhatsApp
+      </a>
+      <p class="text-[11px] text-center text-slate-500">Powered by CHAMIX PRO • 2026</p>
+    </div>
+  </aside>
+
+  <!-- ===================================================================== -->
+  <!-- TOP NAVIGATION BAR                                                    -->
+  <!-- ===================================================================== -->
   <header class="sticky top-0 z-40 glass border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-      <!-- Brand -->
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl btn-primary flex items-center justify-center font-extrabold text-lg tracking-tight shadow-lg">
+      <!-- Left: Hamburger Menu + Brand -->
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <button onclick="openSideMenu()" title="Open Menu" class="p-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-slate-200 hover:text-white hover:border-indigo-500 transition">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl btn-primary flex items-center justify-center font-extrabold text-base sm:text-lg tracking-tight shadow-lg">
           C
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 id="brandTitle" class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+            <h1 id="brandTitle" class="text-base sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
               CHAMIX PRO
             </h1>
-            <span id="syncBadge" class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <span id="syncBadge" class="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span>
               LIVE SYNC
             </span>
@@ -176,33 +217,37 @@
         </div>
       </div>
 
-      <!-- Navigation Pills (Desktop) -->
+      <!-- Center: Desktop Navigation Pills -->
       <nav class="hidden md:flex items-center gap-1.5 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
         <button onclick="switchSection('lessons')" id="nav-lessons" class="nav-btn active-tab px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
           <i data-lucide="play-circle" class="w-4 h-4"></i> Lessons
         </button>
         <button onclick="switchSection('study')" id="nav-study" class="nav-btn text-slate-300 hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
-          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Study Tracker
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Study Time
         </button>
         <button onclick="switchSection('tasks')" id="nav-tasks" class="nav-btn text-slate-300 hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
-          <i data-lucide="check-square" class="w-4 h-4"></i> Task Lists
+          <i data-lucide="check-square" class="w-4 h-4"></i> Tasks
         </button>
       </nav>
 
-      <!-- Action Buttons -->
-      <div class="flex items-center gap-2">
-        <button onclick="openProfileModal()" class="glass hover:border-slate-600 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2 transition">
+      <!-- Right: WhatsApp, Profile & Admin -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <a id="headerWhatsappLink" href="https://wa.me/94700000000?text=Hi%20CHAMIX%20PRO!" target="_blank" rel="noopener noreferrer" title="WhatsApp Support"
+          class="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500 hover:text-white transition">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+        </a>
+        <button onclick="openProfileModal()" class="glass hover:border-slate-600 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-1.5 transition">
           <i data-lucide="user-cog" class="w-4 h-4 text-sky-400"></i>
           <span class="hidden sm:inline">Profile</span>
         </button>
-        <button onclick="openAdminGate()" class="btn-primary px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5">
+        <button onclick="openAdminGate()" class="btn-primary px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5">
           <i data-lucide="shield-check" class="w-4 h-4"></i>
           <span>Admin</span>
         </button>
       </div>
     </div>
 
-    <!-- Mobile Bottom-Style Sub Nav -->
+    <!-- Mobile Sub Nav -->
     <div class="md:hidden grid grid-cols-3 gap-1 p-1.5 bg-slate-950/90 border-t border-slate-800/80">
       <button onclick="switchSection('lessons')" id="mnav-lessons" class="nav-btn active-tab py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
         <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Lessons
@@ -216,14 +261,16 @@
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
+  <!-- ===================================================================== -->
+  <!-- MAIN CONTAINER                                                        -->
+  <!-- ===================================================================== -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-    <!-- 1. HERO GREETING BANNER (Profile Pic + Name + Live Time + Emoji Greeting) -->
+    <!-- 1. HERO GREETING BANNER + QUICK SUMMARY WIDGETS -->
     <section class="glass-card rounded-3xl p-5 sm:p-7 relative overflow-hidden">
-      <div class="absolute -right-12 -top-12 w-56 h-56 rounded-full opacity-20 blur-3xl pointer-events-none" style="background: var(--primary);"></div>
+      <div class="absolute -right-12 -top-12 w-56 h-56 rounded-full opacity-25 blur-3xl pointer-events-none" style="background: var(--primary);"></div>
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <!-- Student Profile & Greeting -->
+        <!-- Student Profile & Time-Based Emoji Greeting -->
         <div class="flex items-center gap-4 sm:gap-5">
           <div class="relative shrink-0">
             <img id="heroAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Chamindu&backgroundColor=b6e3f4" alt="Student Avatar"
@@ -244,43 +291,74 @@
           </div>
         </div>
 
-        <!-- Live Digital Clock & Quick Stats -->
-        <div class="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4">
-          <div class="glass rounded-2xl px-5 py-3.5 border border-slate-700/60 flex-1 sm:flex-initial min-w-[195px]">
-            <div class="flex items-center gap-2 text-xs text-slate-400 font-medium mb-0.5">
-              <i data-lucide="clock" class="w-3.5 h-3.5 text-sky-400"></i>
-              <span id="liveDateText">Thursday, Nov 19, 2026</span>
-            </div>
-            <div id="liveClockText" class="font-mono-num text-2xl sm:text-3xl font-extrabold text-white tracking-wider">
-              00:00:00 AM
-            </div>
+        <!-- Live Digital Clock -->
+        <div class="glass rounded-2xl px-5 py-3.5 border border-slate-700/60 self-start lg:self-auto min-w-[205px]">
+          <div class="flex items-center gap-2 text-xs text-slate-400 font-medium mb-0.5">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-sky-400"></i>
+            <span id="liveDateText">Thursday, Nov 19, 2026</span>
           </div>
+          <div id="liveClockText" class="font-mono-num text-2xl sm:text-3xl font-extrabold text-white tracking-wider">
+            00:00:00 AM
+          </div>
+        </div>
+      </div>
 
-          <div class="glass rounded-2xl px-4 py-3.5 border border-slate-700/60 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center">
-              <i data-lucide="flame" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <div class="text-[11px] text-slate-400 uppercase font-semibold">Today's Study</div>
-              <div id="heroTodayStudy" class="font-mono-num text-lg font-extrabold text-emerald-400">0h 0m</div>
-            </div>
+      <!-- QUICK SUMMARY WIDGET ROW -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-800/70">
+        <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/75 hover:border-emerald-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
+            <i data-lucide="flame" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase">Today's Study</div>
+            <div id="heroTodayStudy" class="font-mono-num text-base sm:text-lg font-extrabold text-emerald-400">0h 0m</div>
+          </div>
+        </div>
+
+        <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/75 hover:border-sky-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center shrink-0">
+            <i data-lucide="calendar-days" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase">Weekly Total</div>
+            <div id="widgetWeeklyTotal" class="font-mono-num text-base sm:text-lg font-extrabold text-sky-300">0.0 hrs</div>
+          </div>
+        </div>
+
+        <div onclick="switchSection('lessons')" class="cursor-pointer bg-slate-900/75 hover:border-indigo-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center shrink-0">
+            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase">Watched Lessons</div>
+            <div id="widgetWatchedCount" class="font-mono-num text-base sm:text-lg font-extrabold text-indigo-300">0 Videos</div>
+          </div>
+        </div>
+
+        <div onclick="switchSection('tasks')" class="cursor-pointer bg-slate-900/75 hover:border-amber-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0">
+            <i data-lucide="list-checks" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase">Tasks Done</div>
+            <div id="widgetTasksSummary" class="font-mono-num text-base sm:text-lg font-extrabold text-amber-300">0% (0/0)</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ===================================================================== -->
-    <!-- SECTION A: LESSONS, TOPIC PILLS & TOUCH-TO-PLAY CARDS                 -->
+    <!-- SECTION A: LESSONS (1. SUBJECT -> 2. YEAR -> 3. MONTH -> TOPIC CARDS) -->
     <!-- ===================================================================== -->
     <div id="section-lessons" class="space-y-6">
 
-      <!-- 2. FILTER BAR ORDER: 1. SUBJECT (3 ONLY) -> 2. YEAR -> 3. MONTH -->
+      <!-- FILTER BAR: 1. SUBJECT (3 ONLY) -> 2. YEAR -> 3. MONTH -->
       <section class="glass-card rounded-2xl p-4 sm:p-5">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <!-- 1. Subject Filter (Physics, Chem, Bio only) -->
           <div>
             <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-              1. Subject Filter
+              1. Subject
             </label>
             <div class="grid grid-cols-3 gap-1.5 bg-slate-900/90 p-1 rounded-xl border border-slate-700">
               <button type="button" onclick="setSubjectFilter('Physics')" data-subj="Physics" class="subj-pill active-tab py-1.5 rounded-lg text-xs font-bold transition">Physics</button>
@@ -289,7 +367,7 @@
             </div>
           </div>
 
-          <!-- 2. Year Selector -->
+          <!-- 2. Exam Year -->
           <div>
             <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
               2. Exam Year (Batch)
@@ -302,7 +380,7 @@
             </select>
           </div>
 
-          <!-- 3. Month Selector -->
+          <!-- 3. Select Month -->
           <div>
             <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
               3. Select Month
@@ -340,7 +418,7 @@
         </div>
       </section>
 
-      <!-- VIDEOS GRID (Clean Cards Only without Thumbnails; Touch Card to Open Player; Tick to Highlight Watched) -->
+      <!-- VIDEOS GRID (Clean Cards Only - No Thumbnails; Touch Card to Open Player; Tick to Highlight Watched) -->
       <section class="space-y-3">
         <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
           <div>
@@ -351,24 +429,24 @@
         </div>
 
         <div id="topicVideosGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- Clean video cards injected here -->
+          <!-- Clean Day 01 cards injected here -->
         </div>
       </section>
     </div>
 
     <!-- ===================================================================== -->
-    <!-- SECTION B: DAILY & WEEKLY (7-DAY) STUDY TIME CHARTS                   -->
+    <!-- SECTION B: STUDY TIME TRACKER (DAILY + WEEKLY + MONTHLY CHARTS)       -->
     <!-- ===================================================================== -->
     <div id="section-study" class="hidden space-y-6">
-      <!-- Add Study Time Form (Select any of the 7 days + Subject + Hours/Mins) -->
+      <!-- Log Study Time Form -->
       <section class="glass-card rounded-2xl p-5">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <div>
             <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
               <i data-lucide="timer" class="w-5 h-5 text-sky-400"></i>
-              Log Study Time (7 Days Breakdown)
+              Log Study Time (Daily, Weekly & Monthly)
             </h3>
-            <p class="text-xs text-slate-400">සතියේ දවස් 7ටම Physics, Chemistry, Biology වෙන වෙනම study time එකතු කරන්න.</p>
+            <p class="text-xs text-slate-400">Physics, Chemistry, Biology වෙන වෙනම study time එකතු කරන්න. Daily, Weekly සහ Monthly charts ස්වයංක්‍රීයව update වේ.</p>
           </div>
           <button onclick="resetWeeklyStudy()" class="text-xs text-rose-400 hover:text-rose-300 font-semibold self-start sm:self-auto">
             Reset Week Data
@@ -417,18 +495,18 @@
           </div>
         </form>
 
-        <!-- Summary Cards (Physics, Chemistry, Biology, Weekly Total) -->
+        <!-- Summary Cards -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
           <div class="bg-slate-900/80 border border-indigo-500/30 rounded-xl p-3.5">
-            <div class="text-xs text-indigo-300 font-semibold">Physics Total</div>
+            <div class="text-xs text-indigo-300 font-semibold">Physics Total (Week)</div>
             <div id="statPhysicsTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
           </div>
           <div class="bg-slate-900/80 border border-cyan-500/30 rounded-xl p-3.5">
-            <div class="text-xs text-cyan-300 font-semibold">Chemistry Total</div>
+            <div class="text-xs text-cyan-300 font-semibold">Chemistry Total (Week)</div>
             <div id="statChemTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
           </div>
           <div class="bg-slate-900/80 border border-emerald-500/30 rounded-xl p-3.5">
-            <div class="text-xs text-emerald-300 font-semibold">Biology Total</div>
+            <div class="text-xs text-emerald-300 font-semibold">Biology Total (Week)</div>
             <div id="statBioTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
           </div>
           <div class="bg-gradient-to-r from-indigo-600/30 to-cyan-600/30 border border-sky-400/40 rounded-xl p-3.5">
@@ -438,9 +516,8 @@
         </div>
       </section>
 
-      <!-- Charts Grid: Daily Subject Breakdown + 7-Day Weekly Chart -->
+      <!-- Daily & Weekly Charts -->
       <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Daily Chart (Selected Day Breakdown + Total) -->
         <div class="lg:col-span-5 glass-card rounded-2xl p-5 space-y-3">
           <div class="flex items-center justify-between">
             <h4 class="text-base font-bold text-white">Daily Subject Breakdown</h4>
@@ -459,15 +536,28 @@
           </div>
         </div>
 
-        <!-- Weekly 7-Day Chart (3 Subjects + Total Line) -->
         <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-3">
           <div class="flex items-center justify-between">
-            <h4 class="text-base font-bold text-white">Weekly 7-Day Study Chart (Subjects + Total)</h4>
+            <h4 class="text-base font-bold text-white">Weekly 7-Day Study Chart</h4>
             <span class="text-xs text-slate-400">Hours per day</span>
           </div>
           <div class="h-64">
             <canvas id="weeklyStudyChart"></canvas>
           </div>
+        </div>
+      </section>
+
+      <!-- Monthly Subject-Wise Progress Chart -->
+      <section class="glass-card rounded-2xl p-5 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h4 class="text-base font-bold text-white">Monthly Subject-Wise Study Progress</h4>
+            <p class="text-xs text-slate-400">මුළු මාසය පුරාම Physics, Chemistry, Biology විෂයන් 3ට වැය කළ පැය ගණන</p>
+          </div>
+          <span id="monthlyTotalBadge" class="text-xs font-bold px-3 py-1 rounded-lg badge-primary">Month Total: 0.0 hrs</span>
+        </div>
+        <div class="h-64">
+          <canvas id="monthlyStudyChart"></canvas>
         </div>
       </section>
     </div>
@@ -477,7 +567,7 @@
     <!-- ===================================================================== -->
     <div id="section-tasks" class="hidden space-y-6">
 
-      <!-- Celebration Banner (Shown automatically when 100% tasks are completed) -->
+      <!-- Celebration Banner (100% Completed) -->
       <div id="allTasksCelebration" class="hidden rounded-2xl p-5 bg-gradient-to-r from-emerald-600/30 via-teal-500/25 to-cyan-600/30 border border-emerald-400/50 shadow-xl">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div class="flex items-center gap-4">
@@ -497,7 +587,7 @@
         </div>
       </div>
 
-      <!-- Top Row: Add Task + Overall Task Progress Chart -->
+      <!-- Add Task + Overall Task Progress Chart -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-8 glass-card rounded-2xl p-5 flex flex-col justify-between">
           <div>
@@ -541,36 +631,27 @@
         </div>
       </div>
 
-      <!-- 3 Separate Subject Columns: Biology, Physics, Chemistry -->
+      <!-- 3 Separate Subject Columns -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <!-- Biology Column -->
         <div class="glass-card rounded-2xl p-4 space-y-3 border-t-4 border-t-emerald-500">
           <div class="flex items-center justify-between">
-            <h4 class="font-extrabold text-emerald-400 flex items-center gap-2">
-              <span>🧬</span> Biology Tasks
-            </h4>
+            <h4 class="font-extrabold text-emerald-400 flex items-center gap-2"><span>🧬</span> Biology Tasks</h4>
             <span id="count-Biology" class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300">0/0</span>
           </div>
           <div id="list-Biology" class="space-y-2 min-h-[140px]"></div>
         </div>
 
-        <!-- Physics Column -->
         <div class="glass-card rounded-2xl p-4 space-y-3 border-t-4 border-t-indigo-500">
           <div class="flex items-center justify-between">
-            <h4 class="font-extrabold text-indigo-400 flex items-center gap-2">
-              <span>⚡</span> Physics Tasks
-            </h4>
+            <h4 class="font-extrabold text-indigo-400 flex items-center gap-2"><span>⚡</span> Physics Tasks</h4>
             <span id="count-Physics" class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-300">0/0</span>
           </div>
           <div id="list-Physics" class="space-y-2 min-h-[140px]"></div>
         </div>
 
-        <!-- Chemistry Column -->
         <div class="glass-card rounded-2xl p-4 space-y-3 border-t-4 border-t-cyan-500">
           <div class="flex items-center justify-between">
-            <h4 class="font-extrabold text-cyan-400 flex items-center gap-2">
-              <span>🧪</span> Chemistry Tasks
-            </h4>
+            <h4 class="font-extrabold text-cyan-400 flex items-center gap-2"><span>🧪</span> Chemistry Tasks</h4>
             <span id="count-Chemistry" class="text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300">0/0</span>
           </div>
           <div id="list-Chemistry" class="space-y-2 min-h-[140px]"></div>
@@ -635,7 +716,7 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- ADMIN STUDIO MODAL (TOPICS CRUD + LINKS CRUD + 10 MODERN THEMES)      -->
+  <!-- ADMIN STUDIO MODAL (TOPICS + LINKS/PDFs + 15 THEMES + STUDENTS)       -->
   <!-- ===================================================================== -->
   <div id="adminStudioModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-3 sm:p-6">
     <div class="max-w-5xl mx-auto glass-card rounded-3xl p-5 sm:p-7 space-y-6 my-4">
@@ -654,13 +735,16 @@
       <!-- Admin Sub-Tabs -->
       <div class="flex flex-wrap gap-2">
         <button onclick="switchAdminTab('topics')" id="atab-topics" class="admin-tab-btn active-tab px-4 py-2 rounded-xl text-xs font-bold">
-          1. Manage Topics (Add/Edit/Delete)
+          1. Manage Topics
         </button>
         <button onclick="switchAdminTab('links')" id="atab-links" class="admin-tab-btn bg-slate-900 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold">
-          2. Manage Video Links & PDFs
+          2. Video Links & PDFs
         </button>
         <button onclick="switchAdminTab('themes')" id="atab-themes" class="admin-tab-btn bg-slate-900 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold">
-          3. 10 Modern Themes & Settings
+          3. 15 Themes & Settings
+        </button>
+        <button onclick="switchAdminTab('students')" id="atab-students" class="admin-tab-btn bg-slate-900 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold">
+          4. Students Activity
         </button>
       </div>
 
@@ -718,14 +802,13 @@
           </button>
         </form>
 
-        <!-- Existing Topics Table -->
         <div class="space-y-2">
           <h4 class="text-sm font-bold text-slate-300">All Cloud Topics</h4>
           <div id="adminTopicsList" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
         </div>
       </div>
 
-      <!-- ADMIN TAB 2: MANAGE LINKS (MATCHED TO SUBJECT + YEAR + MONTH -> TOPIC) -->
+      <!-- ADMIN TAB 2: MANAGE LINKS & PDFs -->
       <div id="admin-pane-links" class="hidden space-y-5">
         <form onsubmit="saveVideoAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
           <div class="flex items-center justify-between">
@@ -734,7 +817,6 @@
           </div>
           <input type="hidden" id="editVideoId" />
 
-          <!-- Step 1: Select Subject, Year & Month to filter matching Topics -->
           <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
             <div>
               <label class="block text-xs text-slate-400 mb-1">1. Subject</label>
@@ -778,7 +860,6 @@
             </div>
           </div>
 
-          <!-- Step 2: Video Title, YouTube URL, Optional PDF URL -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label class="block text-xs text-slate-400 mb-1">Lesson / Recording Title</label>
@@ -802,29 +883,40 @@
           </button>
         </form>
 
-        <!-- Existing Links List -->
         <div class="space-y-2">
           <h4 class="text-sm font-bold text-slate-300">All Published Recordings</h4>
           <div id="adminVideosList" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
         </div>
       </div>
 
-      <!-- ADMIN TAB 3: 10 MODERN THEMES & GLOBAL SETTINGS -->
+      <!-- ADMIN TAB 3: 15 THEMES & GLOBAL SETTINGS -->
       <div id="admin-pane-themes" class="hidden space-y-5">
         <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
-          <h4 class="text-sm font-extrabold text-white">Select Live Site Theme (10 Modern Colors)</h4>
-          <p class="text-xs text-slate-400">ඔයා තෝරන Theme color එක සියලුම සිසුන්ගේ interface එකට සජීවීව apply වේ.</p>
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h4 class="text-sm font-extrabold text-white">Select Live Site Theme (15 Colors)</h4>
+              <p class="text-xs text-slate-400">ඔයා තෝරන Theme color එක සියලුම සිසුන්ගේ interface එකට සජීවීව apply වේ.</p>
+            </div>
+            <label class="flex items-center gap-2 text-xs font-bold text-sky-300 bg-slate-950 px-3 py-2 rounded-xl border border-slate-800 cursor-pointer">
+              <input type="checkbox" id="dynamicTimeModeCheckbox" checked onchange="toggleDynamicTimeMode()" class="accent-sky-500" />
+              <span>Time-Based Dynamic Glow</span>
+            </label>
+          </div>
           <div id="themeSwatchesGrid" class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            <!-- 10 Modern Color Themes injected via JS -->
+            <!-- 15 Color Themes injected via JS -->
           </div>
         </div>
 
         <form onsubmit="saveSiteSettingsAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
-          <h4 class="text-sm font-extrabold text-white">Site Branding & Admin Password</h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <h4 class="text-sm font-extrabold text-white">Site Branding, WhatsApp & Admin Password</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label class="block text-xs text-slate-400 mb-1">Website Title</label>
               <input type="text" id="adminSiteNameInput" value="CHAMIX PRO" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">WhatsApp Number (947XXXXXXXX)</label>
+              <input type="text" id="adminWhatsappInput" value="94700000000" placeholder="94771234567" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
             </div>
             <div>
               <label class="block text-xs text-slate-400 mb-1">Admin Password</label>
@@ -833,6 +925,20 @@
           </div>
           <button type="submit" class="btn-primary px-5 py-2 rounded-xl text-xs font-bold">Save Global Settings</button>
         </form>
+      </div>
+
+      <!-- ADMIN TAB 4: STUDENTS ACTIVITY OVERVIEW -->
+      <div id="admin-pane-students" class="hidden space-y-4">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-sm font-extrabold text-white">Active Students Progress (Live Cloud Sync)</h4>
+              <p class="text-xs text-slate-400">Portal එක භාවිතා කරන සිසුන්ගේ Watched videos, Study hours සහ Task progress මෙහි දිස්වේ.</p>
+            </div>
+            <span id="adminStudentsCount" class="text-xs font-bold px-2.5 py-1 rounded-lg badge-primary">0 Students</span>
+          </div>
+          <div id="adminStudentsList" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-80 overflow-y-auto pr-1"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -867,8 +973,8 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 10 Modern Color Themes
-    const MODERN_THEMES = [
+    // 15 Theme Color Options
+    const THEME_OPTIONS = [
       { id: "indigo-cyan", name: "Cyber Indigo", primary: "#6366f1", accent: "#06b6d4", glow: "rgba(99, 102, 241, 0.28)" },
       { id: "emerald-teal", name: "Emerald Pulse", primary: "#10b981", accent: "#14b8a6", glow: "rgba(16, 185, 129, 0.28)" },
       { id: "violet-pink", name: "Nebula Violet", primary: "#8b5cf6", accent: "#ec4899", glow: "rgba(139, 92, 246, 0.28)" },
@@ -878,23 +984,37 @@
       { id: "fuchsia-purple", name: "Neon Orchid", primary: "#d946ef", accent: "#9333ea", glow: "rgba(217, 70, 239, 0.28)" },
       { id: "lime-emerald", name: "Matrix Lime", primary: "#84cc16", accent: "#10b981", glow: "rgba(132, 204, 22, 0.28)" },
       { id: "crimson-rose", name: "Crimson Pro", primary: "#dc2626", accent: "#fb7185", glow: "rgba(220, 38, 38, 0.28)" },
-      { id: "slate-ice", name: "Arctic Silver", primary: "#38bdf8", accent: "#94a3b8", glow: "rgba(56, 189, 248, 0.28)" }
+      { id: "slate-ice", name: "Arctic Silver", primary: "#38bdf8", accent: "#94a3b8", glow: "rgba(56, 189, 248, 0.28)" },
+      { id: "teal-cyan", name: "Oceanic Teal", primary: "#0d9488", accent: "#06b6d4", glow: "rgba(13, 148, 136, 0.28)" },
+      { id: "orange-amber", name: "Sunset Blaze", primary: "#ea580c", accent: "#f59e0b", glow: "rgba(234, 88, 12, 0.28)" },
+      { id: "purple-indigo", name: "Deep Cosmos", primary: "#7c3aed", accent: "#4f46e5", glow: "rgba(124, 58, 237, 0.28)" },
+      { id: "pink-rose", name: "Sakura Glow", primary: "#db2777", accent: "#f43f5e", glow: "rgba(219, 39, 119, 0.28)" },
+      { id: "mint-green", name: "Mint Aurora", primary: "#059669", accent: "#34d399", glow: "rgba(5, 150, 105, 0.28)" }
     ];
 
-    // Application State
+    // Cloud State
     let cloudTopics = [];
     let cloudVideos = [];
+    let cloudStudents = [];
     let siteSettings = {
       siteName: "CHAMIX PRO",
       themeId: "indigo-cyan",
-      adminPass: "chamix123"
+      adminPass: "chamix123",
+      whatsapp: "94700000000",
+      dynamicTimeMode: true
     };
 
     let selectedSubjectFilter = "Physics";
     let selectedTopicId = null;
     let activeInlineVideoId = null;
 
-    // Student Personal Local State
+    // Student Local State
+    let studentDeviceId = localStorage.getItem("chamixpro_device_id");
+    if (!studentDeviceId) {
+      studentDeviceId = "stu_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7);
+      localStorage.setItem("chamixpro_device_id", studentDeviceId);
+    }
+
     let watchedIds = JSON.parse(localStorage.getItem("chamixpro_watched") || "[]");
     let studentProfile = JSON.parse(localStorage.getItem("chamixpro_profile") || JSON.stringify({
       name: "Chamindu",
@@ -913,34 +1033,50 @@
       Sun: { Physics: 0, Chemistry: 0, Biology: 0 }
     }));
 
+    let monthlyStudy = JSON.parse(localStorage.getItem("chamixpro_study_month") || JSON.stringify({
+      Physics: 0, Chemistry: 0, Biology: 0
+    }));
+
     let studentTasks = JSON.parse(localStorage.getItem("chamixpro_tasks") || "[]");
 
-    // Charts instances
+    // Charts
     let dailyChartInstance = null;
     let weeklyChartInstance = null;
+    let monthlyChartInstance = null;
     let taskChartInstance = null;
 
     // -------------------------------------------------------------------
-    // 1. LIVE CLOCK & EMOJI GREETING
+    // 1. LIVE CLOCK + TIME-BASED GREETINGS & DYNAMIC UI TINT
     // -------------------------------------------------------------------
     function updateClockAndGreeting() {
       const now = new Date();
       const hrs = now.getHours();
       let greeting = "Good Morning!";
       let emoji = "☀️";
+      let timeTint = "rgba(250, 204, 21, 0.14)";
 
       if (hrs >= 5 && hrs < 12) {
         greeting = "Good Morning!";
         emoji = "☀️";
+        timeTint = "rgba(250, 204, 21, 0.14)";
       } else if (hrs >= 12 && hrs < 17) {
         greeting = "Good Afternoon!";
         emoji = "🌤️";
+        timeTint = "rgba(14, 165, 233, 0.15)";
       } else if (hrs >= 17 && hrs < 21) {
         greeting = "Good Evening!";
         emoji = "🌅";
+        timeTint = "rgba(249, 115, 22, 0.15)";
       } else {
         greeting = "Good Night! Keep Studying!";
         emoji = "🌙";
+        timeTint = "rgba(139, 92, 246, 0.16)";
+      }
+
+      if (siteSettings.dynamicTimeMode !== false) {
+        document.documentElement.style.setProperty("--time-tint", timeTint);
+      } else {
+        document.documentElement.style.setProperty("--time-tint", "rgba(6, 182, 212, 0.12)");
       }
 
       document.getElementById("greetingText").textContent = greeting;
@@ -960,7 +1096,7 @@
     document.getElementById("dailyChartDaySelect").value = todayShort;
 
     // -------------------------------------------------------------------
-    // 2. FIREBASE REAL-TIME LISTENERS (SYNC ACROSS ALL STUDENTS)
+    // 2. FIREBASE REAL-TIME LISTENERS
     // -------------------------------------------------------------------
     function initCloudListeners() {
       onSnapshot(doc(db, "chamix_pro_meta", "settings"), (snap) => {
@@ -969,10 +1105,7 @@
         }
         applyThemeAndBranding();
         renderThemeSwatches();
-      }, (err) => {
-        console.warn("Firestore settings sync warning:", err);
-        setSyncOffline();
-      });
+      }, () => setSyncOffline());
 
       onSnapshot(query(collection(db, "chamix_pro_topics"), orderBy("createdAt", "asc")), (snapshot) => {
         cloudTopics = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -980,44 +1113,78 @@
         renderTopicsAndVideos();
         renderAdminTopicsList();
         populateAdminLinkTopics();
-      }, (err) => {
-        console.warn("Firestore topics sync warning:", err);
-        setSyncOffline();
-      });
+      }, () => setSyncOffline());
 
       onSnapshot(query(collection(db, "chamix_pro_videos"), orderBy("createdAt", "asc")), (snapshot) => {
         cloudVideos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         renderTopicsAndVideos();
         renderAdminVideosList();
       });
+
+      onSnapshot(collection(db, "chamix_pro_students"), (snapshot) => {
+        cloudStudents = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderAdminStudentsList();
+      });
+
+      syncStudentSnapshotToCloud();
+    }
+
+    async function syncStudentSnapshotToCloud() {
+      try {
+        const totHrs = +(
+          DAYS.reduce((acc, d) => acc + (weeklyStudy[d].Physics || 0) + (weeklyStudy[d].Chemistry || 0) + (weeklyStudy[d].Biology || 0), 0)
+        ).toFixed(1);
+        const doneTasks = studentTasks.filter(t => t.done).length;
+        await setDoc(doc(db, "chamix_pro_students", studentDeviceId), {
+          name: studentProfile.name,
+          batch: studentProfile.batch,
+          watchedCount: watchedIds.length,
+          weeklyHours: totHrs,
+          tasksSummary: `${doneTasks}/${studentTasks.length}`,
+          lastActive: Date.now()
+        }, { merge: true });
+      } catch (e) {
+        // Silent fail if offline
+      }
     }
 
     function setSyncOnline() {
       const badge = document.getElementById("syncBadge");
-      badge.className = "inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
+      badge.className = "inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
       badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span> LIVE SYNC`;
     }
 
     function setSyncOffline() {
       const badge = document.getElementById("syncBadge");
-      badge.className = "inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30";
+      badge.className = "inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30";
       badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> CHECK FIRESTORE`;
     }
 
     function applyThemeAndBranding() {
-      const theme = MODERN_THEMES.find(t => t.id === siteSettings.themeId) || MODERN_THEMES[0];
+      const theme = THEME_OPTIONS.find(t => t.id === siteSettings.themeId) || THEME_OPTIONS[0];
       document.documentElement.style.setProperty("--primary", theme.primary);
       document.documentElement.style.setProperty("--accent", theme.accent);
       document.documentElement.style.setProperty("--glow", theme.glow);
 
-      document.getElementById("brandTitle").textContent = siteSettings.siteName || "CHAMIX PRO";
-      document.title = `${siteSettings.siteName || "CHAMIX PRO"} | A/L Science Smart Portal`;
-      document.getElementById("adminSiteNameInput").value = siteSettings.siteName || "CHAMIX PRO";
+      const brand = siteSettings.siteName || "CHAMIX PRO";
+      document.getElementById("brandTitle").textContent = brand;
+      document.getElementById("drawerBrandTitle").textContent = brand;
+      document.title = `${brand} | A/L Science Smart Hub`;
+
+      const waNum = (siteSettings.whatsapp || "94700000000").replace(/[^0-9]/g, "");
+      const waUrl = `https://wa.me/${waNum}?text=${encodeURIComponent("Hi " + brand + "!")}`;
+      document.getElementById("headerWhatsappLink").href = waUrl;
+      document.getElementById("sideWhatsappLink").href = waUrl;
+
+      document.getElementById("adminSiteNameInput").value = brand;
+      document.getElementById("adminWhatsappInput").value = waNum;
       document.getElementById("adminNewPassInput").value = siteSettings.adminPass || "chamix123";
+      document.getElementById("dynamicTimeModeCheckbox").checked = siteSettings.dynamicTimeMode !== false;
+      updateClockAndGreeting();
     }
 
     // -------------------------------------------------------------------
-    // 3. BULLETPROOF YOUTUBE ID EXTRACTOR & EMBED BUILDER
+    // 3. YOUTUBE ID EXTRACTOR & EMBED BUILDER
     // -------------------------------------------------------------------
     function extractYouTubeId(url) {
       if (!url) return null;
@@ -1070,6 +1237,7 @@
       const year = document.getElementById("filterYear").value;
       const month = document.getElementById("filterMonth").value;
       document.getElementById("selectedPeriodLabel").textContent = `${selectedSubjectFilter} • ${year} • ${month}`;
+      document.getElementById("widgetWatchedCount").textContent = `${watchedIds.length} Videos`;
 
       const filteredTopics = cloudTopics.filter(t =>
         t.subject === selectedSubjectFilter &&
@@ -1206,7 +1374,7 @@
                 }
                 ${vid.pdfUrl && vid.pdfUrl.trim() !== ""
                   ? `<a href="${escapeHtml(vid.pdfUrl.trim())}" target="_blank" rel="noopener noreferrer"
-                       class="p-2 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/35 hover:bg-rose-500 hover:text-white transition" title="Open PDF">
+                       class="p-2 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/35 hover:bg-rose-500 hover:text-white transition" title="Open PDF Notes">
                        <i data-lucide="file-text" class="w-4 h-4"></i>
                      </a>`
                   : ""
@@ -1232,11 +1400,8 @@
       if (!vid) return;
       const ytId = extractYouTubeId(vid.youtubeUrl);
       if (!ytId) {
-        if (vid.youtubeUrl) {
-          window.open(vid.youtubeUrl, "_blank", "noopener,noreferrer");
-        } else {
-          showToast("Invalid YouTube link!");
-        }
+        if (vid.youtubeUrl) window.open(vid.youtubeUrl, "_blank", "noopener,noreferrer");
+        else showToast("Invalid YouTube link!");
         return;
       }
       activeInlineVideoId = videoId;
@@ -1269,10 +1434,11 @@
       }
       localStorage.setItem("chamixpro_watched", JSON.stringify(watchedIds));
       renderTopicsAndVideos();
+      syncStudentSnapshotToCloud();
     };
 
     // -------------------------------------------------------------------
-    // 5. STUDY TIME TRACKER (DAILY + 7-DAY WEEKLY CHARTS)
+    // 5. STUDY TIME TRACKER (DAILY + WEEKLY + MONTHLY CHARTS)
     // -------------------------------------------------------------------
     window.addStudyEntry = function(e) {
       e.preventDefault();
@@ -1284,10 +1450,14 @@
 
       if (addedHours <= 0) return;
       weeklyStudy[day][subj] = +(weeklyStudy[day][subj] + addedHours).toFixed(2);
+      monthlyStudy[subj] = +((monthlyStudy[subj] || 0) + addedHours).toFixed(2);
+
       localStorage.setItem("chamixpro_study_week", JSON.stringify(weeklyStudy));
+      localStorage.setItem("chamixpro_study_month", JSON.stringify(monthlyStudy));
 
       document.getElementById("dailyChartDaySelect").value = day;
       updateStudyStatsAndCharts();
+      syncStudentSnapshotToCloud();
       showToast(`Added ${hrs}h ${mins}m to ${subj} (${day})`);
     };
 
@@ -1298,6 +1468,7 @@
       });
       localStorage.setItem("chamixpro_study_week", JSON.stringify(weeklyStudy));
       updateStudyStatsAndCharts();
+      syncStudentSnapshotToCloud();
       showToast("Weekly study logs reset.");
     };
 
@@ -1314,12 +1485,16 @@
       document.getElementById("statChemTotal").textContent = `${totC.toFixed(1)} hrs`;
       document.getElementById("statBioTotal").textContent = `${totB.toFixed(1)} hrs`;
       document.getElementById("statGrandTotal").textContent = `${grand.toFixed(1)} hrs`;
+      document.getElementById("widgetWeeklyTotal").textContent = `${grand.toFixed(1)} hrs`;
 
       const todayObj = weeklyStudy[todayShort] || { Physics: 0, Chemistry: 0, Biology: 0 };
       const todayHrsFloat = todayObj.Physics + todayObj.Chemistry + todayObj.Biology;
       const h = Math.floor(todayHrsFloat);
       const m = Math.round((todayHrsFloat - h) * 60);
       document.getElementById("heroTodayStudy").textContent = `${h}h ${m}m`;
+
+      const mTot = +((monthlyStudy.Physics || 0) + (monthlyStudy.Chemistry || 0) + (monthlyStudy.Biology || 0)).toFixed(1);
+      document.getElementById("monthlyTotalBadge").textContent = `Month Total: ${mTot} hrs`;
 
       renderStudyCharts();
     }
@@ -1329,6 +1504,7 @@
       const dData = weeklyStudy[selectedDay] || { Physics: 0, Chemistry: 0, Biology: 0 };
       const dTotal = +(dData.Physics + dData.Chemistry + dData.Biology).toFixed(2);
 
+      // Daily Chart
       const dailyCtx = document.getElementById("dailyStudyChart").getContext("2d");
       if (dailyChartInstance) dailyChartInstance.destroy();
       dailyChartInstance = new Chart(dailyCtx, {
@@ -1353,6 +1529,7 @@
         }
       });
 
+      // Weekly 7-Day Chart
       const pArr = DAYS.map(d => weeklyStudy[d].Physics);
       const cArr = DAYS.map(d => weeklyStudy[d].Chemistry);
       const bArr = DAYS.map(d => weeklyStudy[d].Biology);
@@ -1380,6 +1557,32 @@
           }
         }
       });
+
+      // Monthly Subject-Wise Chart
+      const monthlyCtx = document.getElementById("monthlyStudyChart").getContext("2d");
+      if (monthlyChartInstance) monthlyChartInstance.destroy();
+      monthlyChartInstance = new Chart(monthlyCtx, {
+        type: "bar",
+        data: {
+          labels: ["Physics (Month)", "Chemistry (Month)", "Biology (Month)"],
+          datasets: [{
+            label: "Monthly Hours",
+            data: [monthlyStudy.Physics || 0, monthlyStudy.Chemistry || 0, monthlyStudy.Biology || 0],
+            backgroundColor: ["#6366f1", "#06b6d4", "#10b981"],
+            borderRadius: 10
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.1)" } },
+            y: { ticks: { color: "#e2e8f0", font: { weight: "bold" } }, grid: { display: false } }
+          }
+        }
+      });
     };
 
     // -------------------------------------------------------------------
@@ -1391,33 +1594,32 @@
       const text = document.getElementById("taskTextInput").value.trim();
       if (!text) return;
 
-      studentTasks.push({
-        id: Date.now().toString(),
-        subject,
-        text,
-        done: false
-      });
+      studentTasks.push({ id: Date.now().toString(), subject, text, done: false });
       localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
       document.getElementById("taskTextInput").value = "";
       renderTasks();
+      syncStudentSnapshotToCloud();
     };
 
     window.toggleTask = function(id) {
       studentTasks = studentTasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
       localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
       renderTasks();
+      syncStudentSnapshotToCloud();
     };
 
     window.deleteTask = function(id) {
       studentTasks = studentTasks.filter(t => t.id !== id);
       localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
       renderTasks();
+      syncStudentSnapshotToCloud();
     };
 
     window.clearCompletedTasks = function() {
       studentTasks = studentTasks.filter(t => !t.done);
       localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
       renderTasks();
+      syncStudentSnapshotToCloud();
     };
 
     function renderTasks() {
@@ -1451,13 +1653,11 @@
 
       document.getElementById("taskPercentBig").textContent = `${pct}%`;
       document.getElementById("taskCountSummary").textContent = `${completed} of ${total} tasks completed`;
+      document.getElementById("widgetTasksSummary").textContent = `${pct}% (${completed}/${total})`;
 
       const celebEl = document.getElementById("allTasksCelebration");
-      if (total > 0 && completed === total) {
-        celebEl.classList.remove("hidden");
-      } else {
-        celebEl.classList.add("hidden");
-      }
+      if (total > 0 && completed === total) celebEl.classList.remove("hidden");
+      else celebEl.classList.add("hidden");
 
       const ctx = document.getElementById("taskProgressChart").getContext("2d");
       if (taskChartInstance) taskChartInstance.destroy();
@@ -1481,7 +1681,7 @@
     }
 
     // -------------------------------------------------------------------
-    // 7. ADMIN STUDIO (TOPICS CRUD + LINKS CRUD + 10 THEMES)
+    // 7. ADMIN STUDIO (TOPICS + LINKS + 15 THEMES + STUDENTS OVERVIEW)
     // -------------------------------------------------------------------
     window.openAdminGate = function() {
       document.getElementById("adminPassError").classList.add("hidden");
@@ -1500,6 +1700,7 @@
         document.getElementById("adminStudioModal").classList.remove("hidden");
         populateAdminLinkTopics();
         renderThemeSwatches();
+        renderAdminStudentsList();
       } else {
         document.getElementById("adminPassError").classList.remove("hidden");
       }
@@ -1510,7 +1711,7 @@
     };
 
     window.switchAdminTab = function(tab) {
-      ["topics", "links", "themes"].forEach(t => {
+      ["topics", "links", "themes", "students"].forEach(t => {
         document.getElementById(`admin-pane-${t}`).classList.toggle("hidden", t !== tab);
         const btn = document.getElementById(`atab-${t}`);
         if (t === tab) {
@@ -1545,7 +1746,7 @@
         }
         resetTopicForm();
       } catch (err) {
-        alert("Firebase Error: Make sure Firestore Database is created in Test Mode!\n" + err.message);
+        alert("Firebase Error: " + err.message);
       }
     };
 
@@ -1704,14 +1905,14 @@
 
     function renderThemeSwatches() {
       const grid = document.getElementById("themeSwatchesGrid");
-      grid.innerHTML = MODERN_THEMES.map(th => {
+      grid.innerHTML = THEME_OPTIONS.map(th => {
         const active = siteSettings.themeId === th.id;
         return `
           <button type="button" onclick="selectCloudTheme('${th.id}')"
-            class="p-3 rounded-xl border text-left transition flex items-center gap-2.5 ${
+            class="p-2.5 rounded-xl border text-left transition flex items-center gap-2 ${
               active ? 'border-white bg-slate-800 shadow-lg' : 'border-slate-800 bg-slate-950/70 hover:border-slate-600'
             }">
-            <span class="w-6 h-6 rounded-full shrink-0 shadow" style="background: linear-gradient(135deg, ${th.primary}, ${th.accent});"></span>
+            <span class="w-5 h-5 rounded-full shrink-0 shadow" style="background: linear-gradient(135deg, ${th.primary}, ${th.accent});"></span>
             <span class="text-xs font-bold text-white truncate">${th.name}</span>
           </button>
         `;
@@ -1726,18 +1927,54 @@
       showToast("Theme updated live for all students!");
     };
 
+    window.toggleDynamicTimeMode = async function() {
+      siteSettings.dynamicTimeMode = document.getElementById("dynamicTimeModeCheckbox").checked;
+      updateClockAndGreeting();
+      await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
+      showToast("Dynamic time glow setting saved!");
+    };
+
     window.saveSiteSettingsAdmin = async function(e) {
       e.preventDefault();
       siteSettings.siteName = document.getElementById("adminSiteNameInput").value.trim() || "CHAMIX PRO";
+      siteSettings.whatsapp = document.getElementById("adminWhatsappInput").value.trim() || "94700000000";
       siteSettings.adminPass = document.getElementById("adminNewPassInput").value.trim() || "chamix123";
       await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
       applyThemeAndBranding();
       showToast("Global site settings saved!");
     };
 
+    function renderAdminStudentsList() {
+      const listEl = document.getElementById("adminStudentsList");
+      document.getElementById("adminStudentsCount").textContent = `${cloudStudents.length} Students`;
+      if (cloudStudents.length === 0) {
+        listEl.innerHTML = `<p class="text-xs text-slate-500">No student activity synced yet.</p>`;
+        return;
+      }
+      listEl.innerHTML = cloudStudents.map(s => `
+        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-white">${escapeHtml(s.name || "Student")}</span>
+            <span class="text-[10px] text-emerald-400 font-bold">${s.watchedCount || 0} Watched</span>
+          </div>
+          <div class="text-[11px] text-slate-400">${escapeHtml(s.batch || "")}</div>
+          <div class="text-[11px] text-sky-300 font-semibold">Weekly Study: ${s.weeklyHours || 0} hrs • Tasks: ${escapeHtml(s.tasksSummary || "0/0")}</div>
+        </div>
+      `).join("");
+    }
+
     // -------------------------------------------------------------------
-    // 8. STUDENT PROFILE & NAVIGATION HELPERS
+    // 8. SIDE MENU, PROFILE & NAVIGATION HELPERS
     // -------------------------------------------------------------------
+    window.openSideMenu = function() {
+      document.getElementById("sideMenuBackdrop").classList.remove("hidden");
+      document.getElementById("sideMenuDrawer").classList.remove("-translate-x-full");
+    };
+    window.closeSideMenu = function() {
+      document.getElementById("sideMenuBackdrop").classList.add("hidden");
+      document.getElementById("sideMenuDrawer").classList.add("-translate-x-full");
+    };
+
     function applyStudentProfile() {
       document.getElementById("heroStudentName").textContent = studentProfile.name || "Student";
       document.getElementById("heroAvatar").src = studentProfile.avatar;
@@ -1774,13 +2011,14 @@
       localStorage.setItem("chamixpro_profile", JSON.stringify(studentProfile));
       applyStudentProfile();
       closeProfileModal();
+      syncStudentSnapshotToCloud();
       showToast("Profile updated!");
     };
 
     window.switchSection = function(sec) {
       ["lessons", "study", "tasks"].forEach(s => {
         document.getElementById(`section-${s}`).classList.toggle("hidden", s !== sec);
-        [document.getElementById(`nav-${s}`), document.getElementById(`mnav-${s}`)].forEach(btn => {
+        [document.getElementById(`nav-${s}`), document.getElementById(`mnav-${s}`), document.getElementById(`snav-${s}`)].forEach(btn => {
           if (!btn) return;
           if (s === sec) {
             btn.classList.add("active-tab");
