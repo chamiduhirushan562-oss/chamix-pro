@@ -165,7 +165,7 @@
           <i data-lucide="play-circle" class="w-4 h-4"></i> Class Recordings & PDFs
         </button>
         <button onclick="switchSection('study'); closeSideMenu();" id="snav-study" class="nav-btn text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
-          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Study Time & Charts
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Study Time & Pomodoro
         </button>
         <button onclick="switchSection('tasks'); closeSideMenu();" id="snav-tasks" class="nav-btn text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
           <i data-lucide="check-square" class="w-4 h-4"></i> Daily Task Planner
@@ -256,7 +256,30 @@
   <!-- ===================================================================== -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-    <!-- 1. HERO GREETING BANNER + QUICK SUMMARY WIDGETS -->
+    <!-- 0. ADMIN BROADCAST NOTICE BANNER (STUDENT CAN DISMISS / DELETE) -->
+    <div id="broadcastNoticeBanner" class="hidden rounded-2xl p-4 bg-gradient-to-r from-amber-500/20 via-indigo-500/20 to-cyan-500/20 border border-amber-400/40 shadow-lg">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-start gap-3 min-w-0">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="megaphone" class="w-4 h-4"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="broadcastBadgeTitle" class="text-xs font-extrabold uppercase tracking-wider text-amber-300">Admin Notice</span>
+              <span id="broadcastTimeLabel" class="text-[11px] text-slate-400"></span>
+            </div>
+            <p id="broadcastMessageText" class="text-xs sm:text-sm font-semibold text-white mt-0.5 break-words"></p>
+          </div>
+        </div>
+        <button type="button" onclick="dismissBroadcastNotice()" title="Delete / Dismiss Notice"
+          class="px-2.5 py-1.5 rounded-xl bg-slate-900/90 hover:bg-rose-500/25 border border-slate-700 hover:border-rose-400 text-xs font-bold text-slate-300 hover:text-rose-200 transition flex items-center gap-1 shrink-0">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Delete</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 1. HERO GREETING BANNER + A/L COUNTDOWN + QUICK SUMMARY WIDGETS -->
     <section class="glass-card rounded-3xl p-5 sm:p-7">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <!-- Student Profile & Time-Based Emoji Greeting -->
@@ -281,14 +304,31 @@
           </div>
         </div>
 
-        <!-- Live Digital Clock -->
-        <div class="bg-slate-950/90 rounded-2xl px-5 py-3.5 border border-slate-700/70 self-start lg:self-auto min-w-[215px]">
-          <div class="flex items-center gap-2 text-xs text-slate-400 font-medium mb-0.5">
-            <i data-lucide="clock" class="w-3.5 h-3.5 text-sky-400"></i>
-            <span id="liveDateText">Thursday, Nov 19, 2026</span>
+        <!-- Right Widgets: A/L Exam Countdown + Live Digital Clock -->
+        <div class="flex flex-col sm:flex-row gap-3 self-start lg:self-auto">
+          <!-- A/L Countdown Box -->
+          <div class="bg-slate-950/90 rounded-2xl px-4 py-3.5 border border-indigo-500/35 min-w-[220px]">
+            <div class="flex items-center justify-between gap-2 text-xs text-indigo-300 font-bold mb-1">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="hourglass" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span id="alCountdownLabel">A/L Exam Countdown</span>
+              </span>
+              <span id="alTargetDateBadge" class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-200"></span>
+            </div>
+            <div id="alCountdownDisplay" class="font-mono-num text-base sm:text-lg font-extrabold text-amber-300 tracking-wide">
+              000d : 00h : 00m : 00s
+            </div>
           </div>
-          <div id="liveClockText" class="font-mono-num text-2xl sm:text-3xl font-extrabold text-white tracking-wider">
-            00:00:00 AM
+
+          <!-- Live Digital Clock -->
+          <div class="bg-slate-950/90 rounded-2xl px-4 py-3.5 border border-slate-700/70 min-w-[205px]">
+            <div class="flex items-center gap-2 text-xs text-slate-400 font-medium mb-0.5">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-sky-400"></i>
+              <span id="liveDateText">Thursday, Nov 19, 2026</span>
+            </div>
+            <div id="liveClockText" class="font-mono-num text-xl sm:text-2xl font-extrabold text-white tracking-wider">
+              00:00:00 AM
+            </div>
           </div>
         </div>
       </div>
@@ -328,9 +368,26 @@
     </section>
 
     <!-- ===================================================================== -->
-    <!-- SECTION A: LESSONS (1. SUBJECT -> 2. YEAR -> 3. MONTH -> TOPIC CARDS) -->
+    <!-- SECTION A: LESSONS + RECENTLY WATCHED HISTORY (LATEST FIRST)        -->
     <!-- ===================================================================== -->
     <div id="section-lessons" class="space-y-6">
+
+      <!-- WATCHING VIDEOS HISTORY (LATEST WATCHED FIRST) -->
+      <section class="glass-card rounded-2xl p-4 sm:p-5 space-y-3">
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
+              <i data-lucide="history" class="w-5 h-5 text-emerald-400"></i>
+              <span>Watch History (අන්තිමට බලපු Video මුලින්ම)</span>
+            </h3>
+            <p class="text-xs text-slate-400">ඔයා open කරපු හෝ watched tick දාපු videos අලුත්ම එක උඩින්ම පිළිවෙළට පෙන්වයි.</p>
+          </div>
+          <button type="button" onclick="clearWatchHistory()" class="text-xs font-bold text-rose-400 hover:text-rose-300 px-2.5 py-1 rounded-lg bg-slate-900/80 border border-slate-800">
+            Clear History
+          </button>
+        </div>
+        <div id="watchHistoryList" class="flex gap-3 overflow-x-auto pb-1"></div>
+      </section>
 
       <!-- FILTER BAR: 1. SUBJECT (3 ONLY) -> 2. YEAR -> 3. MONTH -->
       <section class="glass-card rounded-2xl p-4 sm:p-5">
@@ -411,9 +468,61 @@
     </div>
 
     <!-- ===================================================================== -->
-    <!-- SECTION B: AUTO-RESET STUDY TIME TRACKER (DAILY + WEEKLY + MONTHLY)   -->
+    <!-- SECTION B: POMODORO + AUTO-RESET STUDY TIME TRACKER                   -->
     <!-- ===================================================================== -->
     <div id="section-study" class="hidden space-y-6">
+
+      <!-- POMODORO FOCUS TIMER CARD -->
+      <section class="glass-card rounded-2xl p-5 border border-indigo-500/30">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                <i data-lucide="brain-circuit" class="w-5 h-5 text-indigo-400"></i>
+                Pomodoro Focus Session
+              </h3>
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                Auto-Logs to Study Time
+              </span>
+            </div>
+            <p class="text-xs text-slate-400">Focus session එක ඉවර වුණාම (හෝ Log Elapsed click කළාම) තෝරපු subject එකට study time එක auto-add වේ.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <select id="pomodoroSubjectSelect" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-bold text-white">
+              <option value="Physics">⚡ Physics</option>
+              <option value="Chemistry">🧪 Chemistry</option>
+              <option value="Biology">🧬 Biology</option>
+            </select>
+
+            <div class="flex items-center gap-1.5 bg-slate-950/90 p-1 rounded-xl border border-slate-800">
+              <button type="button" onclick="setPomodoroPreset(25)" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white">25m</button>
+              <button type="button" onclick="setPomodoroPreset(50)" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white">50m</button>
+              <input type="number" id="pomodoroCustomMin" min="1" max="180" value="25" onchange="setPomodoroPreset(this.value)"
+                class="w-14 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs font-mono-num font-bold text-center text-white" />
+            </div>
+
+            <div id="pomodoroClockDisplay" class="font-mono-num text-2xl sm:text-3xl font-extrabold text-emerald-400 bg-slate-950/90 px-4 py-2 rounded-2xl border border-slate-800">
+              25:00
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button type="button" id="pomodoroToggleBtn" onclick="togglePomodoroTimer()" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5">
+                <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                <span id="pomodoroToggleLabel">Start</span>
+              </button>
+              <button type="button" onclick="logElapsedPomodoro()" title="Add elapsed focus minutes now"
+                class="px-3 py-2.5 rounded-xl text-xs font-bold bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/35">
+                Log Now
+              </button>
+              <button type="button" onclick="resetPomodoroTimer()" class="px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200">
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Log Study Time Form -->
       <section class="glass-card rounded-2xl p-5">
         <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
@@ -674,7 +783,11 @@
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-400 mb-1">Batch Tagline</label>
-          <input type="text" id="profBatchInput" value="2026 A/L Science Stream" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white" />
+          <select id="profBatchInput" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+            <option value="2026 A/L Science Stream">2026 A/L Science Stream</option>
+            <option value="2027 A/L Science Stream">2027 A/L Science Stream</option>
+            <option value="2028 A/L Science Stream">2028 A/L Science Stream</option>
+          </select>
         </div>
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" onclick="closeProfileModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-bold text-slate-300">Cancel</button>
@@ -731,7 +844,7 @@
           2. Video Links & PDFs
         </button>
         <button onclick="switchAdminTab('themes')" id="atab-themes" class="admin-tab-btn bg-slate-900 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold">
-          3. Profile, Greeting & 15 Themes
+          3. Broadcast, Countdown & Themes
         </button>
         <button onclick="switchAdminTab('students')" id="atab-students" class="admin-tab-btn bg-slate-900 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold">
           4. Students Profiles & Activity
@@ -879,14 +992,69 @@
         </div>
       </div>
 
-      <!-- ADMIN TAB 3: PROFILE, GREETING & 15 THEMES -->
+      <!-- ADMIN TAB 3: BROADCAST NOTICE, COUNTDOWN, PROFILE, GREETING & 15 THEMES -->
       <div id="admin-pane-themes" class="hidden space-y-5">
-        <form onsubmit="saveSiteSettingsAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
-          <div class="flex items-center justify-between">
+        <!-- Admin Broadcast Notice Box -->
+        <div class="bg-slate-900/80 border border-amber-500/30 rounded-2xl p-4 space-y-3">
+          <div>
+            <h4 class="text-sm font-extrabold text-amber-300 flex items-center gap-2">
+              <i data-lucide="megaphone" class="w-4 h-4"></i>
+              Admin Broadcast Notice Banner (Students can dismiss after reading)
+            </h4>
+            <p class="text-xs text-slate-400">Notice එකක් publish කළාම students ලගේ dashboard එකේ පෙන්වනවා. Student කියවලා Delete/Dismiss කළාම එයාගේ screen එකෙන් ඉවත් වෙනවා.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <h4 class="text-sm font-extrabold text-white">Live Welcome Greeting, Name & Profile Picture (Visible to Students)</h4>
-              <p class="text-xs text-slate-400">ඔයා මෙතන වෙනස් කරන Greeting එකයි, Name එකයි, Profile Picture එකයි සියලුම සිසුන්ට සජීවීව පෙනේ.</p>
+              <label class="block text-xs text-slate-400 mb-1">Notice Title</label>
+              <input type="text" id="adminNoticeTitleInput" placeholder="Important Update"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
             </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs text-slate-400 mb-1">Notice Message (Leave empty to hide notice)</label>
+              <input type="text" id="adminNoticeMessageInput" placeholder="උදා: අද රෑ 8.00 Physics Paper Class recording එක upload කළා."
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="publishBroadcastNotice()" class="btn-primary px-4 py-2 rounded-xl text-xs font-bold">
+              Publish Broadcast Notice
+            </button>
+            <button type="button" onclick="clearBroadcastNotice()" class="px-4 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 text-xs font-bold">
+              Clear Notice for Everyone
+            </button>
+          </div>
+        </div>
+
+        <!-- A/L Exam Countdown Dates Config -->
+        <div class="bg-slate-900/80 border border-indigo-500/30 rounded-2xl p-4 space-y-3">
+          <div>
+            <h4 class="text-sm font-extrabold text-indigo-300">A/L Exam Countdown Target Dates</h4>
+            <p class="text-xs text-slate-400">Student ගේ batch එකට (`2026 A/L`, `2027 A/L`, `2028 A/L`) අදාළව exam countdown එක auto update වේ.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">2026 A/L Exam Date</label>
+              <input type="date" id="alDate2026Input" value="2026-11-25"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">2027 A/L Exam Date</label>
+              <input type="date" id="alDate2027Input" value="2027-08-15"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">2028 A/L Exam Date</label>
+              <input type="date" id="alDate2028Input" value="2028-08-15"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Site Branding, Greeting & Profile -->
+        <form onsubmit="saveSiteSettingsAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
+          <div>
+            <h4 class="text-sm font-extrabold text-white">Live Welcome Greeting, Name & Profile Picture (Visible to Students)</h4>
+            <p class="text-xs text-slate-400">ඔයා මෙතන වෙනස් කරන Greeting එකයි, Name එකයි, Profile Picture එකයි සියලුම සිසුන්ට සජීවීව පෙනේ.</p>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -920,9 +1088,10 @@
             <span>Force show this Admin Name & Photo to all students (even if they edited their own local profile)</span>
           </label>
 
-          <button type="submit" class="btn-primary px-5 py-2.5 rounded-xl text-xs font-bold">Save & Apply Live to Students</button>
+          <button type="submit" class="btn-primary px-5 py-2.5 rounded-xl text-xs font-bold">Save Countdown & Settings Live</button>
         </form>
 
+        <!-- 15 Theme Swatches -->
         <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div>
@@ -1003,7 +1172,6 @@
 
     const DEFAULT_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=Chamindu&backgroundColor=b6e3f4";
     const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    const SHORT_TO_FULL_DAY = { Sun: "Sun", Mon: "Mon", Tue: "Tue", Wed: "Wed", Thu: "Thu", Fri: "Fri", Sat: "Sat" };
 
     function getLocalDateKey(dateObj = new Date()) {
       const y = dateObj.getFullYear();
@@ -1012,10 +1180,9 @@
       return `${y}-${m}-${d}`;
     }
 
-    // Monday of current week as YYYY-MM-DD
     function getMondayDateKey(dateObj = new Date()) {
       const copy = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
-      const dayOfWeek = copy.getDay(); // 0=Sun, 1=Mon...
+      const dayOfWeek = copy.getDay();
       const diffToMonday = (dayOfWeek === 0) ? -6 : (1 - dayOfWeek);
       copy.setDate(copy.getDate() + diffToMonday);
       return getLocalDateKey(copy);
@@ -1055,7 +1222,18 @@
       displayName: "Chamindu",
       displayAvatar: DEFAULT_AVATAR,
       forceAdminIdentity: false,
-      dynamicTimeMode: true
+      dynamicTimeMode: true,
+      alDates: {
+        "2026 A/L": "2026-11-25",
+        "2027 A/L": "2027-08-15",
+        "2028 A/L": "2028-08-15"
+      },
+      broadcastNotice: {
+        id: "",
+        title: "Important Update",
+        message: "",
+        updatedAt: 0
+      }
     };
 
     let selectedSubjectFilter = "Physics";
@@ -1070,6 +1248,19 @@
     }
 
     let watchedIds = JSON.parse(localStorage.getItem("chamixpro_watched") || "[]");
+    // Watch history ordered latest-first: [{ videoId, watchedAt }]
+    let watchHistory = JSON.parse(localStorage.getItem("chamixpro_watch_history") || "[]");
+    if (!Array.isArray(watchHistory) || watchHistory.length === 0) {
+      watchHistory = watchedIds.slice().reverse().map((id, idx) => ({
+        videoId: id,
+        watchedAt: Date.now() - idx * 1000
+      }));
+      localStorage.setItem("chamixpro_watch_history", JSON.stringify(watchHistory));
+    }
+
+    // Notice dismissed by this student (stores broadcastNotice.id)
+    let dismissedNoticeId = localStorage.getItem("chamixpro_dismissed_notice_id") || "";
+
     let studentProfile = JSON.parse(localStorage.getItem("chamixpro_profile") || JSON.stringify({
       name: "",
       avatar: "",
@@ -1077,10 +1268,10 @@
       hasCustomProfile: false
     }));
 
-    // Auto-Resetting Daily Study Map: { "YYYY-MM-DD": { Physics, Chemistry, Biology } }
+    // Auto-Resetting Daily Study Map
     let dailyStudyByDate = JSON.parse(localStorage.getItem("chamixpro_daily_study_by_date") || "{}");
 
-    // Auto-Resetting Weekly Study Store: { weekKey: "YYYY-MM-DD", grid: { Mon..Sun } }
+    // Auto-Resetting Weekly Study Store
     let weeklyStudyStore = JSON.parse(localStorage.getItem("chamixpro_weekly_study_store") || "null");
     if (!weeklyStudyStore || !weeklyStudyStore.grid) {
       const legacyWeek = JSON.parse(localStorage.getItem("chamixpro_study_week") || "null");
@@ -1091,7 +1282,7 @@
       localStorage.setItem("chamixpro_weekly_study_store", JSON.stringify(weeklyStudyStore));
     }
 
-    // Auto-Resetting Monthly Study Store: { monthKey: "YYYY-MM", hours: { Physics, Chemistry, Biology } }
+    // Auto-Resetting Monthly Study Store
     let monthlyStudyStore = JSON.parse(localStorage.getItem("chamixpro_monthly_study_store") || "null");
     if (!monthlyStudyStore || !monthlyStudyStore.hours) {
       const legacyMonth = JSON.parse(localStorage.getItem("chamixpro_study_month") || "null");
@@ -1102,7 +1293,7 @@
       localStorage.setItem("chamixpro_monthly_study_store", JSON.stringify(monthlyStudyStore));
     }
 
-    // Auto-Daily Tasks Map: { "YYYY-MM-DD": [ { id, subject, text, done } ] }
+    // Auto-Daily Tasks Map
     let tasksByDate = JSON.parse(localStorage.getItem("chamixpro_tasks_by_date") || "null");
     if (!tasksByDate) {
       const legacyTasks = JSON.parse(localStorage.getItem("chamixpro_tasks") || "[]");
@@ -1144,7 +1335,6 @@
       localStorage.setItem("chamixpro_tasks_by_date", JSON.stringify(tasksByDate));
     }
 
-    // Automatically resets Daily Study, Weekly Study, Monthly Study & Daily Tasks when period rolls over
     function checkAutoResets() {
       const nowDateKey = getLocalDateKey();
       const nowWeekKey = getMondayDateKey();
@@ -1202,10 +1392,201 @@
     let taskChartInstance = null;
 
     // -------------------------------------------------------------------
-    // 1. LIVE CLOCK + TIME-BASED GREETINGS, AUTO RESETS & DYNAMIC UI TINT
+    // POMODORO TIMER LOGIC
+    // -------------------------------------------------------------------
+    let pomoDurationMin = 25;
+    let pomoRemainingSec = 25 * 60;
+    let pomoRunning = false;
+    let pomoIntervalId = null;
+
+    function renderPomodoroDisplay() {
+      const mins = Math.floor(pomoRemainingSec / 60);
+      const secs = pomoRemainingSec % 60;
+      document.getElementById("pomodoroClockDisplay").textContent =
+        `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      document.getElementById("pomodoroToggleLabel").textContent = pomoRunning ? "Pause" : "Start";
+    }
+
+    window.setPomodoroPreset = function(minsVal) {
+      const m = Math.max(1, Math.min(180, parseInt(minsVal, 10) || 25));
+      pomoRunning = false;
+      clearInterval(pomoIntervalId);
+      pomoDurationMin = m;
+      pomoRemainingSec = m * 60;
+      document.getElementById("pomodoroCustomMin").value = m;
+      renderPomodoroDisplay();
+    };
+
+    function addStudyHoursDirect(subj, addedHours) {
+      if (addedHours <= 0) return;
+      checkAutoResets();
+      const todayDay = getTodayShortDay();
+      if (!weeklyStudyStore.grid[todayDay]) weeklyStudyStore.grid[todayDay] = emptySubjectHours();
+      weeklyStudyStore.grid[todayDay][subj] = +((weeklyStudyStore.grid[todayDay][subj] || 0) + addedHours).toFixed(2);
+
+      if (!dailyStudyByDate[currentActualDateKey]) dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
+      dailyStudyByDate[currentActualDateKey][subj] = +((dailyStudyByDate[currentActualDateKey][subj] || 0) + addedHours).toFixed(2);
+
+      monthlyStudyStore.hours[subj] = +((monthlyStudyStore.hours[subj] || 0) + addedHours).toFixed(2);
+
+      saveStudyStores();
+      updateStudyStatsAndCharts();
+      syncStudentSnapshotToCloud();
+    }
+
+    window.togglePomodoroTimer = function() {
+      if (pomoRunning) {
+        pomoRunning = false;
+        clearInterval(pomoIntervalId);
+        renderPomodoroDisplay();
+        return;
+      }
+      pomoRunning = true;
+      renderPomodoroDisplay();
+      pomoIntervalId = setInterval(() => {
+        if (!pomoRunning) return;
+        pomoRemainingSec -= 1;
+        if (pomoRemainingSec <= 0) {
+          pomoRunning = false;
+          clearInterval(pomoIntervalId);
+          const subj = document.getElementById("pomodoroSubjectSelect").value;
+          const loggedHrs = +(pomoDurationMin / 60).toFixed(2);
+          addStudyHoursDirect(subj, loggedHrs);
+          pomoRemainingSec = pomoDurationMin * 60;
+          showToast(`Pomodoro complete! +${pomoDurationMin}m added to ${subj}`);
+        }
+        renderPomodoroDisplay();
+      }, 1000);
+    };
+
+    window.logElapsedPomodoro = function() {
+      const elapsedSec = Math.max(0, (pomoDurationMin * 60) - pomoRemainingSec);
+      const mins = Math.floor(elapsedSec / 60);
+      if (mins < 1) {
+        showToast("Focus for at least 1 minute before logging!");
+        return;
+      }
+      const subj = document.getElementById("pomodoroSubjectSelect").value;
+      const loggedHrs = +(mins / 60).toFixed(2);
+      addStudyHoursDirect(subj, loggedHrs);
+      pomoRunning = false;
+      clearInterval(pomoIntervalId);
+      pomoRemainingSec = pomoDurationMin * 60;
+      renderPomodoroDisplay();
+      showToast(`Logged ${mins}m focus time to ${subj}!`);
+    };
+
+    window.resetPomodoroTimer = function() {
+      pomoRunning = false;
+      clearInterval(pomoIntervalId);
+      pomoRemainingSec = pomoDurationMin * 60;
+      renderPomodoroDisplay();
+    };
+    renderPomodoroDisplay();
+
+    // -------------------------------------------------------------------
+    // A/L EXAM COUNTDOWN TIMER
+    // -------------------------------------------------------------------
+    function updateALCountdown() {
+      const batch = studentProfile.batch || "2026 A/L Science Stream";
+      let cohortKey = "2026 A/L";
+      if (batch.includes("2027")) cohortKey = "2027 A/L";
+      else if (batch.includes("2028")) cohortKey = "2028 A/L";
+
+      const datesMap = siteSettings.alDates || {};
+      const targetStr = datesMap[cohortKey] || "2026-11-25";
+      const targetDate = new Date(`${targetStr}T08:00:00`);
+      const now = new Date();
+      const diff = targetDate.getTime() - now.getTime();
+
+      document.getElementById("alCountdownLabel").textContent = `${cohortKey} Countdown`;
+      document.getElementById("alTargetDateBadge").textContent = targetStr;
+
+      if (isNaN(targetDate.getTime())) {
+        document.getElementById("alCountdownDisplay").textContent = "Set Exam Date";
+        return;
+      }
+
+      if (diff <= 0) {
+        document.getElementById("alCountdownDisplay").textContent = "Exam Day / Started!";
+        return;
+      }
+
+      const totalSec = Math.floor(diff / 1000);
+      const days = Math.floor(totalSec / 86400);
+      const hrs = Math.floor((totalSec % 86400) / 3600);
+      const mins = Math.floor((totalSec % 3600) / 60);
+      const secs = totalSec % 60;
+
+      document.getElementById("alCountdownDisplay").textContent =
+        `${String(days).padStart(2, "0")}d : ${String(hrs).padStart(2, "0")}h : ${String(mins).padStart(2, "0")}m : ${String(secs).padStart(2, "0")}s`;
+    }
+
+    // -------------------------------------------------------------------
+    // BROADCAST NOTICE BANNER (DISMISSIBLE / DELETABLE BY STUDENT)
+    // -------------------------------------------------------------------
+    function renderBroadcastNotice() {
+      const notice = siteSettings.broadcastNotice || {};
+      const bannerEl = document.getElementById("broadcastNoticeBanner");
+      if (!notice.message || !notice.message.trim() || !notice.id || dismissedNoticeId === notice.id) {
+        bannerEl.classList.add("hidden");
+        return;
+      }
+      document.getElementById("broadcastBadgeTitle").textContent = notice.title || "Admin Notice";
+      document.getElementById("broadcastMessageText").textContent = notice.message.trim();
+      document.getElementById("broadcastTimeLabel").textContent = notice.updatedAt
+        ? `• ${new Date(notice.updatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+        : "";
+      bannerEl.classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    window.dismissBroadcastNotice = function() {
+      const notice = siteSettings.broadcastNotice || {};
+      if (notice.id) {
+        dismissedNoticeId = notice.id;
+        localStorage.setItem("chamixpro_dismissed_notice_id", dismissedNoticeId);
+      }
+      renderBroadcastNotice();
+      showToast("Notice deleted from your view.");
+    };
+
+    window.publishBroadcastNotice = async function() {
+      const title = document.getElementById("adminNoticeTitleInput").value.trim() || "Admin Notice";
+      const message = document.getElementById("adminNoticeMessageInput").value.trim();
+      if (!message) {
+        await clearBroadcastNotice();
+        return;
+      }
+      const newNotice = {
+        id: "notice_" + Date.now(),
+        title,
+        message,
+        updatedAt: Date.now()
+      };
+      siteSettings.broadcastNotice = newNotice;
+      dismissedNoticeId = "";
+      localStorage.removeItem("chamixpro_dismissed_notice_id");
+      await setDoc(doc(db, "chamix_pro_meta", "settings"), { broadcastNotice: newNotice }, { merge: true });
+      renderBroadcastNotice();
+      showToast("Broadcast notice published to all students!");
+    };
+
+    window.clearBroadcastNotice = async function() {
+      document.getElementById("adminNoticeMessageInput").value = "";
+      const emptyNotice = { id: "", title: "Admin Notice", message: "", updatedAt: Date.now() };
+      siteSettings.broadcastNotice = emptyNotice;
+      await setDoc(doc(db, "chamix_pro_meta", "settings"), { broadcastNotice: emptyNotice }, { merge: true });
+      renderBroadcastNotice();
+      showToast("Broadcast notice cleared.");
+    };
+
+    // -------------------------------------------------------------------
+    // 1. LIVE CLOCK + TIME-BASED GREETINGS, COUNTDOWN & AUTO RESETS
     // -------------------------------------------------------------------
     function updateClockAndGreeting() {
       checkAutoResets();
+      updateALCountdown();
       const now = new Date();
       const hrs = now.getHours();
       let greeting = "Good Morning!";
@@ -1258,17 +1639,26 @@
     function initCloudListeners() {
       onSnapshot(doc(db, "chamix_pro_meta", "settings"), (snap) => {
         if (snap.exists()) {
-          siteSettings = { ...siteSettings, ...snap.data() };
+          const data = snap.data();
+          siteSettings = {
+            ...siteSettings,
+            ...data,
+            alDates: { ...siteSettings.alDates, ...(data.alDates || {}) },
+            broadcastNotice: { ...siteSettings.broadcastNotice, ...(data.broadcastNotice || {}) }
+          };
         }
         applyThemeAndBranding();
         applyStudentProfile();
         renderThemeSwatches();
+        renderBroadcastNotice();
+        updateALCountdown();
       }, () => setSyncOffline());
 
       onSnapshot(query(collection(db, "chamix_pro_topics"), orderBy("createdAt", "asc")), (snapshot) => {
         cloudTopics = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         setSyncOnline();
         renderTopicsAndVideos();
+        renderWatchHistory();
         renderAdminTopicsList();
         populateAdminLinkTopics();
       }, () => setSyncOffline());
@@ -1276,6 +1666,7 @@
       onSnapshot(query(collection(db, "chamix_pro_videos"), orderBy("createdAt", "asc")), (snapshot) => {
         cloudVideos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         renderTopicsAndVideos();
+        renderWatchHistory();
         renderAdminVideosList();
         renderAdminStudentsList();
       });
@@ -1368,6 +1759,15 @@
       const welcomeText = siteSettings.welcomePrefix !== undefined ? siteSettings.welcomePrefix : "Welcome back,";
       document.getElementById("heroWelcomePrefix").textContent = welcomeText ? `${welcomeText} ` : "";
 
+      const notice = siteSettings.broadcastNotice || {};
+      document.getElementById("adminNoticeTitleInput").value = notice.title || "Important Update";
+      document.getElementById("adminNoticeMessageInput").value = notice.message || "";
+
+      const alDates = siteSettings.alDates || {};
+      document.getElementById("alDate2026Input").value = alDates["2026 A/L"] || "2026-11-25";
+      document.getElementById("alDate2027Input").value = alDates["2027 A/L"] || "2027-08-15";
+      document.getElementById("alDate2028Input").value = alDates["2028 A/L"] || "2028-08-15";
+
       document.getElementById("adminWelcomePrefixInput").value = welcomeText;
       document.getElementById("adminDisplayNameInput").value = siteSettings.displayName || "Chamindu";
       document.getElementById("adminDisplayAvatarInput").value = siteSettings.displayAvatar || DEFAULT_AVATAR;
@@ -1401,6 +1801,78 @@
         ? `&origin=${encodeURIComponent(window.location.origin)}`
         : "";
       return `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1${originParam}`;
+    }
+
+    // -------------------------------------------------------------------
+    // WATCHING VIDEOS HISTORY (LATEST FIRST)
+    // -------------------------------------------------------------------
+    function recordVideoInHistory(videoId) {
+      watchHistory = watchHistory.filter(item => item.videoId !== videoId);
+      watchHistory.unshift({ videoId, watchedAt: Date.now() });
+      watchHistory = watchHistory.slice(0, 20);
+      localStorage.setItem("chamixpro_watch_history", JSON.stringify(watchHistory));
+      renderWatchHistory();
+    }
+
+    window.clearWatchHistory = function() {
+      watchHistory = [];
+      localStorage.setItem("chamixpro_watch_history", JSON.stringify(watchHistory));
+      renderWatchHistory();
+      showToast("Watch history cleared.");
+    };
+
+    window.openVideoFromHistory = function(videoId) {
+      const vid = cloudVideos.find(v => v.id === videoId);
+      if (!vid) return;
+      const topic = cloudTopics.find(t => t.id === vid.topicId);
+      if (topic) {
+        selectedSubjectFilter = topic.subject;
+        document.querySelectorAll(".subj-pill").forEach(btn => {
+          if (btn.dataset.subj === topic.subject) {
+            btn.classList.add("active-tab");
+            btn.classList.remove("text-slate-300");
+          } else {
+            btn.classList.remove("active-tab");
+            btn.classList.add("text-slate-300");
+          }
+        });
+        if (topic.year) document.getElementById("filterYear").value = topic.year;
+        if (topic.month) document.getElementById("filterMonth").value = topic.month;
+        selectedTopicId = topic.id;
+      }
+      openInlinePlayer(videoId);
+    };
+
+    function renderWatchHistory() {
+      const el = document.getElementById("watchHistoryList");
+      if (!el) return;
+      if (!Array.isArray(watchHistory) || watchHistory.length === 0) {
+        el.innerHTML = `<p class="text-xs text-slate-500 py-2">තවම videos බලලා නැහැ. Video එකක් open කළාම අන්තිමට බලපු එක මුලින්ම මෙතන පෙන්වයි.</p>`;
+        return;
+      }
+
+      const itemsHtml = watchHistory.map((entry, idx) => {
+        const vid = cloudVideos.find(v => v.id === entry.videoId);
+        if (!vid) return "";
+        const topic = cloudTopics.find(t => t.id === vid.topicId);
+        const subj = topic ? topic.subject : "Lesson";
+        const topicName = topic ? topic.name : "";
+        return `
+          <button type="button" onclick="openVideoFromHistory('${vid.id}')"
+            class="shrink-0 w-60 text-left bg-slate-900/90 hover:bg-slate-800/90 border ${idx === 0 ? 'border-emerald-400/60' : 'border-slate-800'} rounded-xl p-3 transition flex flex-col justify-between gap-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${idx === 0 ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300'}">
+                ${idx === 0 ? '★ LATEST WATCHED' : `#${idx + 1}`}
+              </span>
+              <span class="text-[10px] font-bold text-sky-300">${escapeHtml(subj)}</span>
+            </div>
+            <div class="text-xs font-extrabold text-white truncate">${escapeHtml(vid.title)}</div>
+            <div class="text-[10px] text-slate-400 truncate">${escapeHtml(topicName)}</div>
+          </button>
+        `;
+      }).filter(Boolean).join("");
+
+      el.innerHTML = itemsHtml || `<p class="text-xs text-slate-500 py-2">No matching videos in history yet.</p>`;
     }
 
     // -------------------------------------------------------------------
@@ -1592,6 +2064,7 @@
     window.openInlinePlayer = function(videoId) {
       const vid = cloudVideos.find(v => v.id === videoId);
       if (!vid) return;
+      recordVideoInHistory(videoId);
       const ytId = extractYouTubeId(vid.youtubeUrl);
       if (!ytId) {
         if (vid.youtubeUrl) window.open(vid.youtubeUrl, "_blank", "noopener,noreferrer");
@@ -1624,7 +2097,8 @@
         showToast("Removed watched highlight");
       } else {
         watchedIds.push(videoId);
-        showToast("Marked as watched & highlighted! ✓");
+        recordVideoInHistory(videoId);
+        showToast("Marked as watched & moved to top of history! ✓");
       }
       localStorage.setItem("chamixpro_watched", JSON.stringify(watchedIds));
       renderTopicsAndVideos();
@@ -1646,17 +2120,14 @@
 
       if (addedHours <= 0) return;
 
-      // Update weekly grid
       if (!weeklyStudyStore.grid[day]) weeklyStudyStore.grid[day] = emptySubjectHours();
       weeklyStudyStore.grid[day][subj] = +((weeklyStudyStore.grid[day][subj] || 0) + addedHours).toFixed(2);
 
-      // Update today's daily study if logged for today (or any log adds to today's study session)
       if (!dailyStudyByDate[currentActualDateKey]) {
         dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
       }
       dailyStudyByDate[currentActualDateKey][subj] = +((dailyStudyByDate[currentActualDateKey][subj] || 0) + addedHours).toFixed(2);
 
-      // Update monthly study
       monthlyStudyStore.hours[subj] = +((monthlyStudyStore.hours[subj] || 0) + addedHours).toFixed(2);
 
       saveStudyStores();
@@ -1939,7 +2410,7 @@
     }
 
     // -------------------------------------------------------------------
-    // 7. ADMIN STUDIO (TOPICS + LINKS + PROFILE/THEMES + STUDENTS)
+    // 7. ADMIN STUDIO (TOPICS + LINKS + BROADCAST/COUNTDOWN/THEMES + STUDENTS)
     // -------------------------------------------------------------------
     window.openAdminGate = function() {
       document.getElementById("adminPassError").classList.add("hidden");
@@ -2194,6 +2665,11 @@
 
     window.saveSiteSettingsAdmin = async function(e) {
       e.preventDefault();
+      siteSettings.alDates = {
+        "2026 A/L": document.getElementById("alDate2026Input").value || "2026-11-25",
+        "2027 A/L": document.getElementById("alDate2027Input").value || "2027-08-15",
+        "2028 A/L": document.getElementById("alDate2028Input").value || "2028-08-15"
+      };
       siteSettings.welcomePrefix = document.getElementById("adminWelcomePrefixInput").value;
       siteSettings.displayName = document.getElementById("adminDisplayNameInput").value.trim() || "Chamindu";
       siteSettings.displayAvatar = document.getElementById("adminDisplayAvatarInput").value.trim() || DEFAULT_AVATAR;
@@ -2204,8 +2680,9 @@
       await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
       applyThemeAndBranding();
       applyStudentProfile();
+      updateALCountdown();
       syncStudentSnapshotToCloud();
-      showToast("Greeting, Name, Photo & Settings updated live!");
+      showToast("Countdown, Greeting, Name & Settings updated live!");
     };
 
     function renderAdminStudentsList() {
@@ -2338,6 +2815,7 @@
       document.getElementById("heroStudentName").textContent = activeName;
       document.getElementById("heroAvatar").src = activeAvatar;
       document.getElementById("heroBatchTag").textContent = `${studentProfile.batch || "2026 A/L Science Stream"} • Keep pushing your limits!`;
+      updateALCountdown();
     }
 
     window.openProfileModal = function() {
@@ -2442,6 +2920,8 @@
     // Boot Application
     lucide.createIcons();
     applyStudentProfile();
+    renderBroadcastNotice();
+    renderWatchHistory();
     updateStudyStatsAndCharts();
     populateTaskDateSelector();
     renderTasks();
