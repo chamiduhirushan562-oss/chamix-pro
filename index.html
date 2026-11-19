@@ -80,13 +80,6 @@
       border: 1px solid var(--primary);
     }
 
-    /* Streak Badge */
-    .streak-badge {
-      background: linear-gradient(135deg, rgba(249, 115, 22, 0.22), rgba(234, 179, 8, 0.18));
-      border: 1px solid rgba(251, 146, 60, 0.48);
-      box-shadow: 0 4px 16px -4px rgba(249, 115, 22, 0.35);
-    }
-
     .active-tab {
       background: linear-gradient(135deg, var(--primary), var(--accent));
       color: #fff !important;
@@ -289,10 +282,10 @@
       </div>
     </div>
 
-    <!-- 1. HERO GREETING BANNER + STREAK BADGE + 2027 A/L COUNTDOWN + SUMMARY -->
+    <!-- 1. HERO GREETING BANNER + 2027 A/L COUNTDOWN + SUMMARY WIDGETS (WITH STREAK CARD HERE) -->
     <section class="glass-card rounded-3xl p-5 sm:p-7">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <!-- Student Profile, Time-Based Emoji Greeting & Study Streak Badge -->
+        <!-- Student Profile & Time-Based Emoji Greeting -->
         <div class="flex items-center gap-4 sm:gap-5">
           <div class="relative shrink-0">
             <img id="heroAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Chamindu&backgroundColor=b6e3f4" alt="Student Avatar"
@@ -302,21 +295,10 @@
             </button>
           </div>
           <div>
-            <div class="flex flex-wrap items-center gap-2 mb-1.5">
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs sm:text-sm font-bold badge-primary">
-                <span id="greetingEmoji" class="text-base">☀️</span>
-                <span id="greetingText">Good Morning!</span>
-              </div>
-
-              <!-- STUDY STREAK BADGE -->
-              <div id="streakBadgeBox" onclick="showStreakDetails()" title="Daily Study Streak — Keep studying every day!"
-                class="streak-badge cursor-pointer inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-extrabold text-amber-200 transition hover:scale-105">
-                <span id="streakFlameEmoji" class="text-base">🔥</span>
-                <span id="streakBadgeText" class="font-mono-num">0 Day Streak</span>
-                <span id="streakStatusDot" class="w-2 h-2 rounded-full bg-slate-500" title="Study or complete a task today to ignite streak"></span>
-              </div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs sm:text-sm font-bold mb-1.5 badge-primary">
+              <span id="greetingEmoji" class="text-base">☀️</span>
+              <span id="greetingText">Good Morning!</span>
             </div>
-
             <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
               <span id="heroWelcomePrefix">Welcome back,</span>
               <span id="heroStudentName" class="bg-gradient-to-r from-white via-sky-200 to-indigo-300 bg-clip-text text-transparent">Chamindu</span>
@@ -354,11 +336,11 @@
         </div>
       </div>
 
-      <!-- QUICK SUMMARY WIDGET ROW (3 CARDS) -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6 pt-5 border-t border-slate-800/70">
+      <!-- QUICK SUMMARY WIDGET ROW (4 CARDS: TODAY'S STUDY, WEEKLY TOTAL, TODAY'S TASKS, STUDY STREAK) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-800/70">
         <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/85 hover:border-emerald-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
           <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
-            <i data-lucide="flame" class="w-5 h-5"></i>
+            <i data-lucide="timer" class="w-5 h-5"></i>
           </div>
           <div>
             <div class="text-[11px] text-slate-400 font-semibold uppercase">Today's Study</div>
@@ -385,16 +367,31 @@
             <div id="widgetTasksSummary" class="font-mono-num text-base sm:text-lg font-extrabold text-amber-300">0% (0/0)</div>
           </div>
         </div>
+
+        <!-- STREAK CARD INSIDE SUMMARY WIDGETS -->
+        <div onclick="showStreakDetails()" title="Click to view Best Streak & status"
+          class="cursor-pointer bg-slate-900/85 hover:border-orange-500/50 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
+          <div class="w-10 h-10 rounded-xl bg-orange-500/15 text-orange-400 flex items-center justify-center shrink-0 text-lg">
+            🔥
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[11px] text-slate-400 font-semibold uppercase">Study Streak</span>
+              <span id="streakStatusDot" class="w-2 h-2 rounded-full bg-amber-400/60"></span>
+            </div>
+            <div id="streakCardValue" class="font-mono-num text-base sm:text-lg font-extrabold text-orange-300 truncate">0 Days</div>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- ===================================================================== -->
-    <!-- SECTION A: LESSONS (1. SUBJECT -> 2. YEAR -> 3. MONTH -> TOPIC CARDS) -->
+    <!-- SECTION A: LESSONS (1. SUBJECT -> 2. YEAR -> 3. MONTH + SEARCH BAR) -->
     <!-- ===================================================================== -->
     <div id="section-lessons" class="space-y-6">
 
-      <!-- FILTER BAR: 1. SUBJECT (3 ONLY) -> 2. YEAR -> 3. MONTH -->
-      <section class="glass-card rounded-2xl p-4 sm:p-5">
+      <!-- FILTER BAR: 1. SUBJECT -> 2. YEAR -> 3. MONTH + 4. SEARCH TOPIC / RECORDING -->
+      <section class="glass-card rounded-2xl p-4 sm:p-5 space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <!-- 1. Subject Filter (Physics, Chem, Bio only) -->
           <div>
@@ -442,9 +439,26 @@
             </select>
           </div>
         </div>
+
+        <!-- 4. SEARCH TOPIC OR RECORDING TITLE -->
+        <div class="pt-3 border-t border-slate-800/80">
+          <label for="lessonSearchInput" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+            4. Search Topic or Recording Title
+          </label>
+          <div class="relative flex items-center">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none"></i>
+            <input type="text" id="lessonSearchInput" oninput="onSearchInputChange()"
+              placeholder="Search topic (e.g. Mechanics, Equilibrium) or recording title (e.g. Day 01)..."
+              class="w-full bg-slate-950/90 border border-slate-700 focus:border-sky-400 rounded-xl pl-10 pr-10 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none transition" />
+            <button type="button" id="clearSearchBtn" onclick="clearLessonSearch()" title="Clear Search"
+              class="hidden absolute right-2.5 p-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
       </section>
 
-      <!-- TOPIC PILLS FOR SELECTED SUBJECT, YEAR & MONTH -->
+      <!-- TOPIC PILLS FOR SELECTED SUBJECT, YEAR & MONTH (OR SEARCH MATCHES) -->
       <section class="space-y-3">
         <div class="flex items-center justify-between">
           <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
@@ -1061,7 +1075,7 @@
           </div>
           <div class="max-w-sm">
             <label class="block text-xs text-slate-400 mb-1">2027 A/L Date & Time</label>
-            <input type="datetime-local" id="al2027DateTimeInput" value="2027-08-15T08:30"
+            <input type="datetime-local" id="al2027DateTimeInput" value="2027-08-03T08:30"
               class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
           </div>
         </div>
@@ -1244,7 +1258,7 @@
       displayAvatar: DEFAULT_AVATAR,
       forceAdminIdentity: false,
       dynamicTimeMode: true,
-      al2027DateTime: "2027-08-15T08:30",
+      al2027DateTime: "2027-08-03T08:30",
       broadcastNotice: {
         id: "",
         title: "Important Update",
@@ -1255,6 +1269,7 @@
 
     let selectedSubjectFilter = "Physics";
     let selectedTopicId = null;
+    let searchQueryText = "";
     let activeLessonsPlayerVideoId = null;
     let activeHistoryPlayerVideoId = null;
 
@@ -1287,7 +1302,7 @@
       const todayKey = getLocalDateKey();
       const yestKey = getYesterdayDateKey();
       if (streakData.lastActiveDate === todayKey) {
-        renderStreakBadge();
+        renderStreakCard();
         return;
       }
       if (streakData.lastActiveDate === yestKey) {
@@ -1300,28 +1315,27 @@
         streakData.best = streakData.current;
       }
       localStorage.setItem("chamixpro_streak", JSON.stringify(streakData));
-      renderStreakBadge();
+      renderStreakCard();
       showToast(`🔥 ${streakData.current} Day Study Streak!`);
     }
 
-    function renderStreakBadge() {
+    function renderStreakCard() {
       refreshStreakValidity();
       const todayKey = getLocalDateKey();
       const count = streakData.current || 0;
       const isLitToday = streakData.lastActiveDate === todayKey;
 
-      const textEl = document.getElementById("streakBadgeText");
+      const valEl = document.getElementById("streakCardValue");
       const dotEl = document.getElementById("streakStatusDot");
-      const boxEl = document.getElementById("streakBadgeBox");
-      if (!textEl || !dotEl || !boxEl) return;
+      if (!valEl || !dotEl) return;
 
-      textEl.textContent = `${count} Day Streak`;
-      boxEl.title = `Current Streak: ${count} days | Best Streak: ${streakData.best || count} days (${isLitToday ? "Completed today ✓" : "Log study time, complete a task, or watch a lesson today!"})`;
-
+      valEl.textContent = `${count} ${count === 1 ? "Day" : "Days"}`;
       if (isLitToday) {
         dotEl.className = "w-2 h-2 rounded-full bg-emerald-400 live-dot";
+        dotEl.title = "Active today ✓";
       } else {
         dotEl.className = "w-2 h-2 rounded-full bg-amber-400/60";
+        dotEl.title = "Log study time, complete a task, or watch a video today";
       }
     }
 
@@ -1331,8 +1345,8 @@
       const isLitToday = streakData.lastActiveDate === todayKey;
       const statusMsg = isLitToday
         ? "අද දවසේ Streak එක සම්පූර්ණයි ✓"
-        : "අද study time, task හෝ video එකක් complete කරලා streak එක දිගටම තියාගන්න!";
-      showToast(`🔥 Current: ${streakData.current || 0}d • Best: ${streakData.best || 0}d — ${statusMsg}`);
+        : "අද study time, task හෝ video එකක් complete කරන්න!";
+      showToast(`🔥 Streak: ${streakData.current || 0}d (Best: ${streakData.best || 0}d) — ${statusMsg}`);
     };
 
     let watchedIds = JSON.parse(localStorage.getItem("chamixpro_watched") || "[]");
@@ -1436,7 +1450,7 @@
         if (wasViewingToday) {
           activeViewingDateKey = nowDateKey;
         }
-        renderStreakBadge();
+        renderStreakCard();
         changed = true;
       }
 
@@ -1582,7 +1596,7 @@
     // 2027 A/L EXAM COUNTDOWN TIMER (DATE + TIME EDITABLE BY ADMIN)
     // -------------------------------------------------------------------
     function updateALCountdown() {
-      const targetStr = siteSettings.al2027DateTime || "2027-08-15T08:30";
+      const targetStr = siteSettings.al2027DateTime || "2027-08-03T08:30";
       const targetDate = new Date(targetStr);
       const now = new Date();
       const diff = targetDate.getTime() - now.getTime();
@@ -1852,7 +1866,7 @@
       document.getElementById("adminNoticeTitleInput").value = notice.title || "Important Update";
       document.getElementById("adminNoticeMessageInput").value = notice.message || "";
 
-      document.getElementById("al2027DateTimeInput").value = siteSettings.al2027DateTime || "2027-08-15T08:30";
+      document.getElementById("al2027DateTimeInput").value = siteSettings.al2027DateTime || "2027-08-03T08:30";
 
       document.getElementById("adminWelcomePrefixInput").value = welcomeText;
       document.getElementById("adminDisplayNameInput").value = siteSettings.displayName || "Chamindu";
@@ -2012,7 +2026,7 @@
     }
 
     // -------------------------------------------------------------------
-    // 4. SUBJECT -> YEAR -> MONTH -> TOPIC PILLS -> TOUCH-TO-PLAY CARDS
+    // 4. SUBJECT -> YEAR -> MONTH -> SEARCH -> TOPIC PILLS -> CARDS
     // -------------------------------------------------------------------
     window.onFilterChange = function() {
       selectedTopicId = null;
@@ -2036,9 +2050,80 @@
       renderTopicsAndVideos();
     };
 
+    window.onSearchInputChange = function() {
+      const inp = document.getElementById("lessonSearchInput");
+      const clearBtn = document.getElementById("clearSearchBtn");
+      searchQueryText = (inp.value || "").trim().toLowerCase();
+      clearBtn.classList.toggle("hidden", searchQueryText.length === 0);
+      selectedTopicId = null;
+      activeLessonsPlayerVideoId = null;
+      renderTopicsAndVideos();
+    };
+
+    window.clearLessonSearch = function() {
+      const inp = document.getElementById("lessonSearchInput");
+      inp.value = "";
+      searchQueryText = "";
+      document.getElementById("clearSearchBtn").classList.add("hidden");
+      selectedTopicId = null;
+      activeLessonsPlayerVideoId = null;
+      renderTopicsAndVideos();
+    };
+
     function renderTopicsAndVideos() {
       const year = document.getElementById("filterYear").value;
       const month = document.getElementById("filterMonth").value;
+      const pillsRow = document.getElementById("topicsPillsRow");
+      const gridEl = document.getElementById("topicVideosGrid");
+      const headingEl = document.getElementById("activeTopicHeading");
+      const badgeEl = document.getElementById("videoCountBadge");
+
+      // SEARCH MODE: Search across topics & recording titles
+      if (searchQueryText.length > 0) {
+        document.getElementById("selectedPeriodLabel").textContent = `Search: "${searchQueryText}"`;
+
+        const matchingVideos = cloudVideos.filter(v => {
+          const topic = cloudTopics.find(t => t.id === v.topicId);
+          const titleMatch = (v.title || "").toLowerCase().includes(searchQueryText);
+          const topicMatch = topic ? (topic.name || "").toLowerCase().includes(searchQueryText) : false;
+          const subjMatch = topic ? (topic.subject || "").toLowerCase().includes(searchQueryText) : false;
+          return titleMatch || topicMatch || subjMatch;
+        });
+
+        const matchingTopics = cloudTopics.filter(t => {
+          const nameMatch = (t.name || "").toLowerCase().includes(searchQueryText);
+          const hasVidMatch = matchingVideos.some(v => v.topicId === t.id);
+          return nameMatch || hasVidMatch;
+        });
+
+        document.getElementById("topicCountBadge").textContent = `${matchingTopics.length} Topics`;
+        pillsRow.innerHTML = matchingTopics.length === 0
+          ? `<p class="text-xs text-slate-400">No matching topics found.</p>`
+          : matchingTopics.map(topic => {
+              const isSelected = topic.id === selectedTopicId;
+              return `
+                <button type="button" onclick="selectSearchTopic('${topic.id}')"
+                  class="topic-pill ${isSelected ? 'active-pill' : ''}">
+                  <span>${escapeHtml(topic.name)}</span>
+                  <span class="text-[10px] opacity-80">(${escapeHtml(topic.subject)})</span>
+                </button>
+              `;
+            }).join("");
+
+        const displayVideos = selectedTopicId
+          ? matchingVideos.filter(v => v.topicId === selectedTopicId)
+          : matchingVideos;
+
+        headingEl.textContent = selectedTopicId
+          ? `Search Results in "${escapeHtml((cloudTopics.find(t => t.id === selectedTopicId) || {}).name || "")}"`
+          : `Search Results for "${escapeHtml(searchQueryText)}"`;
+        badgeEl.textContent = `${displayVideos.length} Videos`;
+
+        renderVideoCardsToGrid(gridEl, displayVideos, true);
+        return;
+      }
+
+      // NORMAL FILTER MODE: Subject -> Year -> Month
       document.getElementById("selectedPeriodLabel").textContent = `${selectedSubjectFilter} • ${year} • ${month}`;
 
       const filteredTopics = cloudTopics.filter(t =>
@@ -2048,7 +2133,6 @@
       );
 
       document.getElementById("topicCountBadge").textContent = `${filteredTopics.length} Topics`;
-      const pillsRow = document.getElementById("topicsPillsRow");
 
       if (filteredTopics.length === 0) {
         selectedTopicId = null;
@@ -2076,6 +2160,12 @@
       const activeTopic = filteredTopics.find(t => t.id === selectedTopicId) || filteredTopics[0];
       renderTopicVideos(activeTopic);
     }
+
+    window.selectSearchTopic = function(topicId) {
+      selectedTopicId = (selectedTopicId === topicId) ? null : topicId;
+      activeLessonsPlayerVideoId = null;
+      renderTopicsAndVideos();
+    };
 
     window.selectTopic = function(topicId) {
       selectedTopicId = topicId;
@@ -2111,7 +2201,20 @@
         return;
       }
 
+      renderVideoCardsToGrid(gridEl, videos, false, activeTopic);
+    }
+
+    function renderVideoCardsToGrid(gridEl, videos, showTopicContext = false, fallbackTopic = null) {
+      if (!videos || videos.length === 0) {
+        gridEl.innerHTML = `
+          <div class="col-span-full glass-card rounded-2xl p-8 text-center text-slate-400 text-sm">
+            <p class="font-semibold text-slate-300">No matching recordings found.</p>
+          </div>`;
+        return;
+      }
+
       gridEl.innerHTML = videos.map((vid, idx) => {
+        const topic = fallbackTopic || cloudTopics.find(t => t.id === vid.topicId) || { subject: "Lesson", name: "", year: "", month: "" };
         const ytId = extractYouTubeId(vid.youtubeUrl);
         const isWatched = watchedIds.includes(vid.id);
         const isPlaying = activeLessonsPlayerVideoId === vid.id && ytId;
@@ -2135,19 +2238,23 @@
               <div class="p-4 sm:p-5 space-y-2.5">
                 <div class="flex items-center justify-between gap-2">
                   <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-md badge-primary">
-                    ${escapeHtml(activeTopic.subject)} • #${String(idx + 1).padStart(2, '0')}
+                    ${escapeHtml(topic.subject)} • #${String(idx + 1).padStart(2, '0')}
                   </span>
                   ${isWatched
                     ? `<span class="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-500 text-slate-950 shadow">
                          ✓ WATCHED
                        </span>`
-                    : `<span class="text-[11px] text-slate-400 font-medium">${escapeHtml(activeTopic.name)}</span>`
+                    : `<span class="text-[11px] text-slate-400 font-medium truncate">${escapeHtml(topic.name)}</span>`
                   }
                 </div>
 
                 <h5 class="text-base sm:text-lg font-extrabold text-white leading-snug">
                   ${escapeHtml(vid.title)}
                 </h5>
+                ${showTopicContext
+                  ? `<p class="text-[11px] text-sky-300/90 font-medium">${escapeHtml(topic.subject)} • ${escapeHtml(topic.year)} • ${escapeHtml(topic.month)} • ${escapeHtml(topic.name)}</p>`
+                  : ""
+                }
               </div>
             </div>
 
@@ -2815,7 +2922,7 @@
 
     window.saveSiteSettingsAdmin = async function(e) {
       e.preventDefault();
-      siteSettings.al2027DateTime = document.getElementById("al2027DateTimeInput").value || "2027-08-15T08:30";
+      siteSettings.al2027DateTime = document.getElementById("al2027DateTimeInput").value || "2027-08-03T08:30";
       siteSettings.welcomePrefix = document.getElementById("adminWelcomePrefixInput").value;
       siteSettings.displayName = document.getElementById("adminDisplayNameInput").value.trim() || "Chamindu";
       siteSettings.displayAvatar = document.getElementById("adminDisplayAvatarInput").value.trim() || DEFAULT_AVATAR;
@@ -2859,7 +2966,7 @@
                 <div class="min-w-0">
                   <div class="flex items-center gap-1.5">
                     <span class="text-sm font-extrabold text-white truncate">${escapeHtml(stuName)}</span>
-                    <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/35 shrink-0">
+                    <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/35 shrink-0">
                       🔥 ${s.streakDays || 0}d
                     </span>
                   </div>
@@ -3077,7 +3184,7 @@
     try {
       if (window.lucide) lucide.createIcons();
       applyStudentProfile();
-      renderStreakBadge();
+      renderStreakCard();
       renderBroadcastNotice();
       renderWatchHistoryPage();
       updateStudyStatsAndCharts();
