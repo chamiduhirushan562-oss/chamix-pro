@@ -320,7 +320,7 @@
             <i data-lucide="list-checks" class="w-5 h-5"></i>
           </div>
           <div>
-            <div class="text-[11px] text-slate-400 font-semibold uppercase">Tasks Done</div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase">Today's Tasks</div>
             <div id="widgetTasksSummary" class="font-mono-num text-base sm:text-lg font-extrabold text-amber-300">0% (0/0)</div>
           </div>
         </div>
@@ -411,21 +411,26 @@
     </div>
 
     <!-- ===================================================================== -->
-    <!-- SECTION B: STUDY TIME TRACKER (DAILY + WEEKLY + MONTHLY CHARTS)       -->
+    <!-- SECTION B: AUTO-RESET STUDY TIME TRACKER (DAILY + WEEKLY + MONTHLY)   -->
     <!-- ===================================================================== -->
     <div id="section-study" class="hidden space-y-6">
       <!-- Log Study Time Form -->
       <section class="glass-card rounded-2xl p-5">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
           <div>
-            <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-              <i data-lucide="timer" class="w-5 h-5 text-sky-400"></i>
-              Log Study Time (Daily, Weekly & Monthly)
-            </h3>
-            <p class="text-xs text-slate-400">Physics, Chemistry, Biology වෙන වෙනම study time එකතු කරන්න. Daily, Weekly සහ Monthly charts ස්වයංක්‍රීයව update වේ.</p>
+            <div class="flex flex-wrap items-center gap-2">
+              <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                <i data-lucide="timer" class="w-5 h-5 text-sky-400"></i>
+                Log Study Time (Auto Daily & Weekly Reset)
+              </h3>
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/30">
+                ↻ Auto Daily & Weekly Reset
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">දවස මාරු වෙනකොට Daily Study එකත්, සතිය මාරු වෙනකොට Weekly Study එකත් ඉබේම reset වේ.</p>
           </div>
-          <button onclick="resetWeeklyStudy()" class="text-xs text-rose-400 hover:text-rose-300 font-semibold self-start sm:self-auto">
-            Reset Week Data
+          <button onclick="resetWeeklyStudy()" class="text-xs text-rose-400 hover:text-rose-300 font-semibold">
+            Reset Current Week
           </button>
         </div>
 
@@ -495,7 +500,7 @@
       <!-- Daily & Weekly Charts -->
       <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-5 glass-card rounded-2xl p-5 space-y-3">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between gap-2">
             <h4 class="text-base font-bold text-white">Daily Subject Breakdown</h4>
             <select id="dailyChartDaySelect" onchange="renderStudyCharts()" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs font-bold text-white">
               <option value="Mon">Monday</option>
@@ -514,7 +519,7 @@
 
         <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-3">
           <div class="flex items-center justify-between">
-            <h4 class="text-base font-bold text-white">Weekly 7-Day Study Chart</h4>
+            <h4 id="weeklyChartHeading" class="text-base font-bold text-white">Weekly 7-Day Study Chart</h4>
             <span class="text-xs text-slate-400">Hours per day</span>
           </div>
           <div class="h-64">
@@ -528,7 +533,7 @@
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h4 class="text-base font-bold text-white">Monthly Subject-Wise Study Progress</h4>
-            <p class="text-xs text-slate-400">මුළු මාසය පුරාම Physics, Chemistry, Biology විෂයන් 3ට වැය කළ පැය ගණන</p>
+            <p class="text-xs text-slate-400">මුළු මාසය පුරාම Physics, Chemistry, Biology විෂයන් 3ට වැය කළ පැය ගණන (මාසය මාරු වෙද්දි auto reset වේ)</p>
           </div>
           <span id="monthlyTotalBadge" class="text-xs font-bold px-3 py-1 rounded-lg badge-primary">Month Total: 0.0 hrs</span>
         </div>
@@ -539,7 +544,7 @@
     </div>
 
     <!-- ===================================================================== -->
-    <!-- SECTION C: SUBJECT-WISE TASK LISTS + PROGRESS CHART + CELEBRATION     -->
+    <!-- SECTION C: AUTO-DAILY TASK PLANNER + HISTORY + PROGRESS CHART         -->
     <!-- ===================================================================== -->
     <div id="section-tasks" class="hidden space-y-6">
 
@@ -567,11 +572,20 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-8 glass-card rounded-2xl p-5 flex flex-col justify-between">
           <div>
-            <h3 class="text-lg font-extrabold text-white flex items-center gap-2 mb-1">
-              <i data-lucide="list-checks" class="w-5 h-5 text-sky-400"></i>
-              Daily Study Task Planner
-            </h3>
-            <p class="text-xs text-slate-400 mb-4">Biology, Physics, Chemistry විෂයන් තුනට වෙන වෙනම වැඩ එකතු කරන්න.</p>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                <i data-lucide="list-checks" class="w-5 h-5 text-sky-400"></i>
+                Daily Study Task Planner
+              </h3>
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                  ↻ Auto Daily Reset
+                </span>
+                <select id="taskDateSelector" onchange="onTaskDateChange()" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold text-white">
+                </select>
+              </div>
+            </div>
+            <p class="text-xs text-slate-400 mb-4">දවස මාරු වෙනකොට අලුත් දවසක task list එකක් ස්වයංක්‍රීයව හැදේ. පරණ දවස් select කරලා history එකත් බලන්න පුළුවන්.</p>
           </div>
 
           <form onsubmit="addTaskItem(event)" class="grid grid-cols-1 sm:grid-cols-12 gap-3">
@@ -597,7 +611,7 @@
         <!-- Mini Doughnut Progress Chart -->
         <div class="lg:col-span-4 glass-card rounded-2xl p-5 flex items-center justify-between gap-4">
           <div>
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Task Progress</span>
+            <span id="taskProgressLabel" class="text-xs font-bold uppercase tracking-wider text-slate-400">Today's Progress</span>
             <div id="taskPercentBig" class="font-mono-num text-3xl font-extrabold text-white mt-1">0%</div>
             <p id="taskCountSummary" class="text-xs text-slate-400 mt-1">0 of 0 tasks completed</p>
           </div>
@@ -988,6 +1002,46 @@
     ];
 
     const DEFAULT_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=Chamindu&backgroundColor=b6e3f4";
+    const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const SHORT_TO_FULL_DAY = { Sun: "Sun", Mon: "Mon", Tue: "Tue", Wed: "Wed", Thu: "Thu", Fri: "Fri", Sat: "Sat" };
+
+    function getLocalDateKey(dateObj = new Date()) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d = String(dateObj.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    // Monday of current week as YYYY-MM-DD
+    function getMondayDateKey(dateObj = new Date()) {
+      const copy = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+      const dayOfWeek = copy.getDay(); // 0=Sun, 1=Mon...
+      const diffToMonday = (dayOfWeek === 0) ? -6 : (1 - dayOfWeek);
+      copy.setDate(copy.getDate() + diffToMonday);
+      return getLocalDateKey(copy);
+    }
+
+    function getMonthKey(dateObj = new Date()) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+      return `${y}-${m}`;
+    }
+
+    function emptySubjectHours() {
+      return { Physics: 0, Chemistry: 0, Biology: 0 };
+    }
+
+    function emptyWeekGrid() {
+      return {
+        Mon: emptySubjectHours(),
+        Tue: emptySubjectHours(),
+        Wed: emptySubjectHours(),
+        Thu: emptySubjectHours(),
+        Fri: emptySubjectHours(),
+        Sat: emptySubjectHours(),
+        Sun: emptySubjectHours()
+      };
+    }
 
     // Cloud State
     let cloudTopics = [];
@@ -1023,22 +1077,124 @@
       hasCustomProfile: false
     }));
 
-    const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    let weeklyStudy = JSON.parse(localStorage.getItem("chamixpro_study_week") || JSON.stringify({
-      Mon: { Physics: 0, Chemistry: 0, Biology: 0 },
-      Tue: { Physics: 0, Chemistry: 0, Biology: 0 },
-      Wed: { Physics: 0, Chemistry: 0, Biology: 0 },
-      Thu: { Physics: 0, Chemistry: 0, Biology: 0 },
-      Fri: { Physics: 0, Chemistry: 0, Biology: 0 },
-      Sat: { Physics: 0, Chemistry: 0, Biology: 0 },
-      Sun: { Physics: 0, Chemistry: 0, Biology: 0 }
-    }));
+    // Auto-Resetting Daily Study Map: { "YYYY-MM-DD": { Physics, Chemistry, Biology } }
+    let dailyStudyByDate = JSON.parse(localStorage.getItem("chamixpro_daily_study_by_date") || "{}");
 
-    let monthlyStudy = JSON.parse(localStorage.getItem("chamixpro_study_month") || JSON.stringify({
-      Physics: 0, Chemistry: 0, Biology: 0
-    }));
+    // Auto-Resetting Weekly Study Store: { weekKey: "YYYY-MM-DD", grid: { Mon..Sun } }
+    let weeklyStudyStore = JSON.parse(localStorage.getItem("chamixpro_weekly_study_store") || "null");
+    if (!weeklyStudyStore || !weeklyStudyStore.grid) {
+      const legacyWeek = JSON.parse(localStorage.getItem("chamixpro_study_week") || "null");
+      weeklyStudyStore = {
+        weekKey: getMondayDateKey(),
+        grid: legacyWeek || emptyWeekGrid()
+      };
+      localStorage.setItem("chamixpro_weekly_study_store", JSON.stringify(weeklyStudyStore));
+    }
 
-    let studentTasks = JSON.parse(localStorage.getItem("chamixpro_tasks") || "[]");
+    // Auto-Resetting Monthly Study Store: { monthKey: "YYYY-MM", hours: { Physics, Chemistry, Biology } }
+    let monthlyStudyStore = JSON.parse(localStorage.getItem("chamixpro_monthly_study_store") || "null");
+    if (!monthlyStudyStore || !monthlyStudyStore.hours) {
+      const legacyMonth = JSON.parse(localStorage.getItem("chamixpro_study_month") || "null");
+      monthlyStudyStore = {
+        monthKey: getMonthKey(),
+        hours: legacyMonth || emptySubjectHours()
+      };
+      localStorage.setItem("chamixpro_monthly_study_store", JSON.stringify(monthlyStudyStore));
+    }
+
+    // Auto-Daily Tasks Map: { "YYYY-MM-DD": [ { id, subject, text, done } ] }
+    let tasksByDate = JSON.parse(localStorage.getItem("chamixpro_tasks_by_date") || "null");
+    if (!tasksByDate) {
+      const legacyTasks = JSON.parse(localStorage.getItem("chamixpro_tasks") || "[]");
+      tasksByDate = {};
+      if (legacyTasks.length > 0) {
+        tasksByDate[getLocalDateKey()] = legacyTasks;
+      }
+      localStorage.setItem("chamixpro_tasks_by_date", JSON.stringify(tasksByDate));
+    }
+
+    let currentActualDateKey = getLocalDateKey();
+    let currentActualWeekKey = getMondayDateKey();
+    let currentActualMonthKey = getMonthKey();
+    let activeViewingDateKey = currentActualDateKey;
+
+    if (!dailyStudyByDate[currentActualDateKey]) {
+      dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
+      localStorage.setItem("chamixpro_daily_study_by_date", JSON.stringify(dailyStudyByDate));
+    }
+
+    function getTodayShortDay(dateObj = new Date()) {
+      return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dateObj.getDay()];
+    }
+
+    function saveStudyStores() {
+      localStorage.setItem("chamixpro_daily_study_by_date", JSON.stringify(dailyStudyByDate));
+      localStorage.setItem("chamixpro_weekly_study_store", JSON.stringify(weeklyStudyStore));
+      localStorage.setItem("chamixpro_monthly_study_store", JSON.stringify(monthlyStudyStore));
+    }
+
+    function getTasksForDate(dateKey) {
+      if (!Array.isArray(tasksByDate[dateKey])) {
+        tasksByDate[dateKey] = [];
+      }
+      return tasksByDate[dateKey];
+    }
+
+    function saveTasksByDate() {
+      localStorage.setItem("chamixpro_tasks_by_date", JSON.stringify(tasksByDate));
+    }
+
+    // Automatically resets Daily Study, Weekly Study, Monthly Study & Daily Tasks when period rolls over
+    function checkAutoResets() {
+      const nowDateKey = getLocalDateKey();
+      const nowWeekKey = getMondayDateKey();
+      const nowMonthKey = getMonthKey();
+      let changed = false;
+
+      if (nowDateKey !== currentActualDateKey) {
+        const wasViewingToday = (activeViewingDateKey === currentActualDateKey);
+        currentActualDateKey = nowDateKey;
+
+        if (!dailyStudyByDate[nowDateKey]) {
+          dailyStudyByDate[nowDateKey] = emptySubjectHours();
+        }
+        if (!Array.isArray(tasksByDate[nowDateKey])) {
+          tasksByDate[nowDateKey] = [];
+        }
+        if (wasViewingToday) {
+          activeViewingDateKey = nowDateKey;
+        }
+        changed = true;
+      }
+
+      if (nowWeekKey !== currentActualWeekKey || weeklyStudyStore.weekKey !== nowWeekKey) {
+        currentActualWeekKey = nowWeekKey;
+        weeklyStudyStore = {
+          weekKey: nowWeekKey,
+          grid: emptyWeekGrid()
+        };
+        changed = true;
+      }
+
+      if (nowMonthKey !== currentActualMonthKey || monthlyStudyStore.monthKey !== nowMonthKey) {
+        currentActualMonthKey = nowMonthKey;
+        monthlyStudyStore = {
+          monthKey: nowMonthKey,
+          hours: emptySubjectHours()
+        };
+        changed = true;
+      }
+
+      if (changed) {
+        saveStudyStores();
+        saveTasksByDate();
+        populateTaskDateSelector();
+        updateStudyStatsAndCharts();
+        renderTasks();
+        syncStudentSnapshotToCloud();
+        showToast("New day/week started — Daily & Weekly study & tasks reset automatically!");
+      }
+    }
 
     let dailyChartInstance = null;
     let weeklyChartInstance = null;
@@ -1046,9 +1202,10 @@
     let taskChartInstance = null;
 
     // -------------------------------------------------------------------
-    // 1. LIVE CLOCK + TIME-BASED GREETINGS & DYNAMIC UI TINT
+    // 1. LIVE CLOCK + TIME-BASED GREETINGS, AUTO RESETS & DYNAMIC UI TINT
     // -------------------------------------------------------------------
     function updateClockAndGreeting() {
+      checkAutoResets();
       const now = new Date();
       const hrs = now.getHours();
       let greeting = "Good Morning!";
@@ -1091,9 +1248,9 @@
     setInterval(updateClockAndGreeting, 1000);
     updateClockAndGreeting();
 
-    const todayShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date().getDay()];
-    document.getElementById("studyDayInput").value = todayShort;
-    document.getElementById("dailyChartDaySelect").value = todayShort;
+    const initShortDay = getTodayShortDay();
+    document.getElementById("studyDayInput").value = initShortDay;
+    document.getElementById("dailyChartDaySelect").value = initShortDay;
 
     // -------------------------------------------------------------------
     // 2. FIREBASE REAL-TIME LISTENERS & FULL STUDENT ACTIVITY SYNC
@@ -1133,17 +1290,21 @@
 
     async function syncStudentSnapshotToCloud() {
       try {
+        checkAutoResets();
+        const grid = weeklyStudyStore.grid || emptyWeekGrid();
         let totP = 0, totC = 0, totB = 0;
         DAYS.forEach(d => {
-          totP += weeklyStudy[d]?.Physics || 0;
-          totC += weeklyStudy[d]?.Chemistry || 0;
-          totB += weeklyStudy[d]?.Biology || 0;
+          totP += grid[d]?.Physics || 0;
+          totC += grid[d]?.Chemistry || 0;
+          totB += grid[d]?.Biology || 0;
         });
         const totHrs = +(totP + totC + totB).toFixed(1);
-        const todayObj = weeklyStudy[todayShort] || { Physics: 0, Chemistry: 0, Biology: 0 };
+
+        const todayObj = dailyStudyByDate[currentActualDateKey] || emptySubjectHours();
         const todayHrs = +((todayObj.Physics || 0) + (todayObj.Chemistry || 0) + (todayObj.Biology || 0)).toFixed(1);
 
-        const doneTasks = studentTasks.filter(t => t.done).length;
+        const todayTasksList = getTasksForDate(currentActualDateKey);
+        const doneTasks = todayTasksList.filter(t => t.done).length;
         const activeName = (studentProfile.hasCustomProfile && studentProfile.name)
           ? studentProfile.name
           : (siteSettings.displayName || "Student");
@@ -1151,7 +1312,7 @@
           ? studentProfile.avatar
           : (siteSettings.displayAvatar || DEFAULT_AVATAR);
 
-        const taskDetails = studentTasks.slice(-20).map(t => ({
+        const taskDetails = todayTasksList.slice(-20).map(t => ({
           subject: t.subject,
           text: t.text,
           done: Boolean(t.done)
@@ -1161,6 +1322,8 @@
           name: activeName,
           avatar: activeAvatar,
           batch: studentProfile.batch || "2026 A/L Science Stream",
+          studyDate: currentActualDateKey,
+          weekKey: currentActualWeekKey,
           weeklyHours: totHrs,
           todayHours: todayHrs,
           subjectHours: {
@@ -1168,7 +1331,8 @@
             Chemistry: +totC.toFixed(1),
             Biology: +totB.toFixed(1)
           },
-          tasksSummary: `${doneTasks}/${studentTasks.length}`,
+          taskDate: currentActualDateKey,
+          tasksSummary: `${doneTasks}/${todayTasksList.length}`,
           taskDetails,
           watchedVideoIds: watchedIds,
           lastActive: Date.now()
@@ -1468,10 +1632,12 @@
     };
 
     // -------------------------------------------------------------------
-    // 5. STUDY TIME TRACKER (DAILY + WEEKLY + MONTHLY CHARTS)
+    // 5. STUDY TIME TRACKER (AUTO DAILY + AUTO WEEKLY + AUTO MONTHLY)
     // -------------------------------------------------------------------
     window.addStudyEntry = function(e) {
       e.preventDefault();
+      checkAutoResets();
+
       const day = document.getElementById("studyDayInput").value;
       const subj = document.getElementById("studySubjectInput").value;
       const hrs = parseFloat(document.getElementById("studyHoursInput").value) || 0;
@@ -1479,12 +1645,21 @@
       const addedHours = +(hrs + mins / 60).toFixed(2);
 
       if (addedHours <= 0) return;
-      weeklyStudy[day][subj] = +(weeklyStudy[day][subj] + addedHours).toFixed(2);
-      monthlyStudy[subj] = +((monthlyStudy[subj] || 0) + addedHours).toFixed(2);
 
-      localStorage.setItem("chamixpro_study_week", JSON.stringify(weeklyStudy));
-      localStorage.setItem("chamixpro_study_month", JSON.stringify(monthlyStudy));
+      // Update weekly grid
+      if (!weeklyStudyStore.grid[day]) weeklyStudyStore.grid[day] = emptySubjectHours();
+      weeklyStudyStore.grid[day][subj] = +((weeklyStudyStore.grid[day][subj] || 0) + addedHours).toFixed(2);
 
+      // Update today's daily study if logged for today (or any log adds to today's study session)
+      if (!dailyStudyByDate[currentActualDateKey]) {
+        dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
+      }
+      dailyStudyByDate[currentActualDateKey][subj] = +((dailyStudyByDate[currentActualDateKey][subj] || 0) + addedHours).toFixed(2);
+
+      // Update monthly study
+      monthlyStudyStore.hours[subj] = +((monthlyStudyStore.hours[subj] || 0) + addedHours).toFixed(2);
+
+      saveStudyStores();
       document.getElementById("dailyChartDaySelect").value = day;
       updateStudyStatsAndCharts();
       syncStudentSnapshotToCloud();
@@ -1492,22 +1667,27 @@
     };
 
     window.resetWeeklyStudy = function() {
-      if (!confirm("Reset all 7 days study time data?")) return;
-      DAYS.forEach(d => {
-        weeklyStudy[d] = { Physics: 0, Chemistry: 0, Biology: 0 };
-      });
-      localStorage.setItem("chamixpro_study_week", JSON.stringify(weeklyStudy));
+      if (!confirm("Reset current week's study time data?")) return;
+      checkAutoResets();
+      weeklyStudyStore = {
+        weekKey: currentActualWeekKey,
+        grid: emptyWeekGrid()
+      };
+      saveStudyStores();
       updateStudyStatsAndCharts();
       syncStudentSnapshotToCloud();
-      showToast("Weekly study logs reset.");
+      showToast("Current week study logs reset.");
     };
 
     function updateStudyStatsAndCharts() {
+      checkAutoResets();
+      const grid = weeklyStudyStore.grid || emptyWeekGrid();
+
       let totP = 0, totC = 0, totB = 0;
       DAYS.forEach(d => {
-        totP += weeklyStudy[d].Physics || 0;
-        totC += weeklyStudy[d].Chemistry || 0;
-        totB += weeklyStudy[d].Biology || 0;
+        totP += grid[d]?.Physics || 0;
+        totC += grid[d]?.Chemistry || 0;
+        totB += grid[d]?.Biology || 0;
       });
       const grand = totP + totC + totB;
 
@@ -1516,23 +1696,29 @@
       document.getElementById("statBioTotal").textContent = `${totB.toFixed(1)} hrs`;
       document.getElementById("statGrandTotal").textContent = `${grand.toFixed(1)} hrs`;
       document.getElementById("widgetWeeklyTotal").textContent = `${grand.toFixed(1)} hrs`;
+      document.getElementById("weeklyChartHeading").textContent = `Weekly 7-Day Study Chart (Week of ${currentActualWeekKey})`;
 
-      const todayObj = weeklyStudy[todayShort] || { Physics: 0, Chemistry: 0, Biology: 0 };
-      const todayHrsFloat = todayObj.Physics + todayObj.Chemistry + todayObj.Biology;
+      const todayObj = dailyStudyByDate[currentActualDateKey] || emptySubjectHours();
+      const todayHrsFloat = (todayObj.Physics || 0) + (todayObj.Chemistry || 0) + (todayObj.Biology || 0);
       const h = Math.floor(todayHrsFloat);
       const m = Math.round((todayHrsFloat - h) * 60);
       document.getElementById("heroTodayStudy").textContent = `${h}h ${m}m`;
 
-      const mTot = +((monthlyStudy.Physics || 0) + (monthlyStudy.Chemistry || 0) + (monthlyStudy.Biology || 0)).toFixed(1);
-      document.getElementById("monthlyTotalBadge").textContent = `Month Total: ${mTot} hrs`;
+      const mHrs = monthlyStudyStore.hours || emptySubjectHours();
+      const mTot = +((mHrs.Physics || 0) + (mHrs.Chemistry || 0) + (mHrs.Biology || 0)).toFixed(1);
+      document.getElementById("monthlyTotalBadge").textContent = `Month Total (${currentActualMonthKey}): ${mTot} hrs`;
 
       renderStudyCharts();
     }
 
     window.renderStudyCharts = function() {
       const selectedDay = document.getElementById("dailyChartDaySelect").value;
-      const dData = weeklyStudy[selectedDay] || { Physics: 0, Chemistry: 0, Biology: 0 };
-      const dTotal = +(dData.Physics + dData.Chemistry + dData.Biology).toFixed(2);
+      const grid = weeklyStudyStore.grid || emptyWeekGrid();
+      const dData = (selectedDay === getTodayShortDay() && dailyStudyByDate[currentActualDateKey])
+        ? dailyStudyByDate[currentActualDateKey]
+        : (grid[selectedDay] || emptySubjectHours());
+
+      const dTotal = +((dData.Physics || 0) + (dData.Chemistry || 0) + (dData.Biology || 0)).toFixed(2);
 
       const dailyCtx = document.getElementById("dailyStudyChart").getContext("2d");
       if (dailyChartInstance) dailyChartInstance.destroy();
@@ -1542,7 +1728,7 @@
           labels: ["Physics", "Chemistry", "Biology", "Total"],
           datasets: [{
             label: `${selectedDay} Hours`,
-            data: [dData.Physics, dData.Chemistry, dData.Biology, dTotal],
+            data: [dData.Physics || 0, dData.Chemistry || 0, dData.Biology || 0, dTotal],
             backgroundColor: ["#6366f1", "#06b6d4", "#10b981", "#f59e0b"],
             borderRadius: 8
           }]
@@ -1558,10 +1744,10 @@
         }
       });
 
-      const pArr = DAYS.map(d => weeklyStudy[d].Physics);
-      const cArr = DAYS.map(d => weeklyStudy[d].Chemistry);
-      const bArr = DAYS.map(d => weeklyStudy[d].Biology);
-      const tArr = DAYS.map(d => +(weeklyStudy[d].Physics + weeklyStudy[d].Chemistry + weeklyStudy[d].Biology).toFixed(2));
+      const pArr = DAYS.map(d => grid[d]?.Physics || 0);
+      const cArr = DAYS.map(d => grid[d]?.Chemistry || 0);
+      const bArr = DAYS.map(d => grid[d]?.Biology || 0);
+      const tArr = DAYS.map(d => +((grid[d]?.Physics || 0) + (grid[d]?.Chemistry || 0) + (grid[d]?.Biology || 0)).toFixed(2));
 
       const weeklyCtx = document.getElementById("weeklyStudyChart").getContext("2d");
       if (weeklyChartInstance) weeklyChartInstance.destroy();
@@ -1586,6 +1772,7 @@
         }
       });
 
+      const mHrs = monthlyStudyStore.hours || emptySubjectHours();
       const monthlyCtx = document.getElementById("monthlyStudyChart").getContext("2d");
       if (monthlyChartInstance) monthlyChartInstance.destroy();
       monthlyChartInstance = new Chart(monthlyCtx, {
@@ -1594,7 +1781,7 @@
           labels: ["Physics (Month)", "Chemistry (Month)", "Biology (Month)"],
           datasets: [{
             label: "Monthly Hours",
-            data: [monthlyStudy.Physics || 0, monthlyStudy.Chemistry || 0, monthlyStudy.Biology || 0],
+            data: [mHrs.Physics || 0, mHrs.Chemistry || 0, mHrs.Biology || 0],
             backgroundColor: ["#6366f1", "#06b6d4", "#10b981"],
             borderRadius: 10
           }]
@@ -1613,51 +1800,88 @@
     };
 
     // -------------------------------------------------------------------
-    // 6. SUBJECT-WISE TASK LISTS + MINI CHART + 100% WISH BANNER
+    // 6. AUTO-DAILY TASK PLANNER + HISTORY + MINI CHART + 100% WISH BANNER
     // -------------------------------------------------------------------
+    function populateTaskDateSelector() {
+      const sel = document.getElementById("taskDateSelector");
+      const allKeys = new Set([currentActualDateKey, ...Object.keys(tasksByDate)]);
+      const sortedKeys = Array.from(allKeys).sort((a, b) => b.localeCompare(a));
+
+      sel.innerHTML = sortedKeys.map(k => {
+        const label = (k === currentActualDateKey) ? `Today (${k})` : k;
+        return `<option value="${k}" ${k === activeViewingDateKey ? "selected" : ""}>${label}</option>`;
+      }).join("");
+    }
+
+    window.onTaskDateChange = function() {
+      checkAutoResets();
+      activeViewingDateKey = document.getElementById("taskDateSelector").value || currentActualDateKey;
+      renderTasks();
+    };
+
     window.addTaskItem = function(e) {
       e.preventDefault();
+      checkAutoResets();
       const subject = document.getElementById("taskSubjectInput").value;
       const text = document.getElementById("taskTextInput").value.trim();
       if (!text) return;
 
-      studentTasks.push({ id: Date.now().toString(), subject, text, done: false });
-      localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
+      const list = getTasksForDate(activeViewingDateKey);
+      list.push({ id: Date.now().toString(), subject, text, done: false });
+      saveTasksByDate();
+      populateTaskDateSelector();
+
       document.getElementById("taskTextInput").value = "";
       renderTasks();
-      syncStudentSnapshotToCloud();
+      if (activeViewingDateKey === currentActualDateKey) {
+        syncStudentSnapshotToCloud();
+      }
     };
 
     window.toggleTask = function(id) {
-      studentTasks = studentTasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
-      localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
+      checkAutoResets();
+      const list = getTasksForDate(activeViewingDateKey);
+      tasksByDate[activeViewingDateKey] = list.map(t => t.id === id ? { ...t, done: !t.done } : t);
+      saveTasksByDate();
       renderTasks();
-      syncStudentSnapshotToCloud();
+      if (activeViewingDateKey === currentActualDateKey) {
+        syncStudentSnapshotToCloud();
+      }
     };
 
     window.deleteTask = function(id) {
-      studentTasks = studentTasks.filter(t => t.id !== id);
-      localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
+      checkAutoResets();
+      const list = getTasksForDate(activeViewingDateKey);
+      tasksByDate[activeViewingDateKey] = list.filter(t => t.id !== id);
+      saveTasksByDate();
       renderTasks();
-      syncStudentSnapshotToCloud();
+      if (activeViewingDateKey === currentActualDateKey) {
+        syncStudentSnapshotToCloud();
+      }
     };
 
     window.clearCompletedTasks = function() {
-      studentTasks = studentTasks.filter(t => !t.done);
-      localStorage.setItem("chamixpro_tasks", JSON.stringify(studentTasks));
+      checkAutoResets();
+      const list = getTasksForDate(activeViewingDateKey);
+      tasksByDate[activeViewingDateKey] = list.filter(t => !t.done);
+      saveTasksByDate();
       renderTasks();
-      syncStudentSnapshotToCloud();
+      if (activeViewingDateKey === currentActualDateKey) {
+        syncStudentSnapshotToCloud();
+      }
     };
 
     function renderTasks() {
+      const viewList = getTasksForDate(activeViewingDateKey);
+
       ["Biology", "Physics", "Chemistry"].forEach(subj => {
-        const subTasks = studentTasks.filter(t => t.subject === subj);
+        const subTasks = viewList.filter(t => t.subject === subj);
         const doneCount = subTasks.filter(t => t.done).length;
         document.getElementById(`count-${subj}`).textContent = `${doneCount}/${subTasks.length}`;
 
         const listEl = document.getElementById(`list-${subj}`);
         if (subTasks.length === 0) {
-          listEl.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">No ${subj} tasks yet.</p>`;
+          listEl.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">No ${subj} tasks for ${activeViewingDateKey === currentActualDateKey ? "today" : activeViewingDateKey}.</p>`;
         } else {
           listEl.innerHTML = subTasks.map(t => `
             <div class="flex items-center justify-between gap-2 bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2.5">
@@ -1674,16 +1898,23 @@
         }
       });
 
-      const total = studentTasks.length;
-      const completed = studentTasks.filter(t => t.done).length;
+      const total = viewList.length;
+      const completed = viewList.filter(t => t.done).length;
       const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
 
+      const isToday = activeViewingDateKey === currentActualDateKey;
+      document.getElementById("taskProgressLabel").textContent = isToday ? "Today's Progress" : `${activeViewingDateKey} Progress`;
       document.getElementById("taskPercentBig").textContent = `${pct}%`;
       document.getElementById("taskCountSummary").textContent = `${completed} of ${total} tasks completed`;
-      document.getElementById("widgetTasksSummary").textContent = `${pct}% (${completed}/${total})`;
+
+      const todayList = getTasksForDate(currentActualDateKey);
+      const tTotal = todayList.length;
+      const tDone = todayList.filter(t => t.done).length;
+      const tPct = tTotal === 0 ? 0 : Math.round((tDone / tTotal) * 100);
+      document.getElementById("widgetTasksSummary").textContent = `${tPct}% (${tDone}/${tTotal})`;
 
       const celebEl = document.getElementById("allTasksCelebration");
-      if (total > 0 && completed === total) celebEl.classList.remove("hidden");
+      if (isToday && total > 0 && completed === total) celebEl.classList.remove("hidden");
       else celebEl.classList.add("hidden");
 
       const ctx = document.getElementById("taskProgressChart").getContext("2d");
@@ -2030,10 +2261,10 @@
 
             <div class="space-y-1">
               <div class="flex items-center justify-between text-[11px] font-bold text-amber-300">
-                <span>Tasks (${escapeHtml(s.tasksSummary || "0/0")})</span>
+                <span>Tasks (${escapeHtml(s.tasksSummary || "0/0")}) ${s.taskDate ? `• ${escapeHtml(s.taskDate)}` : ""}</span>
               </div>
               ${tasks.length === 0
-                ? `<p class="text-[11px] text-slate-500">No tasks logged.</p>`
+                ? `<p class="text-[11px] text-slate-500">No tasks logged today.</p>`
                 : `<div class="space-y-1 max-h-28 overflow-y-auto pr-1">
                     ${tasks.map(tk => `
                       <div class="flex items-center gap-2 text-[11px] bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800/70">
@@ -2184,8 +2415,14 @@
           }
         });
       });
-      if (sec === "study") renderStudyCharts();
-      if (sec === "tasks") renderTasks();
+      if (sec === "study") {
+        updateStudyStatsAndCharts();
+        renderStudyCharts();
+      }
+      if (sec === "tasks") {
+        populateTaskDateSelector();
+        renderTasks();
+      }
     };
 
     function showToast(msg) {
@@ -2206,6 +2443,7 @@
     lucide.createIcons();
     applyStudentProfile();
     updateStudyStatsAndCharts();
+    populateTaskDateSelector();
     renderTasks();
     initCloudListeners();
   </script>
