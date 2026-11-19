@@ -164,6 +164,9 @@
         <button onclick="switchSection('lessons'); closeSideMenu();" id="snav-lessons" class="nav-btn active-tab w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
           <i data-lucide="play-circle" class="w-4 h-4"></i> Class Recordings & PDFs
         </button>
+        <button onclick="switchSection('history'); closeSideMenu();" id="snav-history" class="nav-btn text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
+          <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> Watch History
+        </button>
         <button onclick="switchSection('study'); closeSideMenu();" id="snav-study" class="nav-btn text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
           <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Study Time & Pomodoro
         </button>
@@ -279,7 +282,7 @@
       </div>
     </div>
 
-    <!-- 1. HERO GREETING BANNER + A/L COUNTDOWN + QUICK SUMMARY WIDGETS -->
+    <!-- 1. HERO GREETING BANNER + 2027 A/L COUNTDOWN + QUICK SUMMARY WIDGETS -->
     <section class="glass-card rounded-3xl p-5 sm:p-7">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <!-- Student Profile & Time-Based Emoji Greeting -->
@@ -300,18 +303,18 @@
               <span id="heroWelcomePrefix">Welcome back,</span>
               <span id="heroStudentName" class="bg-gradient-to-r from-white via-sky-200 to-indigo-300 bg-clip-text text-transparent">Chamindu</span>
             </h2>
-            <p id="heroBatchTag" class="text-xs sm:text-sm text-slate-400 mt-0.5">2026 A/L Science Stream • Keep pushing your limits!</p>
+            <p id="heroBatchTag" class="text-xs sm:text-sm text-slate-400 mt-0.5">2027 A/L Science Stream • Keep pushing your limits!</p>
           </div>
         </div>
 
-        <!-- Right Widgets: A/L Exam Countdown + Live Digital Clock -->
+        <!-- Right Widgets: 2027 A/L Countdown + Live Digital Clock -->
         <div class="flex flex-col sm:flex-row gap-3 self-start lg:self-auto">
-          <!-- A/L Countdown Box -->
-          <div class="bg-slate-950/90 rounded-2xl px-4 py-3.5 border border-indigo-500/35 min-w-[220px]">
+          <!-- 2027 A/L Countdown Box -->
+          <div class="bg-slate-950/90 rounded-2xl px-4 py-3.5 border border-indigo-500/35 min-w-[235px]">
             <div class="flex items-center justify-between gap-2 text-xs text-indigo-300 font-bold mb-1">
               <span class="flex items-center gap-1.5">
                 <i data-lucide="hourglass" class="w-3.5 h-3.5 text-amber-400"></i>
-                <span id="alCountdownLabel">A/L Exam Countdown</span>
+                <span>2027 A/L Countdown</span>
               </span>
               <span id="alTargetDateBadge" class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-200"></span>
             </div>
@@ -368,26 +371,9 @@
     </section>
 
     <!-- ===================================================================== -->
-    <!-- SECTION A: LESSONS + RECENTLY WATCHED HISTORY (LATEST FIRST)        -->
+    <!-- SECTION A: LESSONS (1. SUBJECT -> 2. YEAR -> 3. MONTH -> TOPIC CARDS) -->
     <!-- ===================================================================== -->
     <div id="section-lessons" class="space-y-6">
-
-      <!-- WATCHING VIDEOS HISTORY (LATEST WATCHED FIRST) -->
-      <section class="glass-card rounded-2xl p-4 sm:p-5 space-y-3">
-        <div class="flex items-center justify-between gap-2">
-          <div>
-            <h3 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
-              <i data-lucide="history" class="w-5 h-5 text-emerald-400"></i>
-              <span>Watch History (අන්තිමට බලපු Video මුලින්ම)</span>
-            </h3>
-            <p class="text-xs text-slate-400">ඔයා open කරපු හෝ watched tick දාපු videos අලුත්ම එක උඩින්ම පිළිවෙළට පෙන්වයි.</p>
-          </div>
-          <button type="button" onclick="clearWatchHistory()" class="text-xs font-bold text-rose-400 hover:text-rose-300 px-2.5 py-1 rounded-lg bg-slate-900/80 border border-slate-800">
-            Clear History
-          </button>
-        </div>
-        <div id="watchHistoryList" class="flex gap-3 overflow-x-auto pb-1"></div>
-      </section>
 
       <!-- FILTER BAR: 1. SUBJECT (3 ONLY) -> 2. YEAR -> 3. MONTH -->
       <section class="glass-card rounded-2xl p-4 sm:p-5">
@@ -411,7 +397,7 @@
             </label>
             <select id="filterYear" onchange="onFilterChange()" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-indigo-500">
               <option value="2026 A/L">2026 A/L</option>
-              <option value="2027 A/L">2027 A/L</option>
+              <option value="2027 A/L" selected>2027 A/L</option>
               <option value="2028 A/L">2028 A/L</option>
               <option value="Revision">Revision / Paper Class</option>
             </select>
@@ -445,7 +431,7 @@
         <div class="flex items-center justify-between">
           <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
             <i data-lucide="tag" class="w-5 h-5 text-sky-400"></i>
-            <span>Topics (<span id="selectedPeriodLabel">Physics • 2026 A/L • November</span>)</span>
+            <span>Topics (<span id="selectedPeriodLabel">Physics • 2027 A/L • November</span>)</span>
           </h3>
           <span id="topicCountBadge" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300">0 Topics</span>
         </div>
@@ -468,11 +454,38 @@
     </div>
 
     <!-- ===================================================================== -->
-    <!-- SECTION B: POMODORO + AUTO-RESET STUDY TIME TRACKER                   -->
+    <!-- SECTION A2: WATCH HISTORY (ACCESSED FROM SIDE MENU, INLINE PLAYER HERE) -->
+    <!-- ===================================================================== -->
+    <div id="section-history" class="hidden space-y-6">
+      <section class="glass-card rounded-2xl p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+          <div>
+            <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+              <i data-lucide="history" class="w-5 h-5 text-emerald-400"></i>
+              <span>Watch History (අන්තිමට බලපු Video මුලින්ම)</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">Video එක touch කළාම මෙතනම player එක open වෙයි. (Original video card එකේ play නොවේ.)</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="clearWatchHistory()" class="text-xs font-bold text-rose-400 hover:text-rose-300 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800">
+              Clear History
+            </button>
+            <button type="button" onclick="switchSection('lessons')" class="btn-primary text-xs font-bold px-3.5 py-1.5 rounded-xl">
+              Back to Lessons
+            </button>
+          </div>
+        </div>
+
+        <div id="watchHistoryPageGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </section>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION B: POMODORO (25/45/60m) + AUTO-RESET STUDY TIME TRACKER      -->
     <!-- ===================================================================== -->
     <div id="section-study" class="hidden space-y-6">
 
-      <!-- POMODORO FOCUS TIMER CARD -->
+      <!-- POMODORO FOCUS TIMER CARD (25 / 45 / 60 MIN) -->
       <section class="glass-card rounded-2xl p-5 border border-indigo-500/30">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
           <div class="space-y-1">
@@ -482,10 +495,10 @@
                 Pomodoro Focus Session
               </h3>
               <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
-                Auto-Logs to Study Time
+                25 / 45 / 60 Min
               </span>
             </div>
-            <p class="text-xs text-slate-400">Focus session එක ඉවර වුණාම (හෝ Log Elapsed click කළාම) තෝරපු subject එකට study time එක auto-add වේ.</p>
+            <p class="text-xs text-slate-400">Focus session එක ඉවර වුණාම (හෝ Log Now click කළාම) තෝරපු subject එකට study time එක auto-add වේ.</p>
           </div>
 
           <div class="flex flex-wrap items-center gap-3">
@@ -496,8 +509,9 @@
             </select>
 
             <div class="flex items-center gap-1.5 bg-slate-950/90 p-1 rounded-xl border border-slate-800">
-              <button type="button" onclick="setPomodoroPreset(25)" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white">25m</button>
-              <button type="button" onclick="setPomodoroPreset(50)" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white">50m</button>
+              <button type="button" onclick="setPomodoroPreset(25)" id="pomoPreset-25" class="pomo-preset-btn active-tab px-2.5 py-1 rounded-lg text-xs font-bold text-white">25m</button>
+              <button type="button" onclick="setPomodoroPreset(45)" id="pomoPreset-45" class="pomo-preset-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white">45m</button>
+              <button type="button" onclick="setPomodoroPreset(60)" id="pomoPreset-60" class="pomo-preset-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white">60m</button>
               <input type="number" id="pomodoroCustomMin" min="1" max="180" value="25" onchange="setPomodoroPreset(this.value)"
                 class="w-14 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs font-mono-num font-bold text-center text-white" />
             </div>
@@ -783,11 +797,7 @@
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-400 mb-1">Batch Tagline</label>
-          <select id="profBatchInput" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
-            <option value="2026 A/L Science Stream">2026 A/L Science Stream</option>
-            <option value="2027 A/L Science Stream">2027 A/L Science Stream</option>
-            <option value="2028 A/L Science Stream">2028 A/L Science Stream</option>
-          </select>
+          <input type="text" id="profBatchInput" value="2027 A/L Science Stream" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white" />
         </div>
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" onclick="closeProfileModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-bold text-slate-300">Cancel</button>
@@ -872,7 +882,7 @@
               <label class="block text-xs text-slate-400 mb-1">Exam Year</label>
               <select id="adminTopicYear" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
                 <option value="2026 A/L">2026 A/L</option>
-                <option value="2027 A/L">2027 A/L</option>
+                <option value="2027 A/L" selected>2027 A/L</option>
                 <option value="2028 A/L">2028 A/L</option>
                 <option value="Revision">Revision / Paper Class</option>
               </select>
@@ -933,7 +943,7 @@
               <label class="block text-xs text-slate-400 mb-1">2. Exam Year</label>
               <select id="adminLinkYear" onchange="populateAdminLinkTopics()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
                 <option value="2026 A/L">2026 A/L</option>
-                <option value="2027 A/L">2027 A/L</option>
+                <option value="2027 A/L" selected>2027 A/L</option>
                 <option value="2028 A/L">2028 A/L</option>
                 <option value="Revision">Revision / Paper Class</option>
               </select>
@@ -992,7 +1002,7 @@
         </div>
       </div>
 
-      <!-- ADMIN TAB 3: BROADCAST NOTICE, COUNTDOWN, PROFILE, GREETING & 15 THEMES -->
+      <!-- ADMIN TAB 3: BROADCAST NOTICE, 2027 COUNTDOWN (DATE+TIME), PROFILE & 15 THEMES -->
       <div id="admin-pane-themes" class="hidden space-y-5">
         <!-- Admin Broadcast Notice Box -->
         <div class="bg-slate-900/80 border border-amber-500/30 rounded-2xl p-4 space-y-3">
@@ -1001,7 +1011,7 @@
               <i data-lucide="megaphone" class="w-4 h-4"></i>
               Admin Broadcast Notice Banner (Students can dismiss after reading)
             </h4>
-            <p class="text-xs text-slate-400">Notice එකක් publish කළාම students ලගේ dashboard එකේ පෙන්වනවා. Student කියවලා Delete/Dismiss කළාම එයාගේ screen එකෙන් ඉවත් වෙනවා.</p>
+            <p class="text-xs text-slate-400">Notice එකක් publish කළාම students ලගේ dashboard එකේ පෙන්වනවා. Student කියවලා Delete කළාම එයාගේ screen එකෙන් ඉවත් වෙනවා.</p>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
@@ -1025,28 +1035,16 @@
           </div>
         </div>
 
-        <!-- A/L Exam Countdown Dates Config -->
+        <!-- 2027 A/L Exam Countdown Date & Time Config -->
         <div class="bg-slate-900/80 border border-indigo-500/30 rounded-2xl p-4 space-y-3">
           <div>
-            <h4 class="text-sm font-extrabold text-indigo-300">A/L Exam Countdown Target Dates</h4>
-            <p class="text-xs text-slate-400">Student ගේ batch එකට (`2026 A/L`, `2027 A/L`, `2028 A/L`) අදාළව exam countdown එක auto update වේ.</p>
+            <h4 class="text-sm font-extrabold text-indigo-300">2027 A/L Countdown Target Date & Time</h4>
+            <p class="text-xs text-slate-400">2027 A/L exam countdown එකේ Date එකයි Time එකයි දෙකම මෙතනින් edit කරන්න පුළුවන්.</p>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">2026 A/L Exam Date</label>
-              <input type="date" id="alDate2026Input" value="2026-11-25"
-                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
-            </div>
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">2027 A/L Exam Date</label>
-              <input type="date" id="alDate2027Input" value="2027-08-15"
-                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
-            </div>
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">2028 A/L Exam Date</label>
-              <input type="date" id="alDate2028Input" value="2028-08-15"
-                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
-            </div>
+          <div class="max-w-sm">
+            <label class="block text-xs text-slate-400 mb-1">2027 A/L Date & Time</label>
+            <input type="datetime-local" id="al2027DateTimeInput" value="2027-08-15T08:30"
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
           </div>
         </div>
 
@@ -1223,11 +1221,7 @@
       displayAvatar: DEFAULT_AVATAR,
       forceAdminIdentity: false,
       dynamicTimeMode: true,
-      alDates: {
-        "2026 A/L": "2026-11-25",
-        "2027 A/L": "2027-08-15",
-        "2028 A/L": "2028-08-15"
-      },
+      al2027DateTime: "2027-08-15T08:30",
       broadcastNotice: {
         id: "",
         title: "Important Update",
@@ -1238,7 +1232,8 @@
 
     let selectedSubjectFilter = "Physics";
     let selectedTopicId = null;
-    let activeInlineVideoId = null;
+    let activeLessonsPlayerVideoId = null;
+    let activeHistoryPlayerVideoId = null;
 
     // Student Local State
     let studentDeviceId = localStorage.getItem("chamixpro_device_id");
@@ -1254,1678 +1249,3 @@
       watchHistory = watchedIds.slice().reverse().map((id, idx) => ({
         videoId: id,
         watchedAt: Date.now() - idx * 1000
-      }));
-      localStorage.setItem("chamixpro_watch_history", JSON.stringify(watchHistory));
-    }
-
-    // Notice dismissed by this student (stores broadcastNotice.id)
-    let dismissedNoticeId = localStorage.getItem("chamixpro_dismissed_notice_id") || "";
-
-    let studentProfile = JSON.parse(localStorage.getItem("chamixpro_profile") || JSON.stringify({
-      name: "",
-      avatar: "",
-      batch: "2026 A/L Science Stream",
-      hasCustomProfile: false
-    }));
-
-    // Auto-Resetting Daily Study Map
-    let dailyStudyByDate = JSON.parse(localStorage.getItem("chamixpro_daily_study_by_date") || "{}");
-
-    // Auto-Resetting Weekly Study Store
-    let weeklyStudyStore = JSON.parse(localStorage.getItem("chamixpro_weekly_study_store") || "null");
-    if (!weeklyStudyStore || !weeklyStudyStore.grid) {
-      const legacyWeek = JSON.parse(localStorage.getItem("chamixpro_study_week") || "null");
-      weeklyStudyStore = {
-        weekKey: getMondayDateKey(),
-        grid: legacyWeek || emptyWeekGrid()
-      };
-      localStorage.setItem("chamixpro_weekly_study_store", JSON.stringify(weeklyStudyStore));
-    }
-
-    // Auto-Resetting Monthly Study Store
-    let monthlyStudyStore = JSON.parse(localStorage.getItem("chamixpro_monthly_study_store") || "null");
-    if (!monthlyStudyStore || !monthlyStudyStore.hours) {
-      const legacyMonth = JSON.parse(localStorage.getItem("chamixpro_study_month") || "null");
-      monthlyStudyStore = {
-        monthKey: getMonthKey(),
-        hours: legacyMonth || emptySubjectHours()
-      };
-      localStorage.setItem("chamixpro_monthly_study_store", JSON.stringify(monthlyStudyStore));
-    }
-
-    // Auto-Daily Tasks Map
-    let tasksByDate = JSON.parse(localStorage.getItem("chamixpro_tasks_by_date") || "null");
-    if (!tasksByDate) {
-      const legacyTasks = JSON.parse(localStorage.getItem("chamixpro_tasks") || "[]");
-      tasksByDate = {};
-      if (legacyTasks.length > 0) {
-        tasksByDate[getLocalDateKey()] = legacyTasks;
-      }
-      localStorage.setItem("chamixpro_tasks_by_date", JSON.stringify(tasksByDate));
-    }
-
-    let currentActualDateKey = getLocalDateKey();
-    let currentActualWeekKey = getMondayDateKey();
-    let currentActualMonthKey = getMonthKey();
-    let activeViewingDateKey = currentActualDateKey;
-
-    if (!dailyStudyByDate[currentActualDateKey]) {
-      dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
-      localStorage.setItem("chamixpro_daily_study_by_date", JSON.stringify(dailyStudyByDate));
-    }
-
-    function getTodayShortDay(dateObj = new Date()) {
-      return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dateObj.getDay()];
-    }
-
-    function saveStudyStores() {
-      localStorage.setItem("chamixpro_daily_study_by_date", JSON.stringify(dailyStudyByDate));
-      localStorage.setItem("chamixpro_weekly_study_store", JSON.stringify(weeklyStudyStore));
-      localStorage.setItem("chamixpro_monthly_study_store", JSON.stringify(monthlyStudyStore));
-    }
-
-    function getTasksForDate(dateKey) {
-      if (!Array.isArray(tasksByDate[dateKey])) {
-        tasksByDate[dateKey] = [];
-      }
-      return tasksByDate[dateKey];
-    }
-
-    function saveTasksByDate() {
-      localStorage.setItem("chamixpro_tasks_by_date", JSON.stringify(tasksByDate));
-    }
-
-    function checkAutoResets() {
-      const nowDateKey = getLocalDateKey();
-      const nowWeekKey = getMondayDateKey();
-      const nowMonthKey = getMonthKey();
-      let changed = false;
-
-      if (nowDateKey !== currentActualDateKey) {
-        const wasViewingToday = (activeViewingDateKey === currentActualDateKey);
-        currentActualDateKey = nowDateKey;
-
-        if (!dailyStudyByDate[nowDateKey]) {
-          dailyStudyByDate[nowDateKey] = emptySubjectHours();
-        }
-        if (!Array.isArray(tasksByDate[nowDateKey])) {
-          tasksByDate[nowDateKey] = [];
-        }
-        if (wasViewingToday) {
-          activeViewingDateKey = nowDateKey;
-        }
-        changed = true;
-      }
-
-      if (nowWeekKey !== currentActualWeekKey || weeklyStudyStore.weekKey !== nowWeekKey) {
-        currentActualWeekKey = nowWeekKey;
-        weeklyStudyStore = {
-          weekKey: nowWeekKey,
-          grid: emptyWeekGrid()
-        };
-        changed = true;
-      }
-
-      if (nowMonthKey !== currentActualMonthKey || monthlyStudyStore.monthKey !== nowMonthKey) {
-        currentActualMonthKey = nowMonthKey;
-        monthlyStudyStore = {
-          monthKey: nowMonthKey,
-          hours: emptySubjectHours()
-        };
-        changed = true;
-      }
-
-      if (changed) {
-        saveStudyStores();
-        saveTasksByDate();
-        populateTaskDateSelector();
-        updateStudyStatsAndCharts();
-        renderTasks();
-        syncStudentSnapshotToCloud();
-        showToast("New day/week started — Daily & Weekly study & tasks reset automatically!");
-      }
-    }
-
-    let dailyChartInstance = null;
-    let weeklyChartInstance = null;
-    let monthlyChartInstance = null;
-    let taskChartInstance = null;
-
-    // -------------------------------------------------------------------
-    // POMODORO TIMER LOGIC
-    // -------------------------------------------------------------------
-    let pomoDurationMin = 25;
-    let pomoRemainingSec = 25 * 60;
-    let pomoRunning = false;
-    let pomoIntervalId = null;
-
-    function renderPomodoroDisplay() {
-      const mins = Math.floor(pomoRemainingSec / 60);
-      const secs = pomoRemainingSec % 60;
-      document.getElementById("pomodoroClockDisplay").textContent =
-        `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-      document.getElementById("pomodoroToggleLabel").textContent = pomoRunning ? "Pause" : "Start";
-    }
-
-    window.setPomodoroPreset = function(minsVal) {
-      const m = Math.max(1, Math.min(180, parseInt(minsVal, 10) || 25));
-      pomoRunning = false;
-      clearInterval(pomoIntervalId);
-      pomoDurationMin = m;
-      pomoRemainingSec = m * 60;
-      document.getElementById("pomodoroCustomMin").value = m;
-      renderPomodoroDisplay();
-    };
-
-    function addStudyHoursDirect(subj, addedHours) {
-      if (addedHours <= 0) return;
-      checkAutoResets();
-      const todayDay = getTodayShortDay();
-      if (!weeklyStudyStore.grid[todayDay]) weeklyStudyStore.grid[todayDay] = emptySubjectHours();
-      weeklyStudyStore.grid[todayDay][subj] = +((weeklyStudyStore.grid[todayDay][subj] || 0) + addedHours).toFixed(2);
-
-      if (!dailyStudyByDate[currentActualDateKey]) dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
-      dailyStudyByDate[currentActualDateKey][subj] = +((dailyStudyByDate[currentActualDateKey][subj] || 0) + addedHours).toFixed(2);
-
-      monthlyStudyStore.hours[subj] = +((monthlyStudyStore.hours[subj] || 0) + addedHours).toFixed(2);
-
-      saveStudyStores();
-      updateStudyStatsAndCharts();
-      syncStudentSnapshotToCloud();
-    }
-
-    window.togglePomodoroTimer = function() {
-      if (pomoRunning) {
-        pomoRunning = false;
-        clearInterval(pomoIntervalId);
-        renderPomodoroDisplay();
-        return;
-      }
-      pomoRunning = true;
-      renderPomodoroDisplay();
-      pomoIntervalId = setInterval(() => {
-        if (!pomoRunning) return;
-        pomoRemainingSec -= 1;
-        if (pomoRemainingSec <= 0) {
-          pomoRunning = false;
-          clearInterval(pomoIntervalId);
-          const subj = document.getElementById("pomodoroSubjectSelect").value;
-          const loggedHrs = +(pomoDurationMin / 60).toFixed(2);
-          addStudyHoursDirect(subj, loggedHrs);
-          pomoRemainingSec = pomoDurationMin * 60;
-          showToast(`Pomodoro complete! +${pomoDurationMin}m added to ${subj}`);
-        }
-        renderPomodoroDisplay();
-      }, 1000);
-    };
-
-    window.logElapsedPomodoro = function() {
-      const elapsedSec = Math.max(0, (pomoDurationMin * 60) - pomoRemainingSec);
-      const mins = Math.floor(elapsedSec / 60);
-      if (mins < 1) {
-        showToast("Focus for at least 1 minute before logging!");
-        return;
-      }
-      const subj = document.getElementById("pomodoroSubjectSelect").value;
-      const loggedHrs = +(mins / 60).toFixed(2);
-      addStudyHoursDirect(subj, loggedHrs);
-      pomoRunning = false;
-      clearInterval(pomoIntervalId);
-      pomoRemainingSec = pomoDurationMin * 60;
-      renderPomodoroDisplay();
-      showToast(`Logged ${mins}m focus time to ${subj}!`);
-    };
-
-    window.resetPomodoroTimer = function() {
-      pomoRunning = false;
-      clearInterval(pomoIntervalId);
-      pomoRemainingSec = pomoDurationMin * 60;
-      renderPomodoroDisplay();
-    };
-    renderPomodoroDisplay();
-
-    // -------------------------------------------------------------------
-    // A/L EXAM COUNTDOWN TIMER
-    // -------------------------------------------------------------------
-    function updateALCountdown() {
-      const batch = studentProfile.batch || "2026 A/L Science Stream";
-      let cohortKey = "2026 A/L";
-      if (batch.includes("2027")) cohortKey = "2027 A/L";
-      else if (batch.includes("2028")) cohortKey = "2028 A/L";
-
-      const datesMap = siteSettings.alDates || {};
-      const targetStr = datesMap[cohortKey] || "2026-11-25";
-      const targetDate = new Date(`${targetStr}T08:00:00`);
-      const now = new Date();
-      const diff = targetDate.getTime() - now.getTime();
-
-      document.getElementById("alCountdownLabel").textContent = `${cohortKey} Countdown`;
-      document.getElementById("alTargetDateBadge").textContent = targetStr;
-
-      if (isNaN(targetDate.getTime())) {
-        document.getElementById("alCountdownDisplay").textContent = "Set Exam Date";
-        return;
-      }
-
-      if (diff <= 0) {
-        document.getElementById("alCountdownDisplay").textContent = "Exam Day / Started!";
-        return;
-      }
-
-      const totalSec = Math.floor(diff / 1000);
-      const days = Math.floor(totalSec / 86400);
-      const hrs = Math.floor((totalSec % 86400) / 3600);
-      const mins = Math.floor((totalSec % 3600) / 60);
-      const secs = totalSec % 60;
-
-      document.getElementById("alCountdownDisplay").textContent =
-        `${String(days).padStart(2, "0")}d : ${String(hrs).padStart(2, "0")}h : ${String(mins).padStart(2, "0")}m : ${String(secs).padStart(2, "0")}s`;
-    }
-
-    // -------------------------------------------------------------------
-    // BROADCAST NOTICE BANNER (DISMISSIBLE / DELETABLE BY STUDENT)
-    // -------------------------------------------------------------------
-    function renderBroadcastNotice() {
-      const notice = siteSettings.broadcastNotice || {};
-      const bannerEl = document.getElementById("broadcastNoticeBanner");
-      if (!notice.message || !notice.message.trim() || !notice.id || dismissedNoticeId === notice.id) {
-        bannerEl.classList.add("hidden");
-        return;
-      }
-      document.getElementById("broadcastBadgeTitle").textContent = notice.title || "Admin Notice";
-      document.getElementById("broadcastMessageText").textContent = notice.message.trim();
-      document.getElementById("broadcastTimeLabel").textContent = notice.updatedAt
-        ? `• ${new Date(notice.updatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
-        : "";
-      bannerEl.classList.remove("hidden");
-      lucide.createIcons();
-    }
-
-    window.dismissBroadcastNotice = function() {
-      const notice = siteSettings.broadcastNotice || {};
-      if (notice.id) {
-        dismissedNoticeId = notice.id;
-        localStorage.setItem("chamixpro_dismissed_notice_id", dismissedNoticeId);
-      }
-      renderBroadcastNotice();
-      showToast("Notice deleted from your view.");
-    };
-
-    window.publishBroadcastNotice = async function() {
-      const title = document.getElementById("adminNoticeTitleInput").value.trim() || "Admin Notice";
-      const message = document.getElementById("adminNoticeMessageInput").value.trim();
-      if (!message) {
-        await clearBroadcastNotice();
-        return;
-      }
-      const newNotice = {
-        id: "notice_" + Date.now(),
-        title,
-        message,
-        updatedAt: Date.now()
-      };
-      siteSettings.broadcastNotice = newNotice;
-      dismissedNoticeId = "";
-      localStorage.removeItem("chamixpro_dismissed_notice_id");
-      await setDoc(doc(db, "chamix_pro_meta", "settings"), { broadcastNotice: newNotice }, { merge: true });
-      renderBroadcastNotice();
-      showToast("Broadcast notice published to all students!");
-    };
-
-    window.clearBroadcastNotice = async function() {
-      document.getElementById("adminNoticeMessageInput").value = "";
-      const emptyNotice = { id: "", title: "Admin Notice", message: "", updatedAt: Date.now() };
-      siteSettings.broadcastNotice = emptyNotice;
-      await setDoc(doc(db, "chamix_pro_meta", "settings"), { broadcastNotice: emptyNotice }, { merge: true });
-      renderBroadcastNotice();
-      showToast("Broadcast notice cleared.");
-    };
-
-    // -------------------------------------------------------------------
-    // 1. LIVE CLOCK + TIME-BASED GREETINGS, COUNTDOWN & AUTO RESETS
-    // -------------------------------------------------------------------
-    function updateClockAndGreeting() {
-      checkAutoResets();
-      updateALCountdown();
-      const now = new Date();
-      const hrs = now.getHours();
-      let greeting = "Good Morning!";
-      let emoji = "☀️";
-      let timeTint = "rgba(250, 204, 21, 0.12)";
-
-      if (hrs >= 5 && hrs < 12) {
-        greeting = "Good Morning!";
-        emoji = "☀️";
-        timeTint = "rgba(250, 204, 21, 0.12)";
-      } else if (hrs >= 12 && hrs < 17) {
-        greeting = "Good Afternoon!";
-        emoji = "🌤️";
-        timeTint = "rgba(14, 165, 233, 0.13)";
-      } else if (hrs >= 17 && hrs < 21) {
-        greeting = "Good Evening!";
-        emoji = "🌅";
-        timeTint = "rgba(249, 115, 22, 0.13)";
-      } else {
-        greeting = "Good Night! Keep Studying!";
-        emoji = "🌙";
-        timeTint = "rgba(139, 92, 246, 0.14)";
-      }
-
-      if (siteSettings.dynamicTimeMode !== false) {
-        document.documentElement.style.setProperty("--time-tint", timeTint);
-      } else {
-        document.documentElement.style.setProperty("--time-tint", "rgba(6, 182, 212, 0.10)");
-      }
-
-      document.getElementById("greetingText").textContent = greeting;
-      document.getElementById("greetingEmoji").textContent = emoji;
-      document.getElementById("liveClockText").textContent = now.toLocaleTimeString("en-US", {
-        hour: "2-digit", minute: "2-digit", second: "2-digit"
-      });
-      document.getElementById("liveDateText").textContent = now.toLocaleDateString("en-US", {
-        weekday: "long", month: "short", day: "numeric", year: "numeric"
-      });
-    }
-    setInterval(updateClockAndGreeting, 1000);
-    updateClockAndGreeting();
-
-    const initShortDay = getTodayShortDay();
-    document.getElementById("studyDayInput").value = initShortDay;
-    document.getElementById("dailyChartDaySelect").value = initShortDay;
-
-    // -------------------------------------------------------------------
-    // 2. FIREBASE REAL-TIME LISTENERS & FULL STUDENT ACTIVITY SYNC
-    // -------------------------------------------------------------------
-    function initCloudListeners() {
-      onSnapshot(doc(db, "chamix_pro_meta", "settings"), (snap) => {
-        if (snap.exists()) {
-          const data = snap.data();
-          siteSettings = {
-            ...siteSettings,
-            ...data,
-            alDates: { ...siteSettings.alDates, ...(data.alDates || {}) },
-            broadcastNotice: { ...siteSettings.broadcastNotice, ...(data.broadcastNotice || {}) }
-          };
-        }
-        applyThemeAndBranding();
-        applyStudentProfile();
-        renderThemeSwatches();
-        renderBroadcastNotice();
-        updateALCountdown();
-      }, () => setSyncOffline());
-
-      onSnapshot(query(collection(db, "chamix_pro_topics"), orderBy("createdAt", "asc")), (snapshot) => {
-        cloudTopics = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-        setSyncOnline();
-        renderTopicsAndVideos();
-        renderWatchHistory();
-        renderAdminTopicsList();
-        populateAdminLinkTopics();
-      }, () => setSyncOffline());
-
-      onSnapshot(query(collection(db, "chamix_pro_videos"), orderBy("createdAt", "asc")), (snapshot) => {
-        cloudVideos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderTopicsAndVideos();
-        renderWatchHistory();
-        renderAdminVideosList();
-        renderAdminStudentsList();
-      });
-
-      onSnapshot(collection(db, "chamix_pro_students"), (snapshot) => {
-        cloudStudents = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderAdminStudentsList();
-      });
-
-      syncStudentSnapshotToCloud();
-    }
-
-    async function syncStudentSnapshotToCloud() {
-      try {
-        checkAutoResets();
-        const grid = weeklyStudyStore.grid || emptyWeekGrid();
-        let totP = 0, totC = 0, totB = 0;
-        DAYS.forEach(d => {
-          totP += grid[d]?.Physics || 0;
-          totC += grid[d]?.Chemistry || 0;
-          totB += grid[d]?.Biology || 0;
-        });
-        const totHrs = +(totP + totC + totB).toFixed(1);
-
-        const todayObj = dailyStudyByDate[currentActualDateKey] || emptySubjectHours();
-        const todayHrs = +((todayObj.Physics || 0) + (todayObj.Chemistry || 0) + (todayObj.Biology || 0)).toFixed(1);
-
-        const todayTasksList = getTasksForDate(currentActualDateKey);
-        const doneTasks = todayTasksList.filter(t => t.done).length;
-        const activeName = (studentProfile.hasCustomProfile && studentProfile.name)
-          ? studentProfile.name
-          : (siteSettings.displayName || "Student");
-        const activeAvatar = (studentProfile.hasCustomProfile && studentProfile.avatar)
-          ? studentProfile.avatar
-          : (siteSettings.displayAvatar || DEFAULT_AVATAR);
-
-        const taskDetails = todayTasksList.slice(-20).map(t => ({
-          subject: t.subject,
-          text: t.text,
-          done: Boolean(t.done)
-        }));
-
-        await setDoc(doc(db, "chamix_pro_students", studentDeviceId), {
-          name: activeName,
-          avatar: activeAvatar,
-          batch: studentProfile.batch || "2026 A/L Science Stream",
-          studyDate: currentActualDateKey,
-          weekKey: currentActualWeekKey,
-          weeklyHours: totHrs,
-          todayHours: todayHrs,
-          subjectHours: {
-            Physics: +totP.toFixed(1),
-            Chemistry: +totC.toFixed(1),
-            Biology: +totB.toFixed(1)
-          },
-          taskDate: currentActualDateKey,
-          tasksSummary: `${doneTasks}/${todayTasksList.length}`,
-          taskDetails,
-          watchedVideoIds: watchedIds,
-          lastActive: Date.now()
-        }, { merge: true });
-      } catch (e) {
-        // Silent fail if offline
-      }
-    }
-
-    function setSyncOnline() {
-      const badge = document.getElementById("syncBadge");
-      badge.className = "inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
-      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span> LIVE SYNC`;
-    }
-
-    function setSyncOffline() {
-      const badge = document.getElementById("syncBadge");
-      badge.className = "inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30";
-      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> CHECK FIRESTORE`;
-    }
-
-    function applyThemeAndBranding() {
-      const theme = THEME_OPTIONS.find(t => t.id === siteSettings.themeId) || THEME_OPTIONS[0];
-      document.documentElement.style.setProperty("--primary", theme.primary);
-      document.documentElement.style.setProperty("--accent", theme.accent);
-      document.documentElement.style.setProperty("--glow", theme.glow);
-
-      const brand = siteSettings.siteName || "CHAMIX PRO";
-      document.getElementById("brandTitle").textContent = brand;
-      document.getElementById("drawerBrandTitle").textContent = brand;
-      document.title = `${brand} | A/L Science Smart Hub`;
-
-      const welcomeText = siteSettings.welcomePrefix !== undefined ? siteSettings.welcomePrefix : "Welcome back,";
-      document.getElementById("heroWelcomePrefix").textContent = welcomeText ? `${welcomeText} ` : "";
-
-      const notice = siteSettings.broadcastNotice || {};
-      document.getElementById("adminNoticeTitleInput").value = notice.title || "Important Update";
-      document.getElementById("adminNoticeMessageInput").value = notice.message || "";
-
-      const alDates = siteSettings.alDates || {};
-      document.getElementById("alDate2026Input").value = alDates["2026 A/L"] || "2026-11-25";
-      document.getElementById("alDate2027Input").value = alDates["2027 A/L"] || "2027-08-15";
-      document.getElementById("alDate2028Input").value = alDates["2028 A/L"] || "2028-08-15";
-
-      document.getElementById("adminWelcomePrefixInput").value = welcomeText;
-      document.getElementById("adminDisplayNameInput").value = siteSettings.displayName || "Chamindu";
-      document.getElementById("adminDisplayAvatarInput").value = siteSettings.displayAvatar || DEFAULT_AVATAR;
-      document.getElementById("adminForceOverrideCheckbox").checked = Boolean(siteSettings.forceAdminIdentity);
-      document.getElementById("adminSiteNameInput").value = brand;
-      document.getElementById("adminNewPassInput").value = siteSettings.adminPass || "chamix123";
-      document.getElementById("dynamicTimeModeCheckbox").checked = siteSettings.dynamicTimeMode !== false;
-      updateClockAndGreeting();
-    }
-
-    // -------------------------------------------------------------------
-    // 3. YOUTUBE ID EXTRACTOR & EMBED BUILDER
-    // -------------------------------------------------------------------
-    function extractYouTubeId(url) {
-      if (!url) return null;
-      const clean = url.trim();
-      if (/^[a-zA-Z0-9_-]{11}$/.test(clean)) return clean;
-      const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/live\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
-        /[?&]v=([a-zA-Z0-9_-]{11})/
-      ];
-      for (const p of patterns) {
-        const match = clean.match(p);
-        if (match && match[1]) return match[1];
-      }
-      return null;
-    }
-
-    function buildYouTubeEmbedUrl(ytId) {
-      const originParam = window.location.origin && window.location.origin.startsWith("http")
-        ? `&origin=${encodeURIComponent(window.location.origin)}`
-        : "";
-      return `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1${originParam}`;
-    }
-
-    // -------------------------------------------------------------------
-    // WATCHING VIDEOS HISTORY (LATEST FIRST)
-    // -------------------------------------------------------------------
-    function recordVideoInHistory(videoId) {
-      watchHistory = watchHistory.filter(item => item.videoId !== videoId);
-      watchHistory.unshift({ videoId, watchedAt: Date.now() });
-      watchHistory = watchHistory.slice(0, 20);
-      localStorage.setItem("chamixpro_watch_history", JSON.stringify(watchHistory));
-      renderWatchHistory();
-    }
-
-    window.clearWatchHistory = function() {
-      watchHistory = [];
-      localStorage.setItem("chamixpro_watch_history", JSON.stringify(watchHistory));
-      renderWatchHistory();
-      showToast("Watch history cleared.");
-    };
-
-    window.openVideoFromHistory = function(videoId) {
-      const vid = cloudVideos.find(v => v.id === videoId);
-      if (!vid) return;
-      const topic = cloudTopics.find(t => t.id === vid.topicId);
-      if (topic) {
-        selectedSubjectFilter = topic.subject;
-        document.querySelectorAll(".subj-pill").forEach(btn => {
-          if (btn.dataset.subj === topic.subject) {
-            btn.classList.add("active-tab");
-            btn.classList.remove("text-slate-300");
-          } else {
-            btn.classList.remove("active-tab");
-            btn.classList.add("text-slate-300");
-          }
-        });
-        if (topic.year) document.getElementById("filterYear").value = topic.year;
-        if (topic.month) document.getElementById("filterMonth").value = topic.month;
-        selectedTopicId = topic.id;
-      }
-      openInlinePlayer(videoId);
-    };
-
-    function renderWatchHistory() {
-      const el = document.getElementById("watchHistoryList");
-      if (!el) return;
-      if (!Array.isArray(watchHistory) || watchHistory.length === 0) {
-        el.innerHTML = `<p class="text-xs text-slate-500 py-2">තවම videos බලලා නැහැ. Video එකක් open කළාම අන්තිමට බලපු එක මුලින්ම මෙතන පෙන්වයි.</p>`;
-        return;
-      }
-
-      const itemsHtml = watchHistory.map((entry, idx) => {
-        const vid = cloudVideos.find(v => v.id === entry.videoId);
-        if (!vid) return "";
-        const topic = cloudTopics.find(t => t.id === vid.topicId);
-        const subj = topic ? topic.subject : "Lesson";
-        const topicName = topic ? topic.name : "";
-        return `
-          <button type="button" onclick="openVideoFromHistory('${vid.id}')"
-            class="shrink-0 w-60 text-left bg-slate-900/90 hover:bg-slate-800/90 border ${idx === 0 ? 'border-emerald-400/60' : 'border-slate-800'} rounded-xl p-3 transition flex flex-col justify-between gap-1.5">
-            <div class="flex items-center justify-between gap-2">
-              <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${idx === 0 ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300'}">
-                ${idx === 0 ? '★ LATEST WATCHED' : `#${idx + 1}`}
-              </span>
-              <span class="text-[10px] font-bold text-sky-300">${escapeHtml(subj)}</span>
-            </div>
-            <div class="text-xs font-extrabold text-white truncate">${escapeHtml(vid.title)}</div>
-            <div class="text-[10px] text-slate-400 truncate">${escapeHtml(topicName)}</div>
-          </button>
-        `;
-      }).filter(Boolean).join("");
-
-      el.innerHTML = itemsHtml || `<p class="text-xs text-slate-500 py-2">No matching videos in history yet.</p>`;
-    }
-
-    // -------------------------------------------------------------------
-    // 4. SUBJECT -> YEAR -> MONTH -> TOPIC PILLS -> TOUCH-TO-PLAY CARDS
-    // -------------------------------------------------------------------
-    window.onFilterChange = function() {
-      selectedTopicId = null;
-      activeInlineVideoId = null;
-      renderTopicsAndVideos();
-    };
-
-    window.setSubjectFilter = function(subj) {
-      selectedSubjectFilter = subj;
-      document.querySelectorAll(".subj-pill").forEach(btn => {
-        if (btn.dataset.subj === subj) {
-          btn.classList.add("active-tab");
-          btn.classList.remove("text-slate-300");
-        } else {
-          btn.classList.remove("active-tab");
-          btn.classList.add("text-slate-300");
-        }
-      });
-      selectedTopicId = null;
-      activeInlineVideoId = null;
-      renderTopicsAndVideos();
-    };
-
-    function renderTopicsAndVideos() {
-      const year = document.getElementById("filterYear").value;
-      const month = document.getElementById("filterMonth").value;
-      document.getElementById("selectedPeriodLabel").textContent = `${selectedSubjectFilter} • ${year} • ${month}`;
-
-      const filteredTopics = cloudTopics.filter(t =>
-        t.subject === selectedSubjectFilter &&
-        t.year === year &&
-        t.month === month
-      );
-
-      document.getElementById("topicCountBadge").textContent = `${filteredTopics.length} Topics`;
-      const pillsRow = document.getElementById("topicsPillsRow");
-
-      if (filteredTopics.length === 0) {
-        selectedTopicId = null;
-        pillsRow.innerHTML = `<p class="text-xs text-slate-400">මෙම Subject, Year සහ Month සඳහා Topics තවම නොමැත.</p>`;
-        renderTopicVideos(null);
-        return;
-      }
-
-      if (!selectedTopicId || !filteredTopics.some(t => t.id === selectedTopicId)) {
-        selectedTopicId = filteredTopics[0].id;
-      }
-
-      pillsRow.innerHTML = filteredTopics.map(topic => {
-        const isSelected = topic.id === selectedTopicId;
-        const vidCount = cloudVideos.filter(v => v.topicId === topic.id).length;
-        return `
-          <button type="button" onclick="selectTopic('${topic.id}')"
-            class="topic-pill ${isSelected ? 'active-pill' : ''}">
-            <span>${escapeHtml(topic.name)}</span>
-            <span class="text-[11px] opacity-80">(${vidCount})</span>
-          </button>
-        `;
-      }).join("");
-
-      const activeTopic = filteredTopics.find(t => t.id === selectedTopicId) || filteredTopics[0];
-      renderTopicVideos(activeTopic);
-    }
-
-    window.selectTopic = function(topicId) {
-      selectedTopicId = topicId;
-      activeInlineVideoId = null;
-      renderTopicsAndVideos();
-    };
-
-    function renderTopicVideos(activeTopic) {
-      const gridEl = document.getElementById("topicVideosGrid");
-      const headingEl = document.getElementById("activeTopicHeading");
-      const badgeEl = document.getElementById("videoCountBadge");
-
-      if (!activeTopic) {
-        headingEl.textContent = `${selectedSubjectFilter} Recordings`;
-        badgeEl.textContent = "0 Videos";
-        gridEl.innerHTML = `
-          <div class="col-span-full glass-card rounded-2xl p-8 text-center text-slate-400 text-sm">
-            <p class="font-semibold text-slate-300">මෙම තේරීම යටතේ Topics / Recordings තවම නොමැත.</p>
-            <p class="text-xs mt-1">Admin Studio වෙතින් Topic සහ Recording link එකතු කරන්න.</p>
-          </div>`;
-        return;
-      }
-
-      headingEl.textContent = `${activeTopic.subject}: ${activeTopic.name}`;
-      const videos = cloudVideos.filter(v => v.topicId === activeTopic.id);
-      badgeEl.textContent = `${videos.length} Videos`;
-
-      if (videos.length === 0) {
-        gridEl.innerHTML = `
-          <div class="col-span-full glass-card rounded-2xl p-8 text-center text-slate-400 text-sm">
-            <p class="font-semibold text-slate-300">"${escapeHtml(activeTopic.name)}" Topic එකට Recordings තවම නොමැත.</p>
-          </div>`;
-        return;
-      }
-
-      gridEl.innerHTML = videos.map((vid, idx) => {
-        const ytId = extractYouTubeId(vid.youtubeUrl);
-        const isWatched = watchedIds.includes(vid.id);
-        const isPlaying = activeInlineVideoId === vid.id && ytId;
-
-        const playerBlockHtml = isPlaying
-          ? `<div id="playerBox-${vid.id}" onclick="event.stopPropagation()"
-               class="inline-player-box relative w-full aspect-video bg-black border-b border-slate-800">
-               <iframe src="${buildYouTubeEmbedUrl(ytId)}"
-                 class="w-full h-full border-0"
-                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                 allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-             </div>`
-          : "";
-
-        return `
-          <article onclick="openInlinePlayer('${vid.id}')"
-            class="video-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer ${isWatched ? 'watched-card' : ''}">
-            <div>
-              ${playerBlockHtml}
-
-              <div class="p-4 sm:p-5 space-y-2.5">
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-md badge-primary">
-                    ${escapeHtml(activeTopic.subject)} • #${String(idx + 1).padStart(2, '0')}
-                  </span>
-                  ${isWatched
-                    ? `<span class="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-500 text-slate-950 shadow">
-                         ✓ WATCHED
-                       </span>`
-                    : `<span class="text-[11px] text-slate-400 font-medium">${escapeHtml(activeTopic.name)}</span>`
-                  }
-                </div>
-
-                <h5 class="text-base sm:text-lg font-extrabold text-white leading-snug">
-                  ${escapeHtml(vid.title)}
-                </h5>
-              </div>
-            </div>
-
-            <div onclick="event.stopPropagation()" class="px-4 sm:px-5 pb-4 pt-2 border-t border-slate-800/70 flex items-center justify-between gap-2">
-              <button type="button" onclick="toggleVideoWatched('${vid.id}')"
-                class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
-                  isWatched
-                    ? 'bg-emerald-500 text-slate-950 hover:bg-emerald-400'
-                    : 'bg-slate-800 text-slate-200 hover:bg-emerald-600 hover:text-white'
-                }">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
-                <span>${isWatched ? 'Watched ✓' : 'Mark Watched'}</span>
-              </button>
-
-              <div class="flex items-center gap-1.5">
-                ${isPlaying
-                  ? `<button type="button" onclick="toggleInlineFullscreen('${vid.id}')"
-                       class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white" title="Full Screen">
-                       <i data-lucide="maximize" class="w-4 h-4"></i>
-                     </button>
-                     <button type="button" onclick="closeInlinePlayer()"
-                       class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200">
-                       Close
-                     </button>`
-                  : ""
-                }
-                ${vid.pdfUrl && vid.pdfUrl.trim() !== ""
-                  ? `<a href="${escapeHtml(vid.pdfUrl.trim())}" target="_blank" rel="noopener noreferrer"
-                       class="p-2 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/35 hover:bg-rose-500 hover:text-white transition" title="Open PDF Notes">
-                       <i data-lucide="file-text" class="w-4 h-4"></i>
-                     </a>`
-                  : ""
-                }
-                ${vid.youtubeUrl
-                  ? `<a href="${escapeHtml(vid.youtubeUrl.trim())}" target="_blank" rel="noopener noreferrer"
-                       class="p-2 rounded-xl bg-slate-800/90 text-slate-300 hover:text-white transition" title="Open in YouTube">
-                       <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                     </a>`
-                  : ""
-                }
-              </div>
-            </div>
-          </article>
-        `;
-      }).join("");
-
-      lucide.createIcons();
-    }
-
-    window.openInlinePlayer = function(videoId) {
-      const vid = cloudVideos.find(v => v.id === videoId);
-      if (!vid) return;
-      recordVideoInHistory(videoId);
-      const ytId = extractYouTubeId(vid.youtubeUrl);
-      if (!ytId) {
-        if (vid.youtubeUrl) window.open(vid.youtubeUrl, "_blank", "noopener,noreferrer");
-        else showToast("Invalid YouTube link!");
-        return;
-      }
-      activeInlineVideoId = videoId;
-      renderTopicsAndVideos();
-    };
-
-    window.closeInlinePlayer = function() {
-      activeInlineVideoId = null;
-      renderTopicsAndVideos();
-    };
-
-    window.toggleInlineFullscreen = function(videoId) {
-      const box = document.getElementById(`playerBox-${videoId}`);
-      if (!box) return;
-      if (!document.fullscreenElement) {
-        if (box.requestFullscreen) box.requestFullscreen().catch(() => {});
-        else if (box.webkitRequestFullscreen) box.webkitRequestFullscreen();
-      } else {
-        document.exitFullscreen().catch(() => {});
-      }
-    };
-
-    window.toggleVideoWatched = function(videoId) {
-      if (watchedIds.includes(videoId)) {
-        watchedIds = watchedIds.filter(x => x !== videoId);
-        showToast("Removed watched highlight");
-      } else {
-        watchedIds.push(videoId);
-        recordVideoInHistory(videoId);
-        showToast("Marked as watched & moved to top of history! ✓");
-      }
-      localStorage.setItem("chamixpro_watched", JSON.stringify(watchedIds));
-      renderTopicsAndVideos();
-      syncStudentSnapshotToCloud();
-    };
-
-    // -------------------------------------------------------------------
-    // 5. STUDY TIME TRACKER (AUTO DAILY + AUTO WEEKLY + AUTO MONTHLY)
-    // -------------------------------------------------------------------
-    window.addStudyEntry = function(e) {
-      e.preventDefault();
-      checkAutoResets();
-
-      const day = document.getElementById("studyDayInput").value;
-      const subj = document.getElementById("studySubjectInput").value;
-      const hrs = parseFloat(document.getElementById("studyHoursInput").value) || 0;
-      const mins = parseFloat(document.getElementById("studyMinsInput").value) || 0;
-      const addedHours = +(hrs + mins / 60).toFixed(2);
-
-      if (addedHours <= 0) return;
-
-      if (!weeklyStudyStore.grid[day]) weeklyStudyStore.grid[day] = emptySubjectHours();
-      weeklyStudyStore.grid[day][subj] = +((weeklyStudyStore.grid[day][subj] || 0) + addedHours).toFixed(2);
-
-      if (!dailyStudyByDate[currentActualDateKey]) {
-        dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
-      }
-      dailyStudyByDate[currentActualDateKey][subj] = +((dailyStudyByDate[currentActualDateKey][subj] || 0) + addedHours).toFixed(2);
-
-      monthlyStudyStore.hours[subj] = +((monthlyStudyStore.hours[subj] || 0) + addedHours).toFixed(2);
-
-      saveStudyStores();
-      document.getElementById("dailyChartDaySelect").value = day;
-      updateStudyStatsAndCharts();
-      syncStudentSnapshotToCloud();
-      showToast(`Added ${hrs}h ${mins}m to ${subj} (${day})`);
-    };
-
-    window.resetWeeklyStudy = function() {
-      if (!confirm("Reset current week's study time data?")) return;
-      checkAutoResets();
-      weeklyStudyStore = {
-        weekKey: currentActualWeekKey,
-        grid: emptyWeekGrid()
-      };
-      saveStudyStores();
-      updateStudyStatsAndCharts();
-      syncStudentSnapshotToCloud();
-      showToast("Current week study logs reset.");
-    };
-
-    function updateStudyStatsAndCharts() {
-      checkAutoResets();
-      const grid = weeklyStudyStore.grid || emptyWeekGrid();
-
-      let totP = 0, totC = 0, totB = 0;
-      DAYS.forEach(d => {
-        totP += grid[d]?.Physics || 0;
-        totC += grid[d]?.Chemistry || 0;
-        totB += grid[d]?.Biology || 0;
-      });
-      const grand = totP + totC + totB;
-
-      document.getElementById("statPhysicsTotal").textContent = `${totP.toFixed(1)} hrs`;
-      document.getElementById("statChemTotal").textContent = `${totC.toFixed(1)} hrs`;
-      document.getElementById("statBioTotal").textContent = `${totB.toFixed(1)} hrs`;
-      document.getElementById("statGrandTotal").textContent = `${grand.toFixed(1)} hrs`;
-      document.getElementById("widgetWeeklyTotal").textContent = `${grand.toFixed(1)} hrs`;
-      document.getElementById("weeklyChartHeading").textContent = `Weekly 7-Day Study Chart (Week of ${currentActualWeekKey})`;
-
-      const todayObj = dailyStudyByDate[currentActualDateKey] || emptySubjectHours();
-      const todayHrsFloat = (todayObj.Physics || 0) + (todayObj.Chemistry || 0) + (todayObj.Biology || 0);
-      const h = Math.floor(todayHrsFloat);
-      const m = Math.round((todayHrsFloat - h) * 60);
-      document.getElementById("heroTodayStudy").textContent = `${h}h ${m}m`;
-
-      const mHrs = monthlyStudyStore.hours || emptySubjectHours();
-      const mTot = +((mHrs.Physics || 0) + (mHrs.Chemistry || 0) + (mHrs.Biology || 0)).toFixed(1);
-      document.getElementById("monthlyTotalBadge").textContent = `Month Total (${currentActualMonthKey}): ${mTot} hrs`;
-
-      renderStudyCharts();
-    }
-
-    window.renderStudyCharts = function() {
-      const selectedDay = document.getElementById("dailyChartDaySelect").value;
-      const grid = weeklyStudyStore.grid || emptyWeekGrid();
-      const dData = (selectedDay === getTodayShortDay() && dailyStudyByDate[currentActualDateKey])
-        ? dailyStudyByDate[currentActualDateKey]
-        : (grid[selectedDay] || emptySubjectHours());
-
-      const dTotal = +((dData.Physics || 0) + (dData.Chemistry || 0) + (dData.Biology || 0)).toFixed(2);
-
-      const dailyCtx = document.getElementById("dailyStudyChart").getContext("2d");
-      if (dailyChartInstance) dailyChartInstance.destroy();
-      dailyChartInstance = new Chart(dailyCtx, {
-        type: "bar",
-        data: {
-          labels: ["Physics", "Chemistry", "Biology", "Total"],
-          datasets: [{
-            label: `${selectedDay} Hours`,
-            data: [dData.Physics || 0, dData.Chemistry || 0, dData.Biology || 0, dTotal],
-            backgroundColor: ["#6366f1", "#06b6d4", "#10b981", "#f59e0b"],
-            borderRadius: 8
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.1)" } },
-            x: { ticks: { color: "#e2e8f0", font: { weight: "bold" } }, grid: { display: false } }
-          }
-        }
-      });
-
-      const pArr = DAYS.map(d => grid[d]?.Physics || 0);
-      const cArr = DAYS.map(d => grid[d]?.Chemistry || 0);
-      const bArr = DAYS.map(d => grid[d]?.Biology || 0);
-      const tArr = DAYS.map(d => +((grid[d]?.Physics || 0) + (grid[d]?.Chemistry || 0) + (grid[d]?.Biology || 0)).toFixed(2));
-
-      const weeklyCtx = document.getElementById("weeklyStudyChart").getContext("2d");
-      if (weeklyChartInstance) weeklyChartInstance.destroy();
-      weeklyChartInstance = new Chart(weeklyCtx, {
-        data: {
-          labels: DAYS,
-          datasets: [
-            { type: "line", label: "Total", data: tArr, borderColor: "#f59e0b", backgroundColor: "#f59e0b", tension: 0.3, borderWidth: 2.5 },
-            { type: "bar", label: "Physics", data: pArr, backgroundColor: "#6366f1", borderRadius: 4 },
-            { type: "bar", label: "Chemistry", data: cArr, backgroundColor: "#06b6d4", borderRadius: 4 },
-            { type: "bar", label: "Biology", data: bArr, backgroundColor: "#10b981", borderRadius: 4 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: "#e2e8f0", boxWidth: 12 } } },
-          scales: {
-            y: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.1)" } },
-            x: { ticks: { color: "#e2e8f0" }, grid: { display: false } }
-          }
-        }
-      });
-
-      const mHrs = monthlyStudyStore.hours || emptySubjectHours();
-      const monthlyCtx = document.getElementById("monthlyStudyChart").getContext("2d");
-      if (monthlyChartInstance) monthlyChartInstance.destroy();
-      monthlyChartInstance = new Chart(monthlyCtx, {
-        type: "bar",
-        data: {
-          labels: ["Physics (Month)", "Chemistry (Month)", "Biology (Month)"],
-          datasets: [{
-            label: "Monthly Hours",
-            data: [mHrs.Physics || 0, mHrs.Chemistry || 0, mHrs.Biology || 0],
-            backgroundColor: ["#6366f1", "#06b6d4", "#10b981"],
-            borderRadius: 10
-          }]
-        },
-        options: {
-          indexAxis: "y",
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.1)" } },
-            y: { ticks: { color: "#e2e8f0", font: { weight: "bold" } }, grid: { display: false } }
-          }
-        }
-      });
-    };
-
-    // -------------------------------------------------------------------
-    // 6. AUTO-DAILY TASK PLANNER + HISTORY + MINI CHART + 100% WISH BANNER
-    // -------------------------------------------------------------------
-    function populateTaskDateSelector() {
-      const sel = document.getElementById("taskDateSelector");
-      const allKeys = new Set([currentActualDateKey, ...Object.keys(tasksByDate)]);
-      const sortedKeys = Array.from(allKeys).sort((a, b) => b.localeCompare(a));
-
-      sel.innerHTML = sortedKeys.map(k => {
-        const label = (k === currentActualDateKey) ? `Today (${k})` : k;
-        return `<option value="${k}" ${k === activeViewingDateKey ? "selected" : ""}>${label}</option>`;
-      }).join("");
-    }
-
-    window.onTaskDateChange = function() {
-      checkAutoResets();
-      activeViewingDateKey = document.getElementById("taskDateSelector").value || currentActualDateKey;
-      renderTasks();
-    };
-
-    window.addTaskItem = function(e) {
-      e.preventDefault();
-      checkAutoResets();
-      const subject = document.getElementById("taskSubjectInput").value;
-      const text = document.getElementById("taskTextInput").value.trim();
-      if (!text) return;
-
-      const list = getTasksForDate(activeViewingDateKey);
-      list.push({ id: Date.now().toString(), subject, text, done: false });
-      saveTasksByDate();
-      populateTaskDateSelector();
-
-      document.getElementById("taskTextInput").value = "";
-      renderTasks();
-      if (activeViewingDateKey === currentActualDateKey) {
-        syncStudentSnapshotToCloud();
-      }
-    };
-
-    window.toggleTask = function(id) {
-      checkAutoResets();
-      const list = getTasksForDate(activeViewingDateKey);
-      tasksByDate[activeViewingDateKey] = list.map(t => t.id === id ? { ...t, done: !t.done } : t);
-      saveTasksByDate();
-      renderTasks();
-      if (activeViewingDateKey === currentActualDateKey) {
-        syncStudentSnapshotToCloud();
-      }
-    };
-
-    window.deleteTask = function(id) {
-      checkAutoResets();
-      const list = getTasksForDate(activeViewingDateKey);
-      tasksByDate[activeViewingDateKey] = list.filter(t => t.id !== id);
-      saveTasksByDate();
-      renderTasks();
-      if (activeViewingDateKey === currentActualDateKey) {
-        syncStudentSnapshotToCloud();
-      }
-    };
-
-    window.clearCompletedTasks = function() {
-      checkAutoResets();
-      const list = getTasksForDate(activeViewingDateKey);
-      tasksByDate[activeViewingDateKey] = list.filter(t => !t.done);
-      saveTasksByDate();
-      renderTasks();
-      if (activeViewingDateKey === currentActualDateKey) {
-        syncStudentSnapshotToCloud();
-      }
-    };
-
-    function renderTasks() {
-      const viewList = getTasksForDate(activeViewingDateKey);
-
-      ["Biology", "Physics", "Chemistry"].forEach(subj => {
-        const subTasks = viewList.filter(t => t.subject === subj);
-        const doneCount = subTasks.filter(t => t.done).length;
-        document.getElementById(`count-${subj}`).textContent = `${doneCount}/${subTasks.length}`;
-
-        const listEl = document.getElementById(`list-${subj}`);
-        if (subTasks.length === 0) {
-          listEl.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">No ${subj} tasks for ${activeViewingDateKey === currentActualDateKey ? "today" : activeViewingDateKey}.</p>`;
-        } else {
-          listEl.innerHTML = subTasks.map(t => `
-            <div class="flex items-center justify-between gap-2 bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2.5">
-              <label class="flex items-center gap-2.5 cursor-pointer min-w-0 flex-1">
-                <input type="checkbox" ${t.done ? "checked" : ""} onchange="toggleTask('${t.id}')"
-                  class="w-4 h-4 rounded accent-emerald-500 shrink-0" />
-                <span class="text-xs sm:text-sm truncate ${t.done ? 'line-through text-slate-500' : 'text-slate-200 font-medium'}">
-                  ${escapeHtml(t.text)}
-                </span>
-              </label>
-              <button onclick="deleteTask('${t.id}')" class="text-slate-500 hover:text-rose-400 text-xs px-1">✕</button>
-            </div>
-          `).join("");
-        }
-      });
-
-      const total = viewList.length;
-      const completed = viewList.filter(t => t.done).length;
-      const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
-
-      const isToday = activeViewingDateKey === currentActualDateKey;
-      document.getElementById("taskProgressLabel").textContent = isToday ? "Today's Progress" : `${activeViewingDateKey} Progress`;
-      document.getElementById("taskPercentBig").textContent = `${pct}%`;
-      document.getElementById("taskCountSummary").textContent = `${completed} of ${total} tasks completed`;
-
-      const todayList = getTasksForDate(currentActualDateKey);
-      const tTotal = todayList.length;
-      const tDone = todayList.filter(t => t.done).length;
-      const tPct = tTotal === 0 ? 0 : Math.round((tDone / tTotal) * 100);
-      document.getElementById("widgetTasksSummary").textContent = `${tPct}% (${tDone}/${tTotal})`;
-
-      const celebEl = document.getElementById("allTasksCelebration");
-      if (isToday && total > 0 && completed === total) celebEl.classList.remove("hidden");
-      else celebEl.classList.add("hidden");
-
-      const ctx = document.getElementById("taskProgressChart").getContext("2d");
-      if (taskChartInstance) taskChartInstance.destroy();
-      taskChartInstance = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: ["Done", "Remaining"],
-          datasets: [{
-            data: total === 0 ? [0, 1] : [completed, total - completed],
-            backgroundColor: ["#10b981", "#1e293b"],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          cutout: "72%",
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { enabled: false } }
-        }
-      });
-    }
-
-    // -------------------------------------------------------------------
-    // 7. ADMIN STUDIO (TOPICS + LINKS + BROADCAST/COUNTDOWN/THEMES + STUDENTS)
-    // -------------------------------------------------------------------
-    window.openAdminGate = function() {
-      document.getElementById("adminPassError").classList.add("hidden");
-      document.getElementById("adminPassInput").value = "";
-      document.getElementById("adminGateModal").classList.remove("hidden");
-    };
-    window.closeAdminGate = function() {
-      document.getElementById("adminGateModal").classList.add("hidden");
-    };
-
-    window.verifyAdminPassword = function(e) {
-      e.preventDefault();
-      const entered = document.getElementById("adminPassInput").value;
-      if (entered === (siteSettings.adminPass || "chamix123")) {
-        closeAdminGate();
-        document.getElementById("adminStudioModal").classList.remove("hidden");
-        populateAdminLinkTopics();
-        renderThemeSwatches();
-        renderAdminStudentsList();
-      } else {
-        document.getElementById("adminPassError").classList.remove("hidden");
-      }
-    };
-
-    window.closeAdminStudio = function() {
-      document.getElementById("adminStudioModal").classList.add("hidden");
-    };
-
-    window.switchAdminTab = function(tab) {
-      ["topics", "links", "themes", "students"].forEach(t => {
-        document.getElementById(`admin-pane-${t}`).classList.toggle("hidden", t !== tab);
-        const btn = document.getElementById(`atab-${t}`);
-        if (t === tab) {
-          btn.classList.add("active-tab");
-          btn.classList.remove("bg-slate-900", "text-slate-300");
-        } else {
-          btn.classList.remove("active-tab");
-          btn.classList.add("bg-slate-900", "text-slate-300");
-        }
-      });
-    };
-
-    window.saveTopicAdmin = async function(e) {
-      e.preventDefault();
-      const editId = document.getElementById("editTopicId").value;
-      const payload = {
-        subject: document.getElementById("adminTopicSubject").value,
-        year: document.getElementById("adminTopicYear").value,
-        month: document.getElementById("adminTopicMonth").value,
-        name: document.getElementById("adminTopicName").value.trim(),
-        updatedAt: Date.now()
-      };
-
-      try {
-        if (editId) {
-          await updateDoc(doc(db, "chamix_pro_topics", editId), payload);
-          showToast("Topic updated for all students!");
-        } else {
-          payload.createdAt = Date.now();
-          await addDoc(collection(db, "chamix_pro_topics"), payload);
-          showToast("New Topic added live!");
-        }
-        resetTopicForm();
-      } catch (err) {
-        alert("Firebase Error: " + err.message);
-      }
-    };
-
-    window.editTopicAdmin = function(id) {
-      const t = cloudTopics.find(x => x.id === id);
-      if (!t) return;
-      document.getElementById("editTopicId").value = t.id;
-      document.getElementById("adminTopicSubject").value = t.subject;
-      document.getElementById("adminTopicYear").value = t.year;
-      document.getElementById("adminTopicMonth").value = t.month;
-      document.getElementById("adminTopicName").value = t.name;
-      document.getElementById("topicFormHeading").textContent = "Edit Topic";
-      document.getElementById("cancelTopicEditBtn").classList.remove("hidden");
-    };
-
-    window.resetTopicForm = function() {
-      document.getElementById("editTopicId").value = "";
-      document.getElementById("adminTopicName").value = "";
-      document.getElementById("topicFormHeading").textContent = "Add New Topic";
-      document.getElementById("cancelTopicEditBtn").classList.add("hidden");
-    };
-
-    window.deleteTopicAdmin = async function(id) {
-      if (!confirm("Delete this topic? Videos under it will also be removed.")) return;
-      await deleteDoc(doc(db, "chamix_pro_topics", id));
-      const linkedVids = cloudVideos.filter(v => v.topicId === id);
-      for (const v of linkedVids) {
-        await deleteDoc(doc(db, "chamix_pro_videos", v.id));
-      }
-      showToast("Topic deleted.");
-    };
-
-    function renderAdminTopicsList() {
-      const el = document.getElementById("adminTopicsList");
-      if (cloudTopics.length === 0) {
-        el.innerHTML = `<p class="text-xs text-slate-500">No topics created yet.</p>`;
-        return;
-      }
-      el.innerHTML = cloudTopics.map(t => `
-        <div class="flex items-center justify-between gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5">
-          <div class="min-w-0">
-            <div class="text-xs font-bold text-white truncate">${escapeHtml(t.name)}</div>
-            <div class="text-[11px] text-slate-400">${t.subject} • ${t.year} • ${t.month}</div>
-          </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <button onclick="editTopicAdmin('${t.id}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">Edit</button>
-            <button onclick="deleteTopicAdmin('${t.id}')" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 text-xs font-bold">Delete</button>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    window.populateAdminLinkTopics = function() {
-      const s = document.getElementById("adminLinkSubject").value;
-      const y = document.getElementById("adminLinkYear").value;
-      const m = document.getElementById("adminLinkMonth").value;
-      const matching = cloudTopics.filter(t => t.subject === s && t.year === y && t.month === m);
-      const sel = document.getElementById("adminLinkTopicId");
-
-      if (matching.length === 0) {
-        sel.innerHTML = `<option value="">-- No Topics in ${s} • ${y} (${m}) --</option>`;
-      } else {
-        sel.innerHTML = matching.map(t => `<option value="${t.id}">${escapeHtml(t.name)}</option>`).join("");
-      }
-    };
-
-    window.saveVideoAdmin = async function(e) {
-      e.preventDefault();
-      const editId = document.getElementById("editVideoId").value;
-      const topicId = document.getElementById("adminLinkTopicId").value;
-      if (!topicId) {
-        alert("Please create/select a valid Topic for this Subject, Year & Month first!");
-        return;
-      }
-
-      const payload = {
-        topicId,
-        title: document.getElementById("adminVideoTitle").value.trim(),
-        youtubeUrl: document.getElementById("adminVideoUrl").value.trim(),
-        pdfUrl: document.getElementById("adminVideoPdf").value.trim(),
-        updatedAt: Date.now()
-      };
-
-      try {
-        if (editId) {
-          await updateDoc(doc(db, "chamix_pro_videos", editId), payload);
-          showToast("Recording updated live!");
-        } else {
-          payload.createdAt = Date.now();
-          await addDoc(collection(db, "chamix_pro_videos"), payload);
-          showToast("Recording published to all students!");
-        }
-        resetVideoForm();
-      } catch (err) {
-        alert("Firebase Error: " + err.message);
-      }
-    };
-
-    window.editVideoAdmin = function(id) {
-      const v = cloudVideos.find(x => x.id === id);
-      if (!v) return;
-      const t = cloudTopics.find(x => x.id === v.topicId);
-      if (t) {
-        document.getElementById("adminLinkSubject").value = t.subject;
-        document.getElementById("adminLinkYear").value = t.year;
-        document.getElementById("adminLinkMonth").value = t.month;
-        populateAdminLinkTopics();
-      }
-      document.getElementById("editVideoId").value = v.id;
-      document.getElementById("adminLinkTopicId").value = v.topicId;
-      document.getElementById("adminVideoTitle").value = v.title;
-      document.getElementById("adminVideoUrl").value = v.youtubeUrl;
-      document.getElementById("adminVideoPdf").value = v.pdfUrl || "";
-      document.getElementById("videoFormHeading").textContent = "Edit Recording Link";
-      document.getElementById("cancelVideoEditBtn").classList.remove("hidden");
-    };
-
-    window.resetVideoForm = function() {
-      document.getElementById("editVideoId").value = "";
-      document.getElementById("adminVideoTitle").value = "";
-      document.getElementById("adminVideoUrl").value = "";
-      document.getElementById("adminVideoPdf").value = "";
-      document.getElementById("videoFormHeading").textContent = "Add YouTube Recording / PDF Link";
-      document.getElementById("cancelVideoEditBtn").classList.add("hidden");
-    };
-
-    window.deleteVideoAdmin = async function(id) {
-      if (!confirm("Delete this recording link?")) return;
-      await deleteDoc(doc(db, "chamix_pro_videos", id));
-      showToast("Recording deleted.");
-    };
-
-    function renderAdminVideosList() {
-      const el = document.getElementById("adminVideosList");
-      if (cloudVideos.length === 0) {
-        el.innerHTML = `<p class="text-xs text-slate-500">No recordings published yet.</p>`;
-        return;
-      }
-      el.innerHTML = cloudVideos.map(v => {
-        const t = cloudTopics.find(x => x.id === v.topicId);
-        const topicLabel = t ? `${t.subject} • ${t.year} • ${t.month} (${t.name})` : "Unassigned Topic";
-        return `
-          <div class="flex items-center justify-between gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5">
-            <div class="min-w-0">
-              <div class="text-xs font-bold text-white truncate">${escapeHtml(v.title)}</div>
-              <div class="text-[11px] text-slate-400 truncate">${escapeHtml(topicLabel)}</div>
-            </div>
-            <div class="flex items-center gap-2 shrink-0">
-              <button onclick="editVideoAdmin('${v.id}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">Edit</button>
-              <button onclick="deleteVideoAdmin('${v.id}')" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 text-xs font-bold">Delete</button>
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    function renderThemeSwatches() {
-      const grid = document.getElementById("themeSwatchesGrid");
-      grid.innerHTML = THEME_OPTIONS.map(th => {
-        const active = siteSettings.themeId === th.id;
-        return `
-          <button type="button" onclick="selectCloudTheme('${th.id}')"
-            class="p-2.5 rounded-xl border text-left transition flex items-center gap-2 ${
-              active ? 'border-white bg-slate-800 shadow-lg' : 'border-slate-800 bg-slate-950/70 hover:border-slate-600'
-            }">
-            <span class="w-5 h-5 rounded-full shrink-0 shadow" style="background: linear-gradient(135deg, ${th.primary}, ${th.accent});"></span>
-            <span class="text-xs font-bold text-white truncate">${th.name}</span>
-          </button>
-        `;
-      }).join("");
-    }
-
-    window.selectCloudTheme = async function(themeId) {
-      siteSettings.themeId = themeId;
-      applyThemeAndBranding();
-      renderThemeSwatches();
-      await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
-      showToast("Theme updated live for all students!");
-    };
-
-    window.toggleDynamicTimeMode = async function() {
-      siteSettings.dynamicTimeMode = document.getElementById("dynamicTimeModeCheckbox").checked;
-      updateClockAndGreeting();
-      await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
-      showToast("Dynamic time glow setting saved!");
-    };
-
-    window.saveSiteSettingsAdmin = async function(e) {
-      e.preventDefault();
-      siteSettings.alDates = {
-        "2026 A/L": document.getElementById("alDate2026Input").value || "2026-11-25",
-        "2027 A/L": document.getElementById("alDate2027Input").value || "2027-08-15",
-        "2028 A/L": document.getElementById("alDate2028Input").value || "2028-08-15"
-      };
-      siteSettings.welcomePrefix = document.getElementById("adminWelcomePrefixInput").value;
-      siteSettings.displayName = document.getElementById("adminDisplayNameInput").value.trim() || "Chamindu";
-      siteSettings.displayAvatar = document.getElementById("adminDisplayAvatarInput").value.trim() || DEFAULT_AVATAR;
-      siteSettings.forceAdminIdentity = document.getElementById("adminForceOverrideCheckbox").checked;
-      siteSettings.siteName = document.getElementById("adminSiteNameInput").value.trim() || "CHAMIX PRO";
-      siteSettings.adminPass = document.getElementById("adminNewPassInput").value.trim() || "chamix123";
-
-      await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
-      applyThemeAndBranding();
-      applyStudentProfile();
-      updateALCountdown();
-      syncStudentSnapshotToCloud();
-      showToast("Countdown, Greeting, Name & Settings updated live!");
-    };
-
-    function renderAdminStudentsList() {
-      const listEl = document.getElementById("adminStudentsList");
-      document.getElementById("adminStudentsCount").textContent = `${cloudStudents.length} Students`;
-      if (cloudStudents.length === 0) {
-        listEl.innerHTML = `<p class="text-xs text-slate-500">No student activity synced yet.</p>`;
-        return;
-      }
-
-      listEl.innerHTML = cloudStudents.map(s => {
-        const stuAvatar = s.avatar || DEFAULT_AVATAR;
-        const stuName = s.name || "Student";
-        const subjHrs = s.subjectHours || { Physics: 0, Chemistry: 0, Biology: 0 };
-        const tasks = Array.isArray(s.taskDetails) ? s.taskDetails : [];
-        const wIds = Array.isArray(s.watchedVideoIds) ? s.watchedVideoIds : [];
-        const watchedNames = wIds.map(id => {
-          const found = cloudVideos.find(v => v.id === id);
-          return found ? found.title : null;
-        }).filter(Boolean);
-
-        return `
-          <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 space-y-3">
-            <div class="flex items-center justify-between gap-3 border-b border-slate-800/80 pb-2.5">
-              <div class="flex items-center gap-3 min-w-0">
-                <img src="${escapeHtml(stuAvatar)}" alt="${escapeHtml(stuName)}"
-                  class="w-12 h-12 rounded-xl object-cover border border-slate-700 shrink-0" />
-                <div class="min-w-0">
-                  <div class="text-sm font-extrabold text-white truncate">${escapeHtml(stuName)}</div>
-                  <div class="text-[11px] text-slate-400 truncate">${escapeHtml(s.batch || "2026 A/L Science Stream")}</div>
-                </div>
-              </div>
-              <div class="text-right shrink-0">
-                <div class="text-xs font-extrabold text-sky-300">${s.weeklyHours || 0} hrs <span class="text-[10px] text-slate-400 font-normal">wk</span></div>
-                <div class="text-[11px] font-bold text-emerald-400">Today: ${s.todayHours || 0} hrs</div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 text-center">
-              <div class="bg-slate-900 rounded-lg py-1.5 px-2 border border-indigo-500/20">
-                <div class="text-[10px] text-indigo-300 font-semibold">Physics</div>
-                <div class="text-xs font-bold text-white">${subjHrs.Physics || 0}h</div>
-              </div>
-              <div class="bg-slate-900 rounded-lg py-1.5 px-2 border border-cyan-500/20">
-                <div class="text-[10px] text-cyan-300 font-semibold">Chem</div>
-                <div class="text-xs font-bold text-white">${subjHrs.Chemistry || 0}h</div>
-              </div>
-              <div class="bg-slate-900 rounded-lg py-1.5 px-2 border border-emerald-500/20">
-                <div class="text-[10px] text-emerald-300 font-semibold">Bio</div>
-                <div class="text-xs font-bold text-white">${subjHrs.Biology || 0}h</div>
-              </div>
-            </div>
-
-            <div class="space-y-1">
-              <div class="flex items-center justify-between text-[11px] font-bold text-amber-300">
-                <span>Tasks (${escapeHtml(s.tasksSummary || "0/0")}) ${s.taskDate ? `• ${escapeHtml(s.taskDate)}` : ""}</span>
-              </div>
-              ${tasks.length === 0
-                ? `<p class="text-[11px] text-slate-500">No tasks logged today.</p>`
-                : `<div class="space-y-1 max-h-28 overflow-y-auto pr-1">
-                    ${tasks.map(tk => `
-                      <div class="flex items-center gap-2 text-[11px] bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800/70">
-                        <span class="${tk.done ? 'text-emerald-400 font-extrabold' : 'text-slate-500'}">${tk.done ? '✓' : '○'}</span>
-                        <span class="text-slate-400 font-semibold">[${escapeHtml(tk.subject || '')}]</span>
-                        <span class="truncate ${tk.done ? 'line-through text-emerald-200/80' : 'text-slate-200'}">${escapeHtml(tk.text || '')}</span>
-                      </div>
-                    `).join("")}
-                   </div>`
-              }
-            </div>
-
-            <div class="space-y-1">
-              <div class="text-[11px] font-bold text-emerald-300">Watched Videos (${watchedNames.length})</div>
-              ${watchedNames.length === 0
-                ? `<p class="text-[11px] text-slate-500">No videos ticked as watched yet.</p>`
-                : `<div class="flex flex-wrap gap-1.5">
-                    ${watchedNames.map(title => `
-                      <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                        ✓ ${escapeHtml(title)}
-                      </span>
-                    `).join("")}
-                   </div>`
-              }
-            </div>
-
-            <div class="flex justify-end pt-1">
-              <button type="button" onclick="applyStudentToMainBanner('${s.id}')"
-                class="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 hover:bg-indigo-500 hover:text-white transition">
-                Feature on Banner
-              </button>
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    window.applyStudentToMainBanner = async function(stuDocId) {
-      const s = cloudStudents.find(x => x.id === stuDocId);
-      if (!s) return;
-      siteSettings.displayName = s.name || "Student";
-      siteSettings.displayAvatar = s.avatar || DEFAULT_AVATAR;
-      siteSettings.forceAdminIdentity = true;
-      await setDoc(doc(db, "chamix_pro_meta", "settings"), siteSettings, { merge: true });
-      applyThemeAndBranding();
-      applyStudentProfile();
-      showToast(`Featured ${siteSettings.displayName}'s profile live!`);
-    };
-
-    // -------------------------------------------------------------------
-    // 8. SIDE MENU, PROFILE & IMAGE COMPRESSION
-    // -------------------------------------------------------------------
-    window.openSideMenu = function() {
-      document.getElementById("sideMenuBackdrop").classList.remove("hidden");
-      document.getElementById("sideMenuDrawer").classList.remove("-translate-x-full");
-    };
-    window.closeSideMenu = function() {
-      document.getElementById("sideMenuBackdrop").classList.add("hidden");
-      document.getElementById("sideMenuDrawer").classList.add("-translate-x-full");
-    };
-
-    function applyStudentProfile() {
-      const useCustom = !siteSettings.forceAdminIdentity && studentProfile.hasCustomProfile;
-      const activeName = (useCustom && studentProfile.name)
-        ? studentProfile.name
-        : (siteSettings.displayName || "Chamindu");
-      const activeAvatar = (useCustom && studentProfile.avatar)
-        ? studentProfile.avatar
-        : (siteSettings.displayAvatar || DEFAULT_AVATAR);
-
-      document.getElementById("heroStudentName").textContent = activeName;
-      document.getElementById("heroAvatar").src = activeAvatar;
-      document.getElementById("heroBatchTag").textContent = `${studentProfile.batch || "2026 A/L Science Stream"} • Keep pushing your limits!`;
-      updateALCountdown();
-    }
-
-    window.openProfileModal = function() {
-      const activeName = (studentProfile.hasCustomProfile && studentProfile.name)
-        ? studentProfile.name
-        : (siteSettings.displayName || "Chamindu");
-      const activeAvatar = (studentProfile.hasCustomProfile && studentProfile.avatar)
-        ? studentProfile.avatar
-        : (siteSettings.displayAvatar || DEFAULT_AVATAR);
-
-      document.getElementById("profNameInput").value = activeName;
-      document.getElementById("profAvatarInput").value = activeAvatar;
-      document.getElementById("profBatchInput").value = studentProfile.batch || "2026 A/L Science Stream";
-      document.getElementById("profileModal").classList.remove("hidden");
-    };
-    window.closeProfileModal = function() {
-      document.getElementById("profileModal").classList.add("hidden");
-    };
-
-    window.handleAvatarUpload = function(e, targetInputId) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement("canvas");
-          const MAX_SIZE = 180;
-          let w = img.width;
-          let h = img.height;
-          if (w > h) {
-            if (w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; }
-          } else {
-            if (h > MAX_SIZE) { w *= MAX_SIZE / h; h = MAX_SIZE; }
-          }
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, w, h);
-          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.78);
-          document.getElementById(targetInputId).value = compressedDataUrl;
-          showToast("Photo ready! Click Save to sync.");
-        };
-        img.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-    };
-
-    window.saveStudentProfile = async function(e) {
-      e.preventDefault();
-      studentProfile = {
-        name: document.getElementById("profNameInput").value.trim() || siteSettings.displayName || "Chamindu",
-        avatar: document.getElementById("profAvatarInput").value.trim() || siteSettings.displayAvatar || DEFAULT_AVATAR,
-        batch: document.getElementById("profBatchInput").value.trim() || "2026 A/L Science Stream",
-        hasCustomProfile: true
-      };
-      localStorage.setItem("chamixpro_profile", JSON.stringify(studentProfile));
-      applyStudentProfile();
-      closeProfileModal();
-      await syncStudentSnapshotToCloud();
-      showToast("Profile updated & synced to Admin!");
-    };
-
-    window.switchSection = function(sec) {
-      ["lessons", "study", "tasks"].forEach(s => {
-        document.getElementById(`section-${s}`).classList.toggle("hidden", s !== sec);
-        [document.getElementById(`nav-${s}`), document.getElementById(`mnav-${s}`), document.getElementById(`snav-${s}`)].forEach(btn => {
-          if (!btn) return;
-          if (s === sec) {
-            btn.classList.add("active-tab");
-            btn.classList.remove("text-slate-300", "text-slate-400");
-          } else {
-            btn.classList.remove("active-tab");
-            btn.classList.add("text-slate-300");
-          }
-        });
-      });
-      if (sec === "study") {
-        updateStudyStatsAndCharts();
-        renderStudyCharts();
-      }
-      if (sec === "tasks") {
-        populateTaskDateSelector();
-        renderTasks();
-      }
-    };
-
-    function showToast(msg) {
-      const box = document.getElementById("toastBox");
-      document.getElementById("toastMsg").textContent = msg;
-      box.classList.remove("hidden");
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => box.classList.add("hidden"), 3000);
-    }
-
-    function escapeHtml(str) {
-      return String(str || "").replace(/[&<>"']/g, m => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-      }[m]));
-    }
-
-    // Boot Application
-    lucide.createIcons();
-    applyStudentProfile();
-    renderBroadcastNotice();
-    renderWatchHistory();
-    updateStudyStatsAndCharts();
-    populateTaskDateSelector();
-    renderTasks();
-    initCloudListeners();
-  </script>
-</body>
-</html>
