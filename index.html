@@ -274,13 +274,25 @@
     <!-- ===================================================================== -->
     <div id="section-lessons" class="space-y-6">
 
-      <!-- 2. YEAR -> MONTH -> SUBJECT FILTER BAR -->
+      <!-- 2. FILTER BAR ORDER: 1. SUBJECT (3 ONLY) -> 2. YEAR -> 3. MONTH -->
       <section class="glass-card rounded-2xl p-4 sm:p-5">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <!-- Year Selector -->
+          <!-- 1. Subject Filter (Physics, Chem, Bio only) -->
           <div>
             <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-              1. Exam Year (Batch)
+              1. Subject Filter
+            </label>
+            <div class="grid grid-cols-3 gap-1.5 bg-slate-900/90 p-1 rounded-xl border border-slate-700">
+              <button type="button" onclick="setSubjectFilter('Physics')" data-subj="Physics" class="subj-pill active-tab py-1.5 rounded-lg text-xs font-bold transition">Physics</button>
+              <button type="button" onclick="setSubjectFilter('Chemistry')" data-subj="Chemistry" class="subj-pill text-slate-300 py-1.5 rounded-lg text-xs font-bold transition">Chem</button>
+              <button type="button" onclick="setSubjectFilter('Biology')" data-subj="Biology" class="subj-pill text-slate-300 py-1.5 rounded-lg text-xs font-bold transition">Bio</button>
+            </div>
+          </div>
+
+          <!-- 2. Year Selector -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+              2. Exam Year (Batch)
             </label>
             <select id="filterYear" onchange="onFilterChange()" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-indigo-500">
               <option value="2026 A/L">2026 A/L</option>
@@ -290,10 +302,10 @@
             </select>
           </div>
 
-          <!-- Month Selector -->
+          <!-- 3. Month Selector -->
           <div>
             <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-              2. Select Month
+              3. Select Month
             </label>
             <select id="filterMonth" onchange="onFilterChange()" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-indigo-500">
               <option value="January">January</option>
@@ -310,28 +322,15 @@
               <option value="December">December</option>
             </select>
           </div>
-
-          <!-- Subject Filter -->
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-              3. Subject Filter
-            </label>
-            <div class="grid grid-cols-4 gap-1.5 bg-slate-900/90 p-1 rounded-xl border border-slate-700">
-              <button onclick="setSubjectFilter('All')" data-subj="All" class="subj-pill active-tab py-1.5 rounded-lg text-xs font-bold transition">All</button>
-              <button onclick="setSubjectFilter('Physics')" data-subj="Physics" class="subj-pill text-slate-300 py-1.5 rounded-lg text-xs font-bold transition">Physics</button>
-              <button onclick="setSubjectFilter('Chemistry')" data-subj="Chemistry" class="subj-pill text-slate-300 py-1.5 rounded-lg text-xs font-bold transition">Chem</button>
-              <button onclick="setSubjectFilter('Biology')" data-subj="Biology" class="subj-pill text-slate-300 py-1.5 rounded-lg text-xs font-bold transition">Bio</button>
-            </div>
-          </div>
         </div>
       </section>
 
-      <!-- TOPIC PILLS FOR SELECTED YEAR & MONTH -->
+      <!-- TOPIC PILLS FOR SELECTED SUBJECT, YEAR & MONTH -->
       <section class="space-y-3">
         <div class="flex items-center justify-between">
           <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
             <i data-lucide="tag" class="w-5 h-5 text-sky-400"></i>
-            <span>Topics (<span id="selectedPeriodLabel">2026 A/L • November</span>)</span>
+            <span>Topics (<span id="selectedPeriodLabel">Physics • 2026 A/L • November</span>)</span>
           </h3>
           <span id="topicCountBadge" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300">0 Topics</span>
         </div>
@@ -346,7 +345,7 @@
         <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
           <div>
             <span class="text-[11px] font-bold uppercase tracking-wider text-sky-400">Class Recordings</span>
-            <h4 id="activeTopicHeading" class="text-base sm:text-lg font-extrabold text-white mt-0.5">All Recordings</h4>
+            <h4 id="activeTopicHeading" class="text-base sm:text-lg font-extrabold text-white mt-0.5">Recordings</h4>
           </div>
           <span id="videoCountBadge" class="text-xs font-bold px-3 py-1 rounded-lg badge-primary">0 Videos</span>
         </div>
@@ -675,6 +674,14 @@
           <input type="hidden" id="editTopicId" />
           <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
             <div>
+              <label class="block text-xs text-slate-400 mb-1">Subject</label>
+              <select id="adminTopicSubject" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Biology">Biology</option>
+              </select>
+            </div>
+            <div>
               <label class="block text-xs text-slate-400 mb-1">Exam Year</label>
               <select id="adminTopicYear" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
                 <option value="2026 A/L">2026 A/L</option>
@@ -701,16 +708,8 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs text-slate-400 mb-1">Subject</label>
-              <select id="adminTopicSubject" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
-                <option value="Physics">Physics</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="Biology">Biology</option>
-              </select>
-            </div>
-            <div>
               <label class="block text-xs text-slate-400 mb-1">Topic Name</label>
-              <input type="text" id="adminTopicName" placeholder="උදා: Rotational Motion" required
+              <input type="text" id="adminTopicName" placeholder="උදා: Mechanics" required
                 class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
             </div>
           </div>
@@ -726,7 +725,7 @@
         </div>
       </div>
 
-      <!-- ADMIN TAB 2: MANAGE LINKS (MATCHED TO YEAR + MONTH -> TOPIC) -->
+      <!-- ADMIN TAB 2: MANAGE LINKS (MATCHED TO SUBJECT + YEAR + MONTH -> TOPIC) -->
       <div id="admin-pane-links" class="hidden space-y-5">
         <form onsubmit="saveVideoAdmin(event)" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4">
           <div class="flex items-center justify-between">
@@ -735,10 +734,18 @@
           </div>
           <input type="hidden" id="editVideoId" />
 
-          <!-- Step 1: Select Year & Month to filter matching Topics -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <!-- Step 1: Select Subject, Year & Month to filter matching Topics -->
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
             <div>
-              <label class="block text-xs text-slate-400 mb-1">1. Filter by Year</label>
+              <label class="block text-xs text-slate-400 mb-1">1. Subject</label>
+              <select id="adminLinkSubject" onchange="populateAdminLinkTopics()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Biology">Biology</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">2. Exam Year</label>
               <select id="adminLinkYear" onchange="populateAdminLinkTopics()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
                 <option value="2026 A/L">2026 A/L</option>
                 <option value="2027 A/L">2027 A/L</option>
@@ -747,7 +754,7 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs text-slate-400 mb-1">2. Filter by Month</label>
+              <label class="block text-xs text-slate-400 mb-1">3. Month</label>
               <select id="adminLinkMonth" onchange="populateAdminLinkTopics()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
                 <option value="January">January</option>
                 <option value="February">February</option>
@@ -764,7 +771,7 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs text-slate-400 mb-1">3. Select Matching Topic</label>
+              <label class="block text-xs text-slate-400 mb-1">4. Select Topic</label>
               <select id="adminLinkTopicId" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
                 <option value="">-- Select Topic --</option>
               </select>
@@ -775,7 +782,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label class="block text-xs text-slate-400 mb-1">Lesson / Recording Title</label>
-              <input type="text" id="adminVideoTitle" placeholder="උදා: Day 01 - Theory & Examples" required
+              <input type="text" id="adminVideoTitle" placeholder="උදා: Day 01" required
                 class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white" />
             </div>
             <div>
@@ -846,7 +853,7 @@
       onSnapshot, query, orderBy
     } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-    // Your CHAMIX PRO Firebase Configuration
+    // CHAMIX PRO Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAfUZi-7isv3HSAyFCZHm-fBrG_KY5yG-s",
       authDomain: "chamix-pro.firebaseapp.com",
@@ -883,11 +890,11 @@
       adminPass: "chamix123"
     };
 
-    let selectedSubjectFilter = "All";
-    let selectedTopicId = "ALL";
+    let selectedSubjectFilter = "Physics";
+    let selectedTopicId = null;
     let activeInlineVideoId = null;
 
-    // Student Personal Local State (Per-student watched ticks, study logs, tasks, profile)
+    // Student Personal Local State
     let watchedIds = JSON.parse(localStorage.getItem("chamixpro_watched") || "[]");
     let studentProfile = JSON.parse(localStorage.getItem("chamixpro_profile") || JSON.stringify({
       name: "Chamindu",
@@ -948,7 +955,6 @@
     setInterval(updateClockAndGreeting, 1000);
     updateClockAndGreeting();
 
-    // Auto-select today's weekday in Study Logger
     const todayShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date().getDay()];
     document.getElementById("studyDayInput").value = todayShort;
     document.getElementById("dailyChartDaySelect").value = todayShort;
@@ -1036,10 +1042,10 @@
     }
 
     // -------------------------------------------------------------------
-    // 4. TOPIC PILLS & TOUCH-TO-PLAY CARDS WITH WATCHED HIGHLIGHT
+    // 4. SUBJECT -> YEAR -> MONTH -> TOPIC PILLS -> TOUCH-TO-PLAY CARDS
     // -------------------------------------------------------------------
     window.onFilterChange = function() {
-      selectedTopicId = "ALL";
+      selectedTopicId = null;
       activeInlineVideoId = null;
       renderTopicsAndVideos();
     };
@@ -1055,7 +1061,7 @@
           btn.classList.add("text-slate-300");
         }
       });
-      selectedTopicId = "ALL";
+      selectedTopicId = null;
       activeInlineVideoId = null;
       renderTopicsAndVideos();
     };
@@ -1063,29 +1069,29 @@
     function renderTopicsAndVideos() {
       const year = document.getElementById("filterYear").value;
       const month = document.getElementById("filterMonth").value;
-      document.getElementById("selectedPeriodLabel").textContent = `${year} • ${month}`;
+      document.getElementById("selectedPeriodLabel").textContent = `${selectedSubjectFilter} • ${year} • ${month}`;
 
-      const filteredTopics = cloudTopics.filter(t => {
-        const matchPeriod = t.year === year && t.month === month;
-        const matchSubj = selectedSubjectFilter === "All" || t.subject === selectedSubjectFilter;
-        return matchPeriod && matchSubj;
-      });
+      const filteredTopics = cloudTopics.filter(t =>
+        t.subject === selectedSubjectFilter &&
+        t.year === year &&
+        t.month === month
+      );
 
       document.getElementById("topicCountBadge").textContent = `${filteredTopics.length} Topics`;
       const pillsRow = document.getElementById("topicsPillsRow");
 
-      if (selectedTopicId !== "ALL" && !filteredTopics.some(t => t.id === selectedTopicId)) {
-        selectedTopicId = "ALL";
+      if (filteredTopics.length === 0) {
+        selectedTopicId = null;
+        pillsRow.innerHTML = `<p class="text-xs text-slate-400">මෙම Subject, Year සහ Month සඳහා Topics තවම නොමැත.</p>`;
+        renderTopicVideos(null);
+        return;
       }
 
-      const allPillHtml = `
-        <button type="button" onclick="selectTopic('ALL')"
-          class="topic-pill ${selectedTopicId === 'ALL' ? 'active-pill' : ''}">
-          <span>All (${escapeHtml(month)})</span>
-        </button>
-      `;
+      if (!selectedTopicId || !filteredTopics.some(t => t.id === selectedTopicId)) {
+        selectedTopicId = filteredTopics[0].id;
+      }
 
-      const topicPillsHtml = filteredTopics.map(topic => {
+      pillsRow.innerHTML = filteredTopics.map(topic => {
         const isSelected = topic.id === selectedTopicId;
         const vidCount = cloudVideos.filter(v => v.topicId === topic.id).length;
         return `
@@ -1097,8 +1103,8 @@
         `;
       }).join("");
 
-      pillsRow.innerHTML = allPillHtml + topicPillsHtml;
-      renderTopicVideos(filteredTopics);
+      const activeTopic = filteredTopics.find(t => t.id === selectedTopicId) || filteredTopics[0];
+      renderTopicVideos(activeTopic);
     }
 
     window.selectTopic = function(topicId) {
@@ -1107,36 +1113,35 @@
       renderTopicsAndVideos();
     };
 
-    function renderTopicVideos(filteredTopics = []) {
+    function renderTopicVideos(activeTopic) {
       const gridEl = document.getElementById("topicVideosGrid");
       const headingEl = document.getElementById("activeTopicHeading");
       const badgeEl = document.getElementById("videoCountBadge");
-      const month = document.getElementById("filterMonth").value;
 
-      const allowedTopicIds = new Set(filteredTopics.map(t => t.id));
-      let videos = cloudVideos.filter(v => allowedTopicIds.has(v.topicId));
-
-      if (selectedTopicId === "ALL") {
-        headingEl.textContent = `All (${month}) Recordings`;
-      } else {
-        const activeTopic = filteredTopics.find(t => t.id === selectedTopicId);
-        headingEl.textContent = activeTopic ? `${activeTopic.subject}: ${activeTopic.name}` : "Selected Topic";
-        videos = videos.filter(v => v.topicId === selectedTopicId);
+      if (!activeTopic) {
+        headingEl.textContent = `${selectedSubjectFilter} Recordings`;
+        badgeEl.textContent = "0 Videos";
+        gridEl.innerHTML = `
+          <div class="col-span-full glass-card rounded-2xl p-8 text-center text-slate-400 text-sm">
+            <p class="font-semibold text-slate-300">මෙම තේරීම යටතේ Topics / Recordings තවම නොමැත.</p>
+            <p class="text-xs mt-1">Admin Studio වෙතින් Topic සහ Recording link එකතු කරන්න.</p>
+          </div>`;
+        return;
       }
 
+      headingEl.textContent = `${activeTopic.subject}: ${activeTopic.name}`;
+      const videos = cloudVideos.filter(v => v.topicId === activeTopic.id);
       badgeEl.textContent = `${videos.length} Videos`;
 
       if (videos.length === 0) {
         gridEl.innerHTML = `
           <div class="col-span-full glass-card rounded-2xl p-8 text-center text-slate-400 text-sm">
-            <p class="font-semibold text-slate-300">මෙම තේරීම යටතේ Recordings තවම නොමැත.</p>
-            <p class="text-xs mt-1">Admin Studio -> Manage Video Links & PDFs වෙතින් Recordings එකතු කරන්න.</p>
+            <p class="font-semibold text-slate-300">"${escapeHtml(activeTopic.name)}" Topic එකට Recordings තවම නොමැත.</p>
           </div>`;
         return;
       }
 
       gridEl.innerHTML = videos.map((vid, idx) => {
-        const topic = cloudTopics.find(t => t.id === vid.topicId);
         const ytId = extractYouTubeId(vid.youtubeUrl);
         const isWatched = watchedIds.includes(vid.id);
         const isPlaying = activeInlineVideoId === vid.id && ytId;
@@ -1160,13 +1165,13 @@
               <div class="p-4 sm:p-5 space-y-2.5">
                 <div class="flex items-center justify-between gap-2">
                   <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-md badge-primary">
-                    ${escapeHtml(topic ? topic.subject : "Class")} • #${String(idx + 1).padStart(2, '0')}
+                    ${escapeHtml(activeTopic.subject)} • #${String(idx + 1).padStart(2, '0')}
                   </span>
                   ${isWatched
                     ? `<span class="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-500 text-slate-950 shadow">
                          ✓ WATCHED
                        </span>`
-                    : `<span class="text-[11px] text-slate-400 font-medium">${escapeHtml(topic ? topic.name : "")}</span>`
+                    : `<span class="text-[11px] text-slate-400 font-medium">${escapeHtml(activeTopic.name)}</span>`
                   }
                 </div>
 
@@ -1522,9 +1527,9 @@
       e.preventDefault();
       const editId = document.getElementById("editTopicId").value;
       const payload = {
+        subject: document.getElementById("adminTopicSubject").value,
         year: document.getElementById("adminTopicYear").value,
         month: document.getElementById("adminTopicMonth").value,
-        subject: document.getElementById("adminTopicSubject").value,
         name: document.getElementById("adminTopicName").value.trim(),
         updatedAt: Date.now()
       };
@@ -1548,9 +1553,9 @@
       const t = cloudTopics.find(x => x.id === id);
       if (!t) return;
       document.getElementById("editTopicId").value = t.id;
+      document.getElementById("adminTopicSubject").value = t.subject;
       document.getElementById("adminTopicYear").value = t.year;
       document.getElementById("adminTopicMonth").value = t.month;
-      document.getElementById("adminTopicSubject").value = t.subject;
       document.getElementById("adminTopicName").value = t.name;
       document.getElementById("topicFormHeading").textContent = "Edit Topic";
       document.getElementById("cancelTopicEditBtn").classList.remove("hidden");
@@ -1583,7 +1588,7 @@
         <div class="flex items-center justify-between gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5">
           <div class="min-w-0">
             <div class="text-xs font-bold text-white truncate">${escapeHtml(t.name)}</div>
-            <div class="text-[11px] text-slate-400">${t.year} • ${t.month} • ${t.subject}</div>
+            <div class="text-[11px] text-slate-400">${t.subject} • ${t.year} • ${t.month}</div>
           </div>
           <div class="flex items-center gap-2 shrink-0">
             <button onclick="editTopicAdmin('${t.id}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">Edit</button>
@@ -1594,15 +1599,16 @@
     }
 
     window.populateAdminLinkTopics = function() {
+      const s = document.getElementById("adminLinkSubject").value;
       const y = document.getElementById("adminLinkYear").value;
       const m = document.getElementById("adminLinkMonth").value;
-      const matching = cloudTopics.filter(t => t.year === y && t.month === m);
+      const matching = cloudTopics.filter(t => t.subject === s && t.year === y && t.month === m);
       const sel = document.getElementById("adminLinkTopicId");
 
       if (matching.length === 0) {
-        sel.innerHTML = `<option value="">-- No Topics in ${y} (${m}) --</option>`;
+        sel.innerHTML = `<option value="">-- No Topics in ${s} • ${y} (${m}) --</option>`;
       } else {
-        sel.innerHTML = matching.map(t => `<option value="${t.id}">[${t.subject}] ${escapeHtml(t.name)}</option>`).join("");
+        sel.innerHTML = matching.map(t => `<option value="${t.id}">${escapeHtml(t.name)}</option>`).join("");
       }
     };
 
@@ -1611,7 +1617,7 @@
       const editId = document.getElementById("editVideoId").value;
       const topicId = document.getElementById("adminLinkTopicId").value;
       if (!topicId) {
-        alert("Please create/select a valid Topic for this Year & Month first!");
+        alert("Please create/select a valid Topic for this Subject, Year & Month first!");
         return;
       }
 
@@ -1643,6 +1649,7 @@
       if (!v) return;
       const t = cloudTopics.find(x => x.id === v.topicId);
       if (t) {
+        document.getElementById("adminLinkSubject").value = t.subject;
         document.getElementById("adminLinkYear").value = t.year;
         document.getElementById("adminLinkMonth").value = t.month;
         populateAdminLinkTopics();
@@ -1679,7 +1686,7 @@
       }
       el.innerHTML = cloudVideos.map(v => {
         const t = cloudTopics.find(x => x.id === v.topicId);
-        const topicLabel = t ? `${t.year} • ${t.month} • ${t.subject} (${t.name})` : "Unassigned Topic";
+        const topicLabel = t ? `${t.subject} • ${t.year} • ${t.month} (${t.name})` : "Unassigned Topic";
         return `
           <div class="flex items-center justify-between gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5">
             <div class="min-w-0">
