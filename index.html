@@ -10,7 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -167,12 +166,6 @@
         <button onclick="switchSection('history'); closeSideMenu();" id="snav-history" class="nav-btn text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
           <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> Watch History
         </button>
-        <button onclick="switchSection('study'); closeSideMenu();" id="snav-study" class="nav-btn text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
-          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Study Time & Pomodoro
-        </button>
-        <button onclick="switchSection('tasks'); closeSideMenu();" id="snav-tasks" class="nav-btn text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
-          <i data-lucide="check-square" class="w-4 h-4"></i> Daily Task Planner
-        </button>
         <button onclick="openProfileModal(); closeSideMenu();" class="text-slate-300 hover:bg-slate-800/70 w-full px-3.5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-3 transition">
           <i data-lucide="user-cog" class="w-4 h-4 text-sky-400"></i> Student Profile
         </button>
@@ -219,11 +212,8 @@
         <button onclick="switchSection('lessons')" id="nav-lessons" class="nav-btn active-tab px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
           <i data-lucide="play-circle" class="w-4 h-4"></i> Lessons
         </button>
-        <button onclick="switchSection('study')" id="nav-study" class="nav-btn text-slate-300 hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
-          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Study Time
-        </button>
-        <button onclick="switchSection('tasks')" id="nav-tasks" class="nav-btn text-slate-300 hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
-          <i data-lucide="check-square" class="w-4 h-4"></i> Tasks
+        <button onclick="switchSection('history')" id="nav-history" class="nav-btn text-slate-300 hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+          <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> Watch History
         </button>
       </nav>
 
@@ -241,15 +231,12 @@
     </div>
 
     <!-- Mobile Sub Nav -->
-    <div class="md:hidden grid grid-cols-3 gap-1 p-1.5 bg-slate-950/95 border-t border-slate-800/80">
+    <div class="md:hidden grid grid-cols-2 gap-1 p-1.5 bg-slate-950/95 border-t border-slate-800/80">
       <button onclick="switchSection('lessons')" id="mnav-lessons" class="nav-btn active-tab py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
         <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Lessons
       </button>
-      <button onclick="switchSection('study')" id="mnav-study" class="nav-btn text-slate-400 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
-        <i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i> Study Time
-      </button>
-      <button onclick="switchSection('tasks')" id="mnav-tasks" class="nav-btn text-slate-400 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
-        <i data-lucide="check-square" class="w-3.5 h-3.5"></i> Tasks
+      <button onclick="switchSection('history')" id="mnav-history" class="nav-btn text-slate-400 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
+        <i data-lucide="history" class="w-3.5 h-3.5"></i> Watch History
       </button>
     </div>
   </header>
@@ -336,35 +323,16 @@
         </div>
       </div>
 
-      <!-- QUICK SUMMARY WIDGET ROW (4 CARDS: TODAY'S STUDY, WEEKLY TOTAL, TODAY'S TASKS, STUDY STREAK) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-800/70">
-        <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/85 hover:border-emerald-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
+      <!-- QUICK SUMMARY WIDGET ROW -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 pt-5 border-t border-slate-800/70">
+        <!-- WATCHED VIDEOS SUMMARY CARD -->
+        <div onclick="switchSection('history')" class="cursor-pointer bg-slate-900/85 hover:border-emerald-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
           <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
-            <i data-lucide="timer" class="w-5 h-5"></i>
+            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
           </div>
           <div>
-            <div class="text-[11px] text-slate-400 font-semibold uppercase">Today's Study</div>
-            <div id="heroTodayStudy" class="font-mono-num text-base sm:text-lg font-extrabold text-emerald-400">0h 0m</div>
-          </div>
-        </div>
-
-        <div onclick="switchSection('study')" class="cursor-pointer bg-slate-900/85 hover:border-sky-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
-          <div class="w-10 h-10 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center shrink-0">
-            <i data-lucide="calendar-days" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <div class="text-[11px] text-slate-400 font-semibold uppercase">Weekly Total</div>
-            <div id="widgetWeeklyTotal" class="font-mono-num text-base sm:text-lg font-extrabold text-sky-300">0.0 hrs</div>
-          </div>
-        </div>
-
-        <div onclick="switchSection('tasks')" class="cursor-pointer bg-slate-900/85 hover:border-amber-500/40 border border-slate-800 rounded-2xl p-3.5 flex items-center gap-3 transition">
-          <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0">
-            <i data-lucide="list-checks" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <div class="text-[11px] text-slate-400 font-semibold uppercase">Today's Tasks</div>
-            <div id="widgetTasksSummary" class="font-mono-num text-base sm:text-lg font-extrabold text-amber-300">0% (0/0)</div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase">Watched Recordings</div>
+            <div id="widgetWatchedTotal" class="font-mono-num text-base sm:text-lg font-extrabold text-emerald-400">0 Videos</div>
           </div>
         </div>
 
@@ -508,298 +476,6 @@
 
         <div id="watchHistoryPageGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
       </section>
-    </div>
-
-    <!-- ===================================================================== -->
-    <!-- SECTION B: POMODORO (25/45/60m) + AUTO-RESET STUDY TIME TRACKER      -->
-    <!-- ===================================================================== -->
-    <div id="section-study" class="hidden space-y-6">
-
-      <!-- POMODORO FOCUS TIMER CARD (25 / 45 / 60 MIN) -->
-      <section class="glass-card rounded-2xl p-5 border border-indigo-500/30">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-          <div class="space-y-1">
-            <div class="flex flex-wrap items-center gap-2">
-              <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-                <i data-lucide="brain-circuit" class="w-5 h-5 text-indigo-400"></i>
-                Pomodoro Focus Session
-              </h3>
-              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
-                25 / 45 / 60 Min
-              </span>
-            </div>
-            <p class="text-xs text-slate-400">Focus session එක ඉවර වුණාම (හෝ Log Now click කළාම) තෝරපු subject එකට study time එක auto-add වේ.</p>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-3">
-            <select id="pomodoroSubjectSelect" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-bold text-white">
-              <option value="Physics">⚡ Physics</option>
-              <option value="Chemistry">🧪 Chemistry</option>
-              <option value="Biology">🧬 Biology</option>
-            </select>
-
-            <div class="flex items-center gap-1.5 bg-slate-950/90 p-1 rounded-xl border border-slate-800">
-              <button type="button" onclick="setPomodoroPreset(25)" id="pomoPreset-25" class="pomo-preset-btn active-tab px-2.5 py-1 rounded-lg text-xs font-bold text-white">25m</button>
-              <button type="button" onclick="setPomodoroPreset(45)" id="pomoPreset-45" class="pomo-preset-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white">45m</button>
-              <button type="button" onclick="setPomodoroPreset(60)" id="pomoPreset-60" class="pomo-preset-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white">60m</button>
-              <input type="number" id="pomodoroCustomMin" min="1" max="180" value="25" onchange="setPomodoroPreset(this.value)"
-                class="w-14 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs font-mono-num font-bold text-center text-white" />
-            </div>
-
-            <div id="pomodoroClockDisplay" class="font-mono-num text-2xl sm:text-3xl font-extrabold text-emerald-400 bg-slate-950/90 px-4 py-2 rounded-2xl border border-slate-800">
-              25:00
-            </div>
-
-            <div class="flex items-center gap-2">
-              <button type="button" id="pomodoroToggleBtn" onclick="togglePomodoroTimer()" class="btn-primary px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5">
-                <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                <span id="pomodoroToggleLabel">Start</span>
-              </button>
-              <button type="button" onclick="logElapsedPomodoro()" title="Add elapsed focus minutes now"
-                class="px-3 py-2.5 rounded-xl text-xs font-bold bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/35">
-                Log Now
-              </button>
-              <button type="button" onclick="resetPomodoroTimer()" class="px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200">
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Log Study Time Form -->
-      <section class="glass-card rounded-2xl p-5">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-          <div>
-            <div class="flex flex-wrap items-center gap-2">
-              <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-                <i data-lucide="timer" class="w-5 h-5 text-sky-400"></i>
-                Log Study Time (Auto Daily & Weekly Reset)
-              </h3>
-              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/30">
-                ↻ Auto Daily & Weekly Reset
-              </span>
-            </div>
-            <p class="text-xs text-slate-400 mt-1">දවස මාරු වෙනකොට Daily Study එකත්, සතිය මාරු වෙනකොට Weekly Study එකත් ඉබේම reset වේ.</p>
-          </div>
-          <button onclick="resetWeeklyStudy()" class="text-xs text-rose-400 hover:text-rose-300 font-semibold">
-            Reset Current Week
-          </button>
-        </div>
-
-        <form onsubmit="addStudyEntry(event)" class="grid grid-cols-1 sm:grid-cols-5 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Day of Week</label>
-            <select id="studyDayInput" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-white">
-              <option value="Mon">Monday (සඳුදා)</option>
-              <option value="Tue">Tuesday (අඟහරුවාදා)</option>
-              <option value="Wed">Wednesday (බදාදා)</option>
-              <option value="Thu">Thursday (බ්‍රහස්පතින්දා)</option>
-              <option value="Fri">Friday (සිකුරාදා)</option>
-              <option value="Sat">Saturday (සෙනසුරාදා)</option>
-              <option value="Sun">Sunday (ඉරිදා)</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Subject</label>
-            <select id="studySubjectInput" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-white">
-              <option value="Physics">Physics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Biology">Biology</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Hours (පැය)</label>
-            <input type="number" id="studyHoursInput" min="0" max="24" value="1" required
-              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-bold text-white" />
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Minutes (මිනිත්තු)</label>
-            <input type="number" id="studyMinsInput" min="0" max="59" value="30" required
-              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-bold text-white" />
-          </div>
-
-          <div class="flex items-end">
-            <button type="submit" class="w-full btn-primary py-2.5 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-1.5">
-              <i data-lucide="plus-circle" class="w-4 h-4"></i> Add Time
-            </button>
-          </div>
-        </form>
-
-        <!-- Summary Cards -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
-          <div class="bg-slate-900/80 border border-indigo-500/30 rounded-xl p-3.5">
-            <div class="text-xs text-indigo-300 font-semibold">Physics Total (Week)</div>
-            <div id="statPhysicsTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
-          </div>
-          <div class="bg-slate-900/80 border border-cyan-500/30 rounded-xl p-3.5">
-            <div class="text-xs text-cyan-300 font-semibold">Chemistry Total (Week)</div>
-            <div id="statChemTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
-          </div>
-          <div class="bg-slate-900/80 border border-emerald-500/30 rounded-xl p-3.5">
-            <div class="text-xs text-emerald-300 font-semibold">Biology Total (Week)</div>
-            <div id="statBioTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
-          </div>
-          <div class="bg-gradient-to-r from-indigo-600/30 to-cyan-600/30 border border-sky-400/40 rounded-xl p-3.5">
-            <div class="text-xs text-sky-200 font-semibold">Weekly Grand Total</div>
-            <div id="statGrandTotal" class="font-mono-num text-xl font-extrabold text-white mt-1">0.0 hrs</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Daily & Weekly Charts -->
-      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-5 glass-card rounded-2xl p-5 space-y-3">
-          <div class="flex items-center justify-between gap-2">
-            <h4 class="text-base font-bold text-white">Daily Subject Breakdown</h4>
-            <select id="dailyChartDaySelect" onchange="renderStudyCharts()" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs font-bold text-white">
-              <option value="Mon">Monday</option>
-              <option value="Tue">Tuesday</option>
-              <option value="Wed">Wednesday</option>
-              <option value="Thu">Thursday</option>
-              <option value="Fri">Friday</option>
-              <option value="Sat">Saturday</option>
-              <option value="Sun">Sunday</option>
-            </select>
-          </div>
-          <div class="h-64">
-            <canvas id="dailyStudyChart"></canvas>
-          </div>
-        </div>
-
-        <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 id="weeklyChartHeading" class="text-base font-bold text-white">Weekly 7-Day Study Chart</h4>
-            <span class="text-xs text-slate-400">Hours per day</span>
-          </div>
-          <div class="h-64">
-            <canvas id="weeklyStudyChart"></canvas>
-          </div>
-        </div>
-      </section>
-
-      <!-- Monthly Subject-Wise Progress Chart -->
-      <section class="glass-card rounded-2xl p-5 space-y-3">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h4 class="text-base font-bold text-white">Monthly Subject-Wise Study Progress</h4>
-            <p class="text-xs text-slate-400">මුළු මාසය පුරාම Physics, Chemistry, Biology විෂයන් 3ට වැය කළ පැය ගණන (මාසය මාරු වෙද්දි auto reset වේ)</p>
-          </div>
-          <span id="monthlyTotalBadge" class="text-xs font-bold px-3 py-1 rounded-lg badge-primary">Month Total: 0.0 hrs</span>
-        </div>
-        <div class="h-64">
-          <canvas id="monthlyStudyChart"></canvas>
-        </div>
-      </section>
-    </div>
-
-    <!-- ===================================================================== -->
-    <!-- SECTION C: AUTO-DAILY TASK PLANNER + HISTORY + PROGRESS CHART         -->
-    <!-- ===================================================================== -->
-    <div id="section-tasks" class="hidden space-y-6">
-
-      <!-- Celebration Banner (100% Completed) -->
-      <div id="allTasksCelebration" class="hidden rounded-2xl p-5 bg-gradient-to-r from-emerald-600/30 via-teal-500/25 to-cyan-600/30 border border-emerald-400/50 shadow-xl">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div class="flex items-center gap-4">
-            <div class="text-4xl">🎉🏆✨</div>
-            <div>
-              <h3 class="text-lg sm:text-xl font-extrabold text-emerald-300">
-                සුපිරි! ඔයා අද දවසේ වැඩ ඔක්කොම ඉවර කළා! (100% Completed)
-              </h3>
-              <p class="text-xs sm:text-sm text-emerald-100/90 mt-0.5">
-                Physics, Chemistry, Biology තුනේම Target ටික සම්පූර්ණයි. දිගටම මේ ගැම්මෙන් වැඩ කරන්න!
-              </p>
-            </div>
-          </div>
-          <button onclick="clearCompletedTasks()" class="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs hover:bg-emerald-400 transition shrink-0">
-            Clear Completed
-          </button>
-        </div>
-      </div>
-
-      <!-- Add Task + Overall Task Progress Chart -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-8 glass-card rounded-2xl p-5 flex flex-col justify-between">
-          <div>
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
-              <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-                <i data-lucide="list-checks" class="w-5 h-5 text-sky-400"></i>
-                Daily Study Task Planner
-              </h3>
-              <div class="flex items-center gap-2">
-                <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                  ↻ Auto Daily Reset
-                </span>
-                <select id="taskDateSelector" onchange="onTaskDateChange()" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold text-white">
-                </select>
-              </div>
-            </div>
-            <p class="text-xs text-slate-400 mb-4">දවස මාරු වෙනකොට අලුත් දවසක task list එකක් ස්වයංක්‍රීයව හැදේ. පරණ දවස් select කරලා history එකත් බලන්න පුළුවන්.</p>
-          </div>
-
-          <form onsubmit="addTaskItem(event)" class="grid grid-cols-1 sm:grid-cols-12 gap-3">
-            <div class="sm:col-span-4">
-              <select id="taskSubjectInput" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white">
-                <option value="Biology">🧬 Biology</option>
-                <option value="Physics">⚡ Physics</option>
-                <option value="Chemistry">🧪 Chemistry</option>
-              </select>
-            </div>
-            <div class="sm:col-span-6">
-              <input type="text" id="taskTextInput" placeholder="උදා: Mechanics Past Paper 2023 MCQ..." required
-                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500" />
-            </div>
-            <div class="sm:col-span-2">
-              <button type="submit" class="w-full btn-primary py-2.5 px-4 rounded-xl text-sm font-bold">
-                Add
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Mini Doughnut Progress Chart -->
-        <div class="lg:col-span-4 glass-card rounded-2xl p-5 flex items-center justify-between gap-4">
-          <div>
-            <span id="taskProgressLabel" class="text-xs font-bold uppercase tracking-wider text-slate-400">Today's Progress</span>
-            <div id="taskPercentBig" class="font-mono-num text-3xl font-extrabold text-white mt-1">0%</div>
-            <p id="taskCountSummary" class="text-xs text-slate-400 mt-1">0 of 0 tasks completed</p>
-          </div>
-          <div class="w-24 h-24 shrink-0">
-            <canvas id="taskProgressChart"></canvas>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3 Separate Subject Columns -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="glass-card rounded-2xl p-4 space-y-3 border-t-4 border-t-emerald-500">
-          <div class="flex items-center justify-between">
-            <h4 class="font-extrabold text-emerald-400 flex items-center gap-2"><span>🧬</span> Biology Tasks</h4>
-            <span id="count-Biology" class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300">0/0</span>
-          </div>
-          <div id="list-Biology" class="space-y-2 min-h-[140px]"></div>
-        </div>
-
-        <div class="glass-card rounded-2xl p-4 space-y-3 border-t-4 border-t-indigo-500">
-          <div class="flex items-center justify-between">
-            <h4 class="font-extrabold text-indigo-400 flex items-center gap-2"><span>⚡</span> Physics Tasks</h4>
-            <span id="count-Physics" class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-300">0/0</span>
-          </div>
-          <div id="list-Physics" class="space-y-2 min-h-[140px]"></div>
-        </div>
-
-        <div class="glass-card rounded-2xl p-4 space-y-3 border-t-4 border-t-cyan-500">
-          <div class="flex items-center justify-between">
-            <h4 class="font-extrabold text-cyan-400 flex items-center gap-2"><span>🧪</span> Chemistry Tasks</h4>
-            <span id="count-Chemistry" class="text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300">0/0</span>
-          </div>
-          <div id="list-Chemistry" class="space-y-2 min-h-[140px]"></div>
-        </div>
-      </div>
     </div>
 
   </main>
@@ -1131,13 +807,13 @@
         </div>
       </div>
 
-      <!-- ADMIN TAB 4: STUDENTS PROFILES, STREAKS, TASKS, STUDY TIME & WATCHED VIDEOS -->
+      <!-- ADMIN TAB 4: STUDENTS PROFILES, STREAKS & WATCHED VIDEOS -->
       <div id="admin-pane-students" class="hidden space-y-4">
         <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
           <div class="flex items-center justify-between">
             <div>
-              <h4 class="text-sm font-extrabold text-white">Students Live Activity (Streaks, Tasks, Study Time & Watched Videos)</h4>
-              <p class="text-xs text-slate-400">ළමයි tick දාන tasks, study time, streak, සහ බලපු videos සියල්ල මෙතන live update වේ.</p>
+              <h4 class="text-sm font-extrabold text-white">Students Live Activity (Streaks & Watched Videos)</h4>
+              <p class="text-xs text-slate-400">ළමයිගේ profiles, streak, සහ බලපු videos සියල්ල මෙතන live update වේ.</p>
             </div>
             <span id="adminStudentsCount" class="text-xs font-bold px-2.5 py-1 rounded-lg badge-primary">0 Students</span>
           </div>
@@ -1195,7 +871,6 @@
     ];
 
     const DEFAULT_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=Chamindu&backgroundColor=b6e3f4";
-    const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
     function getLocalDateKey(dateObj = new Date()) {
       const y = dateObj.getFullYear();
@@ -1207,36 +882,6 @@
     function getYesterdayDateKey(dateObj = new Date()) {
       const yest = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate() - 1);
       return getLocalDateKey(yest);
-    }
-
-    function getMondayDateKey(dateObj = new Date()) {
-      const copy = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
-      const dayOfWeek = copy.getDay();
-      const diffToMonday = (dayOfWeek === 0) ? -6 : (1 - dayOfWeek);
-      copy.setDate(copy.getDate() + diffToMonday);
-      return getLocalDateKey(copy);
-    }
-
-    function getMonthKey(dateObj = new Date()) {
-      const y = dateObj.getFullYear();
-      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
-      return `${y}-${m}`;
-    }
-
-    function emptySubjectHours() {
-      return { Physics: 0, Chemistry: 0, Biology: 0 };
-    }
-
-    function emptyWeekGrid() {
-      return {
-        Mon: emptySubjectHours(),
-        Tue: emptySubjectHours(),
-        Wed: emptySubjectHours(),
-        Thu: emptySubjectHours(),
-        Fri: emptySubjectHours(),
-        Sat: emptySubjectHours(),
-        Sun: emptySubjectHours()
-      };
     }
 
     // Cloud State
@@ -1329,7 +974,7 @@
         dotEl.title = "Active today ✓";
       } else {
         dotEl.className = "w-2 h-2 rounded-full bg-amber-400/60";
-        dotEl.title = "Log study time, complete a task, or watch a video today";
+        dotEl.title = "Watch a recording today to extend your streak";
       }
     }
 
@@ -1339,7 +984,7 @@
       const isLitToday = streakData.lastActiveDate === todayKey;
       const statusMsg = isLitToday
         ? "අද දවසේ Streak එක සම්පූර්ණයි ✓"
-        : "අද study time, task හෝ video එකක් complete කරන්න!";
+        : "අද video එකක් watch කරලා streak එක maintain කරන්න!";
       showToast(`🔥 Streak: ${streakData.current || 0}d (Best: ${streakData.best || 0}d) — ${statusMsg}`);
     };
 
@@ -1353,6 +998,13 @@
       localStorage.setItem("chamixpro_watch_history", JSON.stringify(watchHistory));
     }
 
+    function updateWatchedSummaryWidget() {
+      const el = document.getElementById("widgetWatchedTotal");
+      if (el) {
+        el.textContent = `${watchedIds.length} ${watchedIds.length === 1 ? "Video" : "Videos"}`;
+      }
+    }
+
     let dismissedNoticeId = localStorage.getItem("chamixpro_dismissed_notice_id") || "";
 
     let studentProfile = JSON.parse(localStorage.getItem("chamixpro_profile") || JSON.stringify({
@@ -1362,229 +1014,16 @@
       hasCustomProfile: false
     }));
 
-    let dailyStudyByDate = JSON.parse(localStorage.getItem("chamixpro_daily_study_by_date") || "{}");
-
-    let weeklyStudyStore = JSON.parse(localStorage.getItem("chamixpro_weekly_study_store") || "null");
-    if (!weeklyStudyStore || !weeklyStudyStore.grid) {
-      const legacyWeek = JSON.parse(localStorage.getItem("chamixpro_study_week") || "null");
-      weeklyStudyStore = {
-        weekKey: getMondayDateKey(),
-        grid: legacyWeek || emptyWeekGrid()
-      };
-      localStorage.setItem("chamixpro_weekly_study_store", JSON.stringify(weeklyStudyStore));
-    }
-
-    let monthlyStudyStore = JSON.parse(localStorage.getItem("chamixpro_monthly_study_store") || "null");
-    if (!monthlyStudyStore || !monthlyStudyStore.hours) {
-      const legacyMonth = JSON.parse(localStorage.getItem("chamixpro_study_month") || "null");
-      monthlyStudyStore = {
-        monthKey: getMonthKey(),
-        hours: legacyMonth || emptySubjectHours()
-      };
-      localStorage.setItem("chamixpro_monthly_study_store", JSON.stringify(monthlyStudyStore));
-    }
-
-    let tasksByDate = JSON.parse(localStorage.getItem("chamixpro_tasks_by_date") || "null");
-    if (!tasksByDate) {
-      const legacyTasks = JSON.parse(localStorage.getItem("chamixpro_tasks") || "[]");
-      tasksByDate = {};
-      if (legacyTasks.length > 0) {
-        tasksByDate[getLocalDateKey()] = legacyTasks;
-      }
-      localStorage.setItem("chamixpro_tasks_by_date", JSON.stringify(tasksByDate));
-    }
-
     let currentActualDateKey = getLocalDateKey();
-    let currentActualWeekKey = getMondayDateKey();
-    let currentActualMonthKey = getMonthKey();
-    let activeViewingDateKey = currentActualDateKey;
 
-    if (!dailyStudyByDate[currentActualDateKey]) {
-      dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
-      localStorage.setItem("chamixpro_daily_study_by_date", JSON.stringify(dailyStudyByDate));
-    }
-
-    function getTodayShortDay(dateObj = new Date()) {
-      return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dateObj.getDay()];
-    }
-
-    function saveStudyStores() {
-      localStorage.setItem("chamixpro_daily_study_by_date", JSON.stringify(dailyStudyByDate));
-      localStorage.setItem("chamixpro_weekly_study_store", JSON.stringify(weeklyStudyStore));
-      localStorage.setItem("chamixpro_monthly_study_store", JSON.stringify(monthlyStudyStore));
-    }
-
-    function getTasksForDate(dateKey) {
-      if (!Array.isArray(tasksByDate[dateKey])) {
-        tasksByDate[dateKey] = [];
-      }
-      return tasksByDate[dateKey];
-    }
-
-    function saveTasksByDate() {
-      localStorage.setItem("chamixpro_tasks_by_date", JSON.stringify(tasksByDate));
-    }
-
-    function checkAutoResets() {
+    function checkDailyDateRollover() {
       const nowDateKey = getLocalDateKey();
-      const nowWeekKey = getMondayDateKey();
-      const nowMonthKey = getMonthKey();
-      let changed = false;
-
       if (nowDateKey !== currentActualDateKey) {
-        const wasViewingToday = (activeViewingDateKey === currentActualDateKey);
         currentActualDateKey = nowDateKey;
-
-        if (!dailyStudyByDate[nowDateKey]) {
-          dailyStudyByDate[nowDateKey] = emptySubjectHours();
-        }
-        if (!Array.isArray(tasksByDate[nowDateKey])) {
-          tasksByDate[nowDateKey] = [];
-        }
-        if (wasViewingToday) {
-          activeViewingDateKey = nowDateKey;
-        }
         renderStreakCard();
-        changed = true;
-      }
-
-      if (nowWeekKey !== currentActualWeekKey || weeklyStudyStore.weekKey !== nowWeekKey) {
-        currentActualWeekKey = nowWeekKey;
-        weeklyStudyStore = {
-          weekKey: nowWeekKey,
-          grid: emptyWeekGrid()
-        };
-        changed = true;
-      }
-
-      if (nowMonthKey !== currentActualMonthKey || monthlyStudyStore.monthKey !== nowMonthKey) {
-        currentActualMonthKey = nowMonthKey;
-        monthlyStudyStore = {
-          monthKey: nowMonthKey,
-          hours: emptySubjectHours()
-        };
-        changed = true;
-      }
-
-      if (changed) {
-        saveStudyStores();
-        saveTasksByDate();
-        populateTaskDateSelector();
-        updateStudyStatsAndCharts();
-        renderTasks();
         syncStudentSnapshotToCloud();
-        showToast("New day/week started — Daily & Weekly study & tasks reset automatically!");
       }
     }
-
-    let dailyChartInstance = null;
-    let weeklyChartInstance = null;
-    let monthlyChartInstance = null;
-    let taskChartInstance = null;
-
-    // -------------------------------------------------------------------
-    // POMODORO TIMER LOGIC (25 / 45 / 60 MIN)
-    // -------------------------------------------------------------------
-    let pomoDurationMin = 25;
-    let pomoRemainingSec = 25 * 60;
-    let pomoRunning = false;
-    let pomoIntervalId = null;
-
-    function renderPomodoroDisplay() {
-      const mins = Math.floor(pomoRemainingSec / 60);
-      const secs = pomoRemainingSec % 60;
-      document.getElementById("pomodoroClockDisplay").textContent =
-        `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-      document.getElementById("pomodoroToggleLabel").textContent = pomoRunning ? "Pause" : "Start";
-
-      document.querySelectorAll(".pomo-preset-btn").forEach(btn => {
-        btn.classList.remove("active-tab");
-        btn.classList.add("bg-slate-800", "hover:bg-slate-700");
-      });
-      const activePresetBtn = document.getElementById(`pomoPreset-${pomoDurationMin}`);
-      if (activePresetBtn) {
-        activePresetBtn.classList.add("active-tab");
-        activePresetBtn.classList.remove("bg-slate-800", "hover:bg-slate-700");
-      }
-    }
-
-    window.setPomodoroPreset = function(minsVal) {
-      const m = Math.max(1, Math.min(180, parseInt(minsVal, 10) || 25));
-      pomoRunning = false;
-      clearInterval(pomoIntervalId);
-      pomoDurationMin = m;
-      pomoRemainingSec = m * 60;
-      document.getElementById("pomodoroCustomMin").value = m;
-      renderPomodoroDisplay();
-    };
-
-    function addStudyHoursDirect(subj, addedHours) {
-      if (addedHours <= 0) return;
-      checkAutoResets();
-      const todayDay = getTodayShortDay();
-      if (!weeklyStudyStore.grid[todayDay]) weeklyStudyStore.grid[todayDay] = emptySubjectHours();
-      weeklyStudyStore.grid[todayDay][subj] = +((weeklyStudyStore.grid[todayDay][subj] || 0) + addedHours).toFixed(2);
-
-      if (!dailyStudyByDate[currentActualDateKey]) dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
-      dailyStudyByDate[currentActualDateKey][subj] = +((dailyStudyByDate[currentActualDateKey][subj] || 0) + addedHours).toFixed(2);
-
-      monthlyStudyStore.hours[subj] = +((monthlyStudyStore.hours[subj] || 0) + addedHours).toFixed(2);
-
-      saveStudyStores();
-      recordDailyStreakActivity();
-      updateStudyStatsAndCharts();
-      syncStudentSnapshotToCloud();
-    }
-
-    window.togglePomodoroTimer = function() {
-      if (pomoRunning) {
-        pomoRunning = false;
-        clearInterval(pomoIntervalId);
-        renderPomodoroDisplay();
-        return;
-      }
-      pomoRunning = true;
-      renderPomodoroDisplay();
-      pomoIntervalId = setInterval(() => {
-        if (!pomoRunning) return;
-        pomoRemainingSec -= 1;
-        if (pomoRemainingSec <= 0) {
-          pomoRunning = false;
-          clearInterval(pomoIntervalId);
-          const subj = document.getElementById("pomodoroSubjectSelect").value;
-          const loggedHrs = +(pomoDurationMin / 60).toFixed(2);
-          addStudyHoursDirect(subj, loggedHrs);
-          pomoRemainingSec = pomoDurationMin * 60;
-          showToast(`Pomodoro complete! +${pomoDurationMin}m added to ${subj}`);
-        }
-        renderPomodoroDisplay();
-      }, 1000);
-    };
-
-    window.logElapsedPomodoro = function() {
-      const elapsedSec = Math.max(0, (pomoDurationMin * 60) - pomoRemainingSec);
-      const mins = Math.floor(elapsedSec / 60);
-      if (mins < 1) {
-        showToast("Focus for at least 1 minute before logging!");
-        return;
-      }
-      const subj = document.getElementById("pomodoroSubjectSelect").value;
-      const loggedHrs = +(mins / 60).toFixed(2);
-      addStudyHoursDirect(subj, loggedHrs);
-      pomoRunning = false;
-      clearInterval(pomoIntervalId);
-      pomoRemainingSec = pomoDurationMin * 60;
-      renderPomodoroDisplay();
-      showToast(`Logged ${mins}m focus time to ${subj}!`);
-    };
-
-    window.resetPomodoroTimer = function() {
-      pomoRunning = false;
-      clearInterval(pomoIntervalId);
-      pomoRemainingSec = pomoDurationMin * 60;
-      renderPomodoroDisplay();
-    };
-    renderPomodoroDisplay();
 
     // -------------------------------------------------------------------
     // 2027 A/L EXAM COUNTDOWN TIMER (DATE + TIME EDITABLE BY ADMIN)
@@ -1677,10 +1116,10 @@
     };
 
     // -------------------------------------------------------------------
-    // 1. LIVE CLOCK + TIME-BASED GREETINGS, COUNTDOWN & AUTO RESETS
+    // 1. LIVE CLOCK + TIME-BASED GREETINGS & COUNTDOWN
     // -------------------------------------------------------------------
     function updateClockAndGreeting() {
-      checkAutoResets();
+      checkDailyDateRollover();
       updateALCountdown();
       const now = new Date();
       const hrs = now.getHours();
@@ -1724,12 +1163,8 @@
     setInterval(updateClockAndGreeting, 1000);
     updateClockAndGreeting();
 
-    const initShortDay = getTodayShortDay();
-    document.getElementById("studyDayInput").value = initShortDay;
-    document.getElementById("dailyChartDaySelect").value = initShortDay;
-
     // -------------------------------------------------------------------
-    // 2. FIREBASE REAL-TIME LISTENERS & FULL STUDENT ACTIVITY SYNC
+    // 2. FIREBASE REAL-TIME LISTENERS & STUDENT ACTIVITY SYNC
     // -------------------------------------------------------------------
     function initCloudListeners() {
       onSnapshot(doc(db, "chamix_pro_meta", "settings"), (snap) => {
@@ -1775,22 +1210,9 @@
 
     async function syncStudentSnapshotToCloud() {
       try {
-        checkAutoResets();
+        checkDailyDateRollover();
         refreshStreakValidity();
-        const grid = weeklyStudyStore.grid || emptyWeekGrid();
-        let totP = 0, totC = 0, totB = 0;
-        DAYS.forEach(d => {
-          totP += grid[d]?.Physics || 0;
-          totC += grid[d]?.Chemistry || 0;
-          totB += grid[d]?.Biology || 0;
-        });
-        const totHrs = +(totP + totC + totB).toFixed(1);
 
-        const todayObj = dailyStudyByDate[currentActualDateKey] || emptySubjectHours();
-        const todayHrs = +((todayObj.Physics || 0) + (todayObj.Chemistry || 0) + (todayObj.Biology || 0)).toFixed(1);
-
-        const todayTasksList = getTasksForDate(currentActualDateKey);
-        const doneTasks = todayTasksList.filter(t => t.done).length;
         const activeName = (studentProfile.hasCustomProfile && studentProfile.name)
           ? studentProfile.name
           : (siteSettings.displayName || "Student");
@@ -1798,30 +1220,12 @@
           ? studentProfile.avatar
           : (siteSettings.displayAvatar || DEFAULT_AVATAR);
 
-        const taskDetails = todayTasksList.slice(-20).map(t => ({
-          subject: t.subject,
-          text: t.text,
-          done: Boolean(t.done)
-        }));
-
         await setDoc(doc(db, "chamix_pro_students", studentDeviceId), {
           name: activeName,
           avatar: activeAvatar,
           batch: studentProfile.batch || "2027 A/L Science Stream",
           streakDays: streakData.current || 0,
           bestStreakDays: streakData.best || 0,
-          studyDate: currentActualDateKey,
-          weekKey: currentActualWeekKey,
-          weeklyHours: totHrs,
-          todayHours: todayHrs,
-          subjectHours: {
-            Physics: +totP.toFixed(1),
-            Chemistry: +totC.toFixed(1),
-            Biology: +totB.toFixed(1)
-          },
-          taskDate: currentActualDateKey,
-          tasksSummary: `${doneTasks}/${todayTasksList.length}`,
-          taskDetails,
           watchedVideoIds: watchedIds,
           lastActive: Date.now()
         }, { merge: true });
@@ -2341,327 +1745,13 @@
         showToast("Marked as watched & added to History! ✓");
       }
       localStorage.setItem("chamixpro_watched", JSON.stringify(watchedIds));
+      updateWatchedSummaryWidget();
       renderTopicsAndVideos();
       syncStudentSnapshotToCloud();
     };
 
     // -------------------------------------------------------------------
-    // 5. STUDY TIME TRACKER (AUTO DAILY + AUTO WEEKLY + AUTO MONTHLY)
-    // -------------------------------------------------------------------
-    window.addStudyEntry = function(e) {
-      e.preventDefault();
-      checkAutoResets();
-
-      const day = document.getElementById("studyDayInput").value;
-      const subj = document.getElementById("studySubjectInput").value;
-      const hrs = parseFloat(document.getElementById("studyHoursInput").value) || 0;
-      const mins = parseFloat(document.getElementById("studyMinsInput").value) || 0;
-      const addedHours = +(hrs + mins / 60).toFixed(2);
-
-      if (addedHours <= 0) return;
-
-      if (!weeklyStudyStore.grid[day]) weeklyStudyStore.grid[day] = emptySubjectHours();
-      weeklyStudyStore.grid[day][subj] = +((weeklyStudyStore.grid[day][subj] || 0) + addedHours).toFixed(2);
-
-      if (!dailyStudyByDate[currentActualDateKey]) {
-        dailyStudyByDate[currentActualDateKey] = emptySubjectHours();
-      }
-      dailyStudyByDate[currentActualDateKey][subj] = +((dailyStudyByDate[currentActualDateKey][subj] || 0) + addedHours).toFixed(2);
-
-      monthlyStudyStore.hours[subj] = +((monthlyStudyStore.hours[subj] || 0) + addedHours).toFixed(2);
-
-      saveStudyStores();
-      recordDailyStreakActivity();
-      document.getElementById("dailyChartDaySelect").value = day;
-      updateStudyStatsAndCharts();
-      syncStudentSnapshotToCloud();
-      showToast(`Added ${hrs}h ${mins}m to ${subj} (${day})`);
-    };
-
-    window.resetWeeklyStudy = function() {
-      if (!confirm("Reset current week's study time data?")) return;
-      checkAutoResets();
-      weeklyStudyStore = {
-        weekKey: currentActualWeekKey,
-        grid: emptyWeekGrid()
-      };
-      saveStudyStores();
-      updateStudyStatsAndCharts();
-      syncStudentSnapshotToCloud();
-      showToast("Current week study logs reset.");
-    };
-
-    function updateStudyStatsAndCharts() {
-      checkAutoResets();
-      const grid = weeklyStudyStore.grid || emptyWeekGrid();
-
-      let totP = 0, totC = 0, totB = 0;
-      DAYS.forEach(d => {
-        totP += grid[d]?.Physics || 0;
-        totC += grid[d]?.Chemistry || 0;
-        totB += grid[d]?.Biology || 0;
-      });
-      const grand = totP + totC + totB;
-
-      document.getElementById("statPhysicsTotal").textContent = `${totP.toFixed(1)} hrs`;
-      document.getElementById("statChemTotal").textContent = `${totC.toFixed(1)} hrs`;
-      document.getElementById("statBioTotal").textContent = `${totB.toFixed(1)} hrs`;
-      document.getElementById("statGrandTotal").textContent = `${grand.toFixed(1)} hrs`;
-      document.getElementById("widgetWeeklyTotal").textContent = `${grand.toFixed(1)} hrs`;
-      document.getElementById("weeklyChartHeading").textContent = `Weekly 7-Day Study Chart (Week of ${currentActualWeekKey})`;
-
-      const todayObj = dailyStudyByDate[currentActualDateKey] || emptySubjectHours();
-      const todayHrsFloat = (todayObj.Physics || 0) + (todayObj.Chemistry || 0) + (todayObj.Biology || 0);
-      const h = Math.floor(todayHrsFloat);
-      const m = Math.round((todayHrsFloat - h) * 60);
-      document.getElementById("heroTodayStudy").textContent = `${h}h ${m}m`;
-
-      const mHrs = monthlyStudyStore.hours || emptySubjectHours();
-      const mTot = +((mHrs.Physics || 0) + (mHrs.Chemistry || 0) + (mHrs.Biology || 0)).toFixed(1);
-      document.getElementById("monthlyTotalBadge").textContent = `Month Total (${currentActualMonthKey}): ${mTot} hrs`;
-
-      renderStudyCharts();
-    }
-
-    window.renderStudyCharts = function() {
-      const selectedDay = document.getElementById("dailyChartDaySelect").value;
-      const grid = weeklyStudyStore.grid || emptyWeekGrid();
-      const dData = (selectedDay === getTodayShortDay() && dailyStudyByDate[currentActualDateKey])
-        ? dailyStudyByDate[currentActualDateKey]
-        : (grid[selectedDay] || emptySubjectHours());
-
-      const dTotal = +((dData.Physics || 0) + (dData.Chemistry || 0) + (dData.Biology || 0)).toFixed(2);
-
-      const dailyCtx = document.getElementById("dailyStudyChart").getContext("2d");
-      if (dailyChartInstance) dailyChartInstance.destroy();
-      dailyChartInstance = new Chart(dailyCtx, {
-        type: "bar",
-        data: {
-          labels: ["Physics", "Chemistry", "Biology", "Total"],
-          datasets: [{
-            label: `${selectedDay} Hours`,
-            data: [dData.Physics || 0, dData.Chemistry || 0, dData.Biology || 0, dTotal],
-            backgroundColor: ["#6366f1", "#06b6d4", "#10b981", "#f59e0b"],
-            borderRadius: 8
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.1)" } },
-            x: { ticks: { color: "#e2e8f0", font: { weight: "bold" } }, grid: { display: false } }
-          }
-        }
-      });
-
-      const pArr = DAYS.map(d => grid[d]?.Physics || 0);
-      const cArr = DAYS.map(d => grid[d]?.Chemistry || 0);
-      const bArr = DAYS.map(d => grid[d]?.Biology || 0);
-      const tArr = DAYS.map(d => +((grid[d]?.Physics || 0) + (grid[d]?.Chemistry || 0) + (grid[d]?.Biology || 0)).toFixed(2));
-
-      const weeklyCtx = document.getElementById("weeklyStudyChart").getContext("2d");
-      if (weeklyChartInstance) weeklyChartInstance.destroy();
-      weeklyChartInstance = new Chart(weeklyCtx, {
-        data: {
-          labels: DAYS,
-          datasets: [
-            { type: "line", label: "Total", data: tArr, borderColor: "#f59e0b", backgroundColor: "#f59e0b", tension: 0.3, borderWidth: 2.5 },
-            { type: "bar", label: "Physics", data: pArr, backgroundColor: "#6366f1", borderRadius: 4 },
-            { type: "bar", label: "Chemistry", data: cArr, backgroundColor: "#06b6d4", borderRadius: 4 },
-            { type: "bar", label: "Biology", data: bArr, backgroundColor: "#10b981", borderRadius: 4 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: "#e2e8f0", boxWidth: 12 } } },
-          scales: {
-            y: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.1)" } },
-            x: { ticks: { color: "#e2e8f0" }, grid: { display: false } }
-          }
-        }
-      });
-
-      const mHrs = monthlyStudyStore.hours || emptySubjectHours();
-      const monthlyCtx = document.getElementById("monthlyStudyChart").getContext("2d");
-      if (monthlyChartInstance) monthlyChartInstance.destroy();
-      monthlyChartInstance = new Chart(monthlyCtx, {
-        type: "bar",
-        data: {
-          labels: ["Physics (Month)", "Chemistry (Month)", "Biology (Month)"],
-          datasets: [{
-            label: "Monthly Hours",
-            data: [mHrs.Physics || 0, mHrs.Chemistry || 0, mHrs.Biology || 0],
-            backgroundColor: ["#6366f1", "#06b6d4", "#10b981"],
-            borderRadius: 10
-          }]
-        },
-        options: {
-          indexAxis: "y",
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.1)" } },
-            y: { ticks: { color: "#e2e8f0", font: { weight: "bold" } }, grid: { display: false } }
-          }
-        }
-      });
-    };
-
-    // -------------------------------------------------------------------
-    // 6. AUTO-DAILY TASK PLANNER + HISTORY + MINI CHART + 100% WISH BANNER
-    // -------------------------------------------------------------------
-    function populateTaskDateSelector() {
-      const sel = document.getElementById("taskDateSelector");
-      const allKeys = new Set([currentActualDateKey, ...Object.keys(tasksByDate)]);
-      const sortedKeys = Array.from(allKeys).sort((a, b) => b.localeCompare(a));
-
-      sel.innerHTML = sortedKeys.map(k => {
-        const label = (k === currentActualDateKey) ? `Today (${k})` : k;
-        return `<option value="${k}" ${k === activeViewingDateKey ? "selected" : ""}>${label}</option>`;
-      }).join("");
-    }
-
-    window.onTaskDateChange = function() {
-      checkAutoResets();
-      activeViewingDateKey = document.getElementById("taskDateSelector").value || currentActualDateKey;
-      renderTasks();
-    };
-
-    window.addTaskItem = function(e) {
-      e.preventDefault();
-      checkAutoResets();
-      const subject = document.getElementById("taskSubjectInput").value;
-      const text = document.getElementById("taskTextInput").value.trim();
-      if (!text) return;
-
-      const list = getTasksForDate(activeViewingDateKey);
-      list.push({ id: Date.now().toString(), subject, text, done: false });
-      saveTasksByDate();
-      populateTaskDateSelector();
-
-      document.getElementById("taskTextInput").value = "";
-      renderTasks();
-      if (activeViewingDateKey === currentActualDateKey) {
-        syncStudentSnapshotToCloud();
-      }
-    };
-
-    window.toggleTask = function(id) {
-      checkAutoResets();
-      const list = getTasksForDate(activeViewingDateKey);
-      let becameDone = false;
-      tasksByDate[activeViewingDateKey] = list.map(t => {
-        if (t.id === id) {
-          if (!t.done) becameDone = true;
-          return { ...t, done: !t.done };
-        }
-        return t;
-      });
-      saveTasksByDate();
-      if (becameDone && activeViewingDateKey === currentActualDateKey) {
-        recordDailyStreakActivity();
-      }
-      renderTasks();
-      if (activeViewingDateKey === currentActualDateKey) {
-        syncStudentSnapshotToCloud();
-      }
-    };
-
-    window.deleteTask = function(id) {
-      checkAutoResets();
-      const list = getTasksForDate(activeViewingDateKey);
-      tasksByDate[activeViewingDateKey] = list.filter(t => t.id !== id);
-      saveTasksByDate();
-      renderTasks();
-      if (activeViewingDateKey === currentActualDateKey) {
-        syncStudentSnapshotToCloud();
-      }
-    };
-
-    window.clearCompletedTasks = function() {
-      checkAutoResets();
-      const list = getTasksForDate(activeViewingDateKey);
-      tasksByDate[activeViewingDateKey] = list.filter(t => !t.done);
-      saveTasksByDate();
-      renderTasks();
-      if (activeViewingDateKey === currentActualDateKey) {
-        syncStudentSnapshotToCloud();
-      }
-    };
-
-    function renderTasks() {
-      const viewList = getTasksForDate(activeViewingDateKey);
-
-      ["Biology", "Physics", "Chemistry"].forEach(subj => {
-        const subTasks = viewList.filter(t => t.subject === subj);
-        const doneCount = subTasks.filter(t => t.done).length;
-        document.getElementById(`count-${subj}`).textContent = `${doneCount}/${subTasks.length}`;
-
-        const listEl = document.getElementById(`list-${subj}`);
-        if (subTasks.length === 0) {
-          listEl.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">No ${subj} tasks for ${activeViewingDateKey === currentActualDateKey ? "today" : activeViewingDateKey}.</p>`;
-        } else {
-          listEl.innerHTML = subTasks.map(t => `
-            <div class="flex items-center justify-between gap-2 bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2.5">
-              <label class="flex items-center gap-2.5 cursor-pointer min-w-0 flex-1">
-                <input type="checkbox" ${t.done ? "checked" : ""} onchange="toggleTask('${t.id}')"
-                  class="w-4 h-4 rounded accent-emerald-500 shrink-0" />
-                <span class="text-xs sm:text-sm truncate ${t.done ? 'line-through text-slate-500' : 'text-slate-200 font-medium'}">
-                  ${escapeHtml(t.text)}
-                </span>
-              </label>
-              <button onclick="deleteTask('${t.id}')" class="text-slate-500 hover:text-rose-400 text-xs px-1">✕</button>
-            </div>
-          `).join("");
-        }
-      });
-
-      const total = viewList.length;
-      const completed = viewList.filter(t => t.done).length;
-      const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
-
-      const isToday = activeViewingDateKey === currentActualDateKey;
-      document.getElementById("taskProgressLabel").textContent = isToday ? "Today's Progress" : `${activeViewingDateKey} Progress`;
-      document.getElementById("taskPercentBig").textContent = `${pct}%`;
-      document.getElementById("taskCountSummary").textContent = `${completed} of ${total} tasks completed`;
-
-      const todayList = getTasksForDate(currentActualDateKey);
-      const tTotal = todayList.length;
-      const tDone = todayList.filter(t => t.done).length;
-      const tPct = tTotal === 0 ? 0 : Math.round((tDone / tTotal) * 100);
-      document.getElementById("widgetTasksSummary").textContent = `${tPct}% (${tDone}/${tTotal})`;
-
-      const celebEl = document.getElementById("allTasksCelebration");
-      if (isToday && total > 0 && completed === total) celebEl.classList.remove("hidden");
-      else celebEl.classList.add("hidden");
-
-      const ctx = document.getElementById("taskProgressChart").getContext("2d");
-      if (taskChartInstance) taskChartInstance.destroy();
-      taskChartInstance = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: ["Done", "Remaining"],
-          datasets: [{
-            data: total === 0 ? [0, 1] : [completed, total - completed],
-            backgroundColor: ["#10b981", "#1e293b"],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          cutout: "72%",
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { enabled: false } }
-        }
-      });
-    }
-
-    // -------------------------------------------------------------------
-    // 7. ADMIN STUDIO (TOPICS + LINKS + BROADCAST/COUNTDOWN/THEMES + STUDENTS)
+    // 5. ADMIN STUDIO (TOPICS + LINKS + BROADCAST/COUNTDOWN/THEMES + STUDENTS)
     // -------------------------------------------------------------------
     window.openAdminGate = function() {
       document.getElementById("adminPassError").classList.add("hidden");
@@ -2944,8 +2034,6 @@
       listEl.innerHTML = cloudStudents.map(s => {
         const stuAvatar = s.avatar || DEFAULT_AVATAR;
         const stuName = s.name || "Student";
-        const subjHrs = s.subjectHours || { Physics: 0, Chemistry: 0, Biology: 0 };
-        const tasks = Array.isArray(s.taskDetails) ? s.taskDetails : [];
         const wIds = Array.isArray(s.watchedVideoIds) ? s.watchedVideoIds : [];
         const watchedNames = wIds.map(id => {
           const found = cloudVideos.find(v => v.id === id);
@@ -2968,43 +2056,6 @@
                   <div class="text-[11px] text-slate-400 truncate">${escapeHtml(s.batch || "2027 A/L Science Stream")}</div>
                 </div>
               </div>
-              <div class="text-right shrink-0">
-                <div class="text-xs font-extrabold text-sky-300">${s.weeklyHours || 0} hrs <span class="text-[10px] text-slate-400 font-normal">wk</span></div>
-                <div class="text-[11px] font-bold text-emerald-400">Today: ${s.todayHours || 0} hrs</div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 text-center">
-              <div class="bg-slate-900 rounded-lg py-1.5 px-2 border border-indigo-500/20">
-                <div class="text-[10px] text-indigo-300 font-semibold">Physics</div>
-                <div class="text-xs font-bold text-white">${subjHrs.Physics || 0}h</div>
-              </div>
-              <div class="bg-slate-900 rounded-lg py-1.5 px-2 border border-cyan-500/20">
-                <div class="text-[10px] text-cyan-300 font-semibold">Chem</div>
-                <div class="text-xs font-bold text-white">${subjHrs.Chemistry || 0}h</div>
-              </div>
-              <div class="bg-slate-900 rounded-lg py-1.5 px-2 border border-emerald-500/20">
-                <div class="text-[10px] text-emerald-300 font-semibold">Bio</div>
-                <div class="text-xs font-bold text-white">${subjHrs.Biology || 0}h</div>
-              </div>
-            </div>
-
-            <div class="space-y-1">
-              <div class="flex items-center justify-between text-[11px] font-bold text-amber-300">
-                <span>Tasks (${escapeHtml(s.tasksSummary || "0/0")}) ${s.taskDate ? `• ${escapeHtml(s.taskDate)}` : ""}</span>
-              </div>
-              ${tasks.length === 0
-                ? `<p class="text-[11px] text-slate-500">No tasks logged today.</p>`
-                : `<div class="space-y-1 max-h-28 overflow-y-auto pr-1">
-                    ${tasks.map(tk => `
-                      <div class="flex items-center gap-2 text-[11px] bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800/70">
-                        <span class="${tk.done ? 'text-emerald-400 font-extrabold' : 'text-slate-500'}">${tk.done ? '✓' : '○'}</span>
-                        <span class="text-slate-400 font-semibold">[${escapeHtml(tk.subject || '')}]</span>
-                        <span class="truncate ${tk.done ? 'line-through text-emerald-200/80' : 'text-slate-200'}">${escapeHtml(tk.text || '')}</span>
-                      </div>
-                    `).join("")}
-                   </div>`
-              }
             </div>
 
             <div class="space-y-1">
@@ -3045,7 +2096,7 @@
     };
 
     // -------------------------------------------------------------------
-    // 8. SIDE MENU, PROFILE & IMAGE COMPRESSION
+    // 6. SIDE MENU, PROFILE & IMAGE COMPRESSION
     // -------------------------------------------------------------------
     window.openSideMenu = function() {
       document.getElementById("sideMenuBackdrop").classList.remove("hidden");
@@ -3132,7 +2183,7 @@
     };
 
     window.switchSection = function(sec) {
-      ["lessons", "history", "study", "tasks"].forEach(s => {
+      ["lessons", "history"].forEach(s => {
         const sectionEl = document.getElementById(`section-${s}`);
         if (sectionEl) sectionEl.classList.toggle("hidden", s !== sec);
 
@@ -3150,14 +2201,6 @@
 
       if (sec === "history") {
         renderWatchHistoryPage();
-      }
-      if (sec === "study") {
-        updateStudyStatsAndCharts();
-        renderStudyCharts();
-      }
-      if (sec === "tasks") {
-        populateTaskDateSelector();
-        renderTasks();
       }
     };
 
@@ -3180,11 +2223,9 @@
       if (window.lucide) lucide.createIcons();
       applyStudentProfile();
       renderStreakCard();
+      updateWatchedSummaryWidget();
       renderBroadcastNotice();
       renderWatchHistoryPage();
-      updateStudyStatsAndCharts();
-      populateTaskDateSelector();
-      renderTasks();
       initCloudListeners();
     } catch (bootErr) {
       console.error("CHAMIX PRO boot error:", bootErr);
